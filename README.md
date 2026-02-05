@@ -2,7 +2,7 @@
 
 > **RLM-inspired Long-term Memory for AI Assistants**
 
-A persistent memory system for AI-powered development environments based on [Recursive Language Models](https://arxiv.org/abs/2512.24601) principles.
+A persistent memory system for AI-powered development environments based on [Recursive Language Models](https://arxiv.org/abs/2512.24601) principles (see [Video Guide](https://www.youtube.com/watch?v=huszaaJPjU8)).
 
 ---
 
@@ -24,7 +24,7 @@ A persistent memory system for AI-powered development environments based on [Rec
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Set your language** in `.agent/memory/13_preferences/language.md` file.
-3. **Run** ```/agent_anchor``` to implement RLM-Anchor safely into your current project.
+3. **Run this exact prompt:** ```/agent_anchor scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)``` to safely implement RLM-Anchor into your current project.
 4. **Start working** with ```/wakeup``` chat command.
 5. **Work in your IDE** (develop, solve tasks, make business decisions, do everything as usual).
 

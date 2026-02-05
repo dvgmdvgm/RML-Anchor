@@ -2,7 +2,7 @@
 
 > **RLM-inspiriertes Langzeitgedächtnis für KI-Assistenten**
 
-Ein persistentes Gedächtnissystem für KI-gestützte Entwicklungsumgebungen, basierend auf den Prinzipien der [Recursive Language Models](https://arxiv.org/abs/2512.24601).
+Ein persistentes Gedächtnissystem für KI-gestützte Entwicklungsumgebungen, basierend auf den Prinzipien der [Recursive Language Models](https://arxiv.org/abs/2512.24601) (siehe [Video-Guide](https://www.youtube.com/watch?v=huszaaJPjU8)).
 
 ---
 
@@ -24,7 +24,7 @@ Ein persistentes Gedächtnissystem für KI-gestützte Entwicklungsumgebungen, ba
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Stellen Sie Ihre Sprache** in der Datei `.agent/memory/13_preferences/language.md` ein.
-3. **Führen Sie** ```/agent_anchor``` aus, um RLM-Anchor sicher in Ihr aktuelles Projekt zu implementieren.
+3. **Führe genau diesen Prompt aus:** ```/agent_anchor scanne die aktuellen Projektverzeichnisse nach Daten, die helfen, den Kontext aufzubauen und den Speicher korrekt zu konfigurieren (technische Daten, Geschäftsmodelle, Designregeln und alle anderen typischen Vorlagen zum Finden und Erhalten des Projektkontexts)``` um RLM-Anchor sicher in Ihr aktuelles Projekt zu implementieren.
 4. **Beginnen Sie mit der Arbeit** über den Chat-Befehl ```/wakeup```.
 5. **Arbeiten Sie in Ihrer IDE** (entwickeln, Aufgaben lösen, Geschäftsentscheidungen treffen, alles wie gewohnt).
 

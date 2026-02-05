@@ -2,7 +2,7 @@
 
 > **Memoria a largo plazo inspirada en RLM para asistentes de IA**
 
-Un sistema de memoria persistente para entornos de desarrollo impulsados por IA basado en los principios de [Recursive Language Models](https://arxiv.org/abs/2512.24601).
+Un sistema de memoria persistente para entornos de desarrollo impulsados por IA basado en los principios de [Recursive Language Models](https://arxiv.org/abs/2512.24601) (ver [Guía en Video](https://www.youtube.com/watch?v=huszaaJPjU8)).
 
 ---
 
@@ -24,7 +24,7 @@ Un sistema de memoria persistente para entornos de desarrollo impulsados por IA 
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Configura tu idioma** en el archivo `.agent/memory/13_preferences/language.md`.
-3. **Ejecuta** ```/agent_anchor``` para implementar RLM-Anchor de forma segura en tu proyecto actual.
+3. **Ejecuta exactamente este prompt:** ```/agent_anchor escanea los directorios del proyecto actual en busca de datos que ayuden a construir el contexto y configurar la memoria correctamente (datos técnicos, modelos de negocio, reglas de diseño y todas las demás plantillas típicas para encontrar y preservar el contexto del proyecto)``` para implementar RLM-Anchor de forma segura en tu proyecto actual.
 4. **Comienza a trabajar** con el comando de chat ```/wakeup```.
 5. **Trabaja en tu IDE** (desarrolla, resuelve tareas, toma decisiones de negocio, haz todo como de costumbre).
 

@@ -2,7 +2,7 @@
 
 > **基于 RLM 的 AI 助手长期记忆系统**
 
-一个基于 [Recursive Language Models](https://arxiv.org/abs/2512.24601) 原理的 AI 辅助开发环境持久化记忆系统。
+一个基于 [Recursive Language Models](https://arxiv.org/abs/2512.24601) 原理的 AI 辅助开发环境持久化记忆系统 (见 [视频指南](https://www.youtube.com/watch?v=huszaaJPjU8))。
 
 ---
 
@@ -24,7 +24,7 @@
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **设置语言**: 在 `.agent/memory/13_preferences/language.md` 文件中。
-3. **运行** ```/agent_anchor``` 以安全地将 RLM-Anchor 集成到当前项目中。
+3. **执行此精确提示词：** ```/agent_anchor 扫描当前项目目录，寻找有助于构建上下文并正确配置记忆的数据（技术数据、业务模型、设计规则以及所有其他用于查找和保留项目上下文的典型模板）``` 以安全地将 RLM-Anchor 集成到当前项目中。
 4. **通过聊天指令** ```/wakeup``` **开始工作**。
 5. **在 IDE 中正常工作**（开发、解决任务、做决策等）。
 

@@ -2,7 +2,7 @@
 
 > **RLM 기반 AI 어시스턴트용 장기 메모리**
 
-[Recursive Language Models](https://arxiv.org/abs/2512.24601) 원칙에 기반한 AI 기반 개발 환경용 영구 메모리 시스템입니다.
+[Recursive Language Models](https://arxiv.org/abs/2512.24601) 원칙에 기반한 AI 기반 개발 환경용 영구 메모리 시스템입니다 ([비디오 가이드](https://www.youtube.com/watch?v=huszaaJPjU8) 참조).
 
 ---
 
@@ -24,7 +24,7 @@
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **언어를 설정**하세요: `.agent/memory/13_preferences/language.md` 파일.
-3. **안전한 도입**을 위해 ```/agent_anchor``` 명령을 실행하세요.
+3. **다음 프롬프트를 그대로 실행하세요:** ```/agent_anchor 현재 프로젝트 디렉토리를 스캔하여 컨텍스트 구축 및 메모리 설정에 도움이 되는 데이터(기술 데이터, 비즈니스 모델, 디자인 규칙 및 프로젝트 컨텍스트를 찾고 보존하기 위한 기타 일반적인 템플릿)를 찾으세요``` 를 통해 RLM-Anchor를 현재 프로젝트에 안전하게 통합할 수 있습니다.
 4. **작업 시작**은 채팅 명령 ```/wakeup```으로 시작합니다.
 5. **IDE에서 평소처럼 작업**하세요 (개발, 문제 해결, 비즈니스 결정 등).
 
