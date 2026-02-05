@@ -20,7 +20,10 @@
 
 ## 📦 Быстрый старт
 
-1. **Скопируй папку `.agent/`** в свой проект
+1. **Импортируй папку `.agent/`** в свой проект через Git:
+   ```bash
+   git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
+   ```
 2. **Установи язык** в `.agent/memory/13_preferences/language.md`
 3. **Начни работу** командой `/wakeup`
 

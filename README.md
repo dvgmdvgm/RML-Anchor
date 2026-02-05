@@ -19,7 +19,10 @@ A persistent memory system for AI-powered development environments based on [Rec
 
 ## 📦 Quick Start
 
-1. **Copy `.agent/` folder** to your project
+1. **Import `.agent/` folder** to your project using Git:
+   ```bash
+   git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
+   ```
 2. **Set your language** in `.agent/memory/13_preferences/language.md`
 3. **Start working** with `/wakeup`
 
