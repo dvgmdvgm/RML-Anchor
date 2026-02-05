@@ -2,12 +2,12 @@
 description: Safely integrates the Antigravity Agent Template into the current project.
 ---
 
-# /agent — Safe Integration of Memory System
+# /agent_anchor — Safe Integration of RLM-Anchor
 
 ## Usage
 
 ```
-/agent
+/agent_anchor
 ```
 
 ---
@@ -143,7 +143,7 @@ Run validation:
 ## Example
 
 ```
-USER: /agent
+USER: /agent_anchor
 
 AI: 📋 АНАЛИЗ ИНТЕГРАЦИИ
     ═══════════════════════════════════════════

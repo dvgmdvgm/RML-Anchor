@@ -336,7 +336,7 @@ def write_to_memory(info, category):
 | `sleep.md` | `/sleep` | End session |
 | `handoff.md` | `/handoff` | Context transfer between models |
 | `walkthrough.md` | `/walkthrough` | Generate feature documentation |
-| `agent.md` | `/agent` | Integrate into existing project |
+| `agent_anchor.md` | `/agent_anchor` | Integrate into existing project |
 | `memory-stats.md` | `/memory-stats` | Statistics |
 
 ---
