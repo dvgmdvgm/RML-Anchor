@@ -188,4 +188,4 @@ MIT License — feel free to fork and improve!
 ---
 
 ## 🙏 Credits
-Inspired by [MIT RLM Research](https://arxiv.org/abs/2512.24601) on Recursive Language Models.
+Inspired by [MIT RLM Research](https://arxiv.org/abs/2512.24601) on Recursive Language Models and [this video guide](https://www.youtube.com/watch?v=huszaaJPjU8).

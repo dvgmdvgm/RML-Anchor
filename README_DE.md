@@ -64,4 +64,4 @@ LANGUAGE=en    # Englisch
 ---
 
 ## 🙏 Credits
-Inspiriert durch die [MIT RLM-Forschung](https://arxiv.org/abs/2512.24601) zu Recursive Language Models.
+Inspiriert durch die [MIT RLM-Forschung](https://arxiv.org/abs/2512.24601) zu Recursive Language Models und [diesen Video-Guide](https://www.youtube.com/watch?v=huszaaJPjU8).

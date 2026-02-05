@@ -64,4 +64,4 @@ LANGUAGE=en    # 영어
 ---
 
 ## 🙏 크레딧
-MIT의 [RLM 연구](https://arxiv.org/abs/2512.24601)(Recursive Language Models)에서 영감을 받았습니다.
+MIT의 [RLM 연구](https://arxiv.org/abs/2512.24601)(Recursive Language Models) 및 [이 비디오 가이드](https://www.youtube.com/watch?v=huszaaJPjU8)에서 영감을 받았습니다.

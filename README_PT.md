@@ -64,4 +64,4 @@ LANGUAGE=en    # Inglês
 ---
 
 ## 🙏 Créditos
-Inspirado na [Pesquisa RLM do MIT](https://arxiv.org/abs/2512.24601) sobre Modelos de Linguagem Recursivos.
+Inspirado na [Pesquisa RLM do MIT](https://arxiv.org/abs/2512.24601) sobre Modelos de Linguagem Recursivos e [este guia em vídeo](https://www.youtube.com/watch?v=huszaaJPjU8).

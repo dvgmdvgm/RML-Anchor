@@ -100,4 +100,4 @@ Respuesta contextual (en el idioma configurado)
 ---
 
 ## 🙏 Créditos
-Inspirado en la [Investigación RLM de MIT](https://arxiv.org/abs/2512.24601) sobre Modelos de Lenguaje Recursivos.
+Inspirado en la [Investigación RLM de MIT](https://arxiv.org/abs/2512.24601) sobre Modelos de Lenguaje Recursivos y [esta guía en video](https://www.youtube.com/watch?v=huszaaJPjU8).

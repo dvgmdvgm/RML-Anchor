@@ -64,4 +64,4 @@ LANGUAGE=en    # 英語
 ---
 
 ## 🙏 クレジット
-MITの[RLM研究](https://arxiv.org/abs/2512.24601)（Recursive Language Models）に着想を得ています。
+MITの[RLM研究](https://arxiv.org/abs/2512.24601)（Recursive Language Models）および[このビデオガイド](https://www.youtube.com/watch?v=huszaaJPjU8)に着想を得ています。

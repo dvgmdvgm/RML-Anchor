@@ -127,4 +127,4 @@ AI: 📝 Підсумовую сесію... 👋 До зустрічі!
 ---
 
 ## 🙏 Подяки
-Натхненно [дослідженням RLM від MIT](https://arxiv.org/abs/2512.24601) про Recursive Language Models.
+Натхненно [дослідженням RLM від MIT](https://arxiv.org/abs/2512.24601) про Recursive Language Models та [цим відео-керівництвом](https://www.youtube.com/watch?v=huszaaJPjU8).

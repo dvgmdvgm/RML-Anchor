@@ -187,4 +187,4 @@ MIT License — форкай и улучшай!
 ---
 
 ## 🙏 Благодарности
-Вдохновлено [исследованием RLM от MIT](https://arxiv.org/abs/2512.24601) о Recursive Language Models.
+Вдохновлено [исследованием RLM от MIT](https://arxiv.org/abs/2512.24601) о Recursive Language Models и [этим видео-руководством](https://www.youtube.com/watch?v=huszaaJPjU8).

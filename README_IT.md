@@ -64,4 +64,4 @@ LANGUAGE=en    # Inglese
 ---
 
 ## 🙏 Crediti
-Ispirato alla [Ricerca RLM del MIT](https://arxiv.org/abs/2512.24601) sui Modelli di Linguaggio Ricorsivi.
+Ispirato alla [Ricerca RLM del MIT](https://arxiv.org/abs/2512.24601) sui Modelli di Linguaggio Ricorsivi e a [questa video guida](https://www.youtube.com/watch?v=huszaaJPjU8).

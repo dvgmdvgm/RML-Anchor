@@ -64,4 +64,4 @@ LANGUAGE=en       # 英语
 ---
 
 ## 🙏 鸣谢
-灵感来自 MIT 关于递归语言模型 (Recursive Language Models) 的 [RLM 研究](https://arxiv.org/abs/2512.24601)。
+灵感来自 MIT 关于递归语言模型 (Recursive Language Models) 的 [RLM 研究](https://arxiv.org/abs/2512.24601)和[此视频指南](https://www.youtube.com/watch?v=huszaaJPjU8)。
