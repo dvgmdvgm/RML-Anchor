@@ -19,6 +19,27 @@ Create a complete backup of the RLM-Anchor system for:
 - Safety before major changes
 - Version snapshots
 
+> [!IMPORTANT]
+> This backup includes ONLY RLM-Anchor files. Other files in `.agent/` 
+> (like custom IDE configurations) are NOT included to preserve your settings.
+
+---
+
+## RLM-Anchor Files to Backup
+
+The following paths are part of RLM-Anchor and will be backed up:
+
+```yaml
+RLM_PATHS:
+  - .agent/memory/              # All 13 memory categories
+  - .agent/workflows/           # All workflow definitions
+  - .agent/scripts/             # Python utilities
+  - .agent/skills/MEMORY_SKILL.md  # Memory skill instructions
+  - .agent/docs/                # Documentation
+  - .agent/backups/             # Previous backups (optional)
+  - .agent/MEMORY_INDEX.md      # Main memory index
+```
+
 ---
 
 ## Execution Steps
@@ -28,7 +49,7 @@ Create a complete backup of the RLM-Anchor system for:
 ```markdown
 📦 **Creating Backup...**
 
-Scanning .agent/ folder...
+Scanning RLM-Anchor files...
 ```
 
 ### Step 2: Create Backup Directory
@@ -49,17 +70,16 @@ Otherwise:
 anchor_backup_{date}_{time}.zip
 ```
 
-### Step 4: Create ZIP Archive
+### Step 4: Create ZIP Archive (RLM Files Only)
 
 ```bash
 cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
   memory/ \
   workflows/ \
   scripts/ \
-  skills/ \
+  skills/MEMORY_SKILL.md \
   docs/ \
   MEMORY_INDEX.md \
-  README.md \
   -x "backups/*"
 ```
 
@@ -70,8 +90,11 @@ cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
 
 📦 File: `.agent/backups/anchor_backup_2026-02-05_19-30-00.zip`
 📊 Size: 2.3 MB
-📁 Files: 47
+📁 RLM Files: 47
 🧠 Memory entries: 23
+
+🛡️ **Note**: Only RLM-Anchor files were backed up.
+   Your custom IDE configs in `.agent/` were NOT included.
 
 ---
 
@@ -99,17 +122,18 @@ unzip anchor_backup_2026-02-05_19-30-00.zip -d .agent/
 
 The backup includes:
 
-| Folder | Description |
-|--------|-------------|
+| Folder/File | Description |
+|-------------|-------------|
 | `memory/` | All 13 memory categories |
-| `workflows/` | All command definitions |
+| `workflows/` | All RLM command definitions |
 | `scripts/` | Python utilities |
-| `skills/` | AI instructions |
+| `skills/MEMORY_SKILL.md` | AI memory instructions |
 | `docs/` | Documentation |
 | `MEMORY_INDEX.md` | Main index |
-| `README.md` | System readme |
 
-**Excluded**: Previous backups (to prevent nesting)
+**Excluded**: 
+- Previous backups (to prevent nesting)
+- Custom IDE configs not part of RLM-Anchor
 
 ---
 
@@ -136,7 +160,9 @@ AI: 📦 Creating backup...
     ✅ Backup created!
     📦 File: .agent/backups/anchor_backup_2026-02-05_19-30-00.zip
     📊 Size: 2.3 MB
-    📁 Files: 47
+    📁 RLM Files: 47
+    
+    🛡️ Your custom IDE configs were preserved (not included in backup).
 
 User: /anchor_backup before-refactor
 

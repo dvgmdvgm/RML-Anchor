@@ -1,429 +1,257 @@
 # 🧠 Advanced Memory System — Design Document
 
-> **Author**: AI Assistant  
+> **Author**: dvgmdvgm  
 > **Date**: 2026-02-05  
 > **Status**: Implementation Plan
 
 ---
 
-## 📋 Оглавление
+## 📋 Table of Contents
 
-1. [Проблемы, которые решаем](#-проблемы-которые-решаем)
-2. [Автоматическое сохранение по шаблонам](#-автоматическое-сохранение-по-шаблонам)
+1. [Problems We Solve](#-problems-we-solve)
+2. [Automatic Saving by Patterns](#-automatic-saving-by-patterns)
 3. [TTL (Time-to-Live)](#-ttl-time-to-live)
 4. [Importance Score](#-importance-score)
 5. [Periodic Cleanup](#-periodic-cleanup)
 6. [Summarization](#-summarization)
-7. [Safe Remove & Backup System](#-safe-remove--backup-system)
-8. [Как всё работает вместе](#-как-всё-работает-вместе)
+7. [Safe Removal and Backup](#-safe-removal-and-backup)
+8. [How It All Works Together](#-how-it-all-works-together)
 
 ---
 
-## 🎯 Проблемы, которые решаем
+## 🎯 Problems We Solve
 
-### Проблема 1: Накопление мусора
-**Симптом**: Со временем память заполняется устаревшими, дублирующимися или нерелевантными данными.
+### Problem 1: Garbage Accumulation
+**Symptom**: Over time, memory fills up with outdated, duplicate, or irrelevant data.
 
-**Реальный пример**: Ты записал "Мы используем React 17", потом обновились до React 18, но старая запись осталась. AI может дать устаревший совет.
+**Real example**: You recorded "We use React 17", then upgraded to React 18, but the old entry remained. AI might give outdated advice.
 
-**Решение**: TTL + Importance Score + Periodic Cleanup
-
----
-
-### Проблема 2: Слишком много ручной работы
-**Симптом**: Пользователь устаёт вручную сохранять каждый важный факт.
-
-**Реальный пример**: Ты принял ADR (архитектурное решение), но забыл `/remember`. Через неделю AI не знает об этом решении.
-
-**Решение**: Автоматическое сохранение по шаблонам
+**Solution**: TTL + Importance Score + Periodic Cleanup
 
 ---
 
-### Проблема 3: Страх удаления
-**Симптом**: Пользователь боится чистить память, потому что может потерять важное.
+### Problem 2: Too Much Manual Work
+**Symptom**: User gets tired of manually saving every important fact.
 
-**Реальный пример**: Ты хочешь удалить старые сессии, но боишься случайно удалить важное ADR.
+**Real example**: You made an ADR (architecture decision), but forgot `/remember`. A week later, AI doesn't know about this decision.
 
-**Решение**: Summarization перед удалением + Safe Backup
-
----
-
-### Проблема 4: Случайное удаление системы
-**Симптом**: Пользователь случайно удаляет всю систему памяти одной командой.
-
-**Решение**: Двухфакторное подтверждение + Автоматический backup в ZIP
+**Solution**: Automatic saving by patterns
 
 ---
 
-## 🤖 Автоматическое сохранение по шаблонам
+### Problem 3: Fear of Deletion
+**Symptom**: User is afraid to clean up memory because they might lose something important.
 
-### Концепция
+**Real example**: You want to delete old sessions but are afraid to accidentally delete an important ADR.
 
-Не всё нужно спрашивать у пользователя. Некоторые вещи **объективно важны** и должны сохраняться автоматически.
+**Solution**: Summarization before deletion + Safe Backup
 
-### Что сохраняется АВТОМАТИЧЕСКИ (без вопроса):
+---
 
-| Категория | Триггер | Куда сохраняется |
-|-----------|---------|------------------|
-| **ADR (Decisions)** | Фразы: "мы решили", "выбрали", "будем использовать" | `03_decisions/` |
-| **Баги и фиксы** | Фразы: "баг", "исправил", "workaround", "хак" | `06_problems/` |
-| **Внешние API** | Обсуждение API ключей, endpoints, интеграций | `09_external/` |
-| **Архитектура** | Обсуждение паттернов, компонентов, data flow | `02_architecture/` |
+### Problem 4: Accidental System Deletion
+**Symptom**: User accidentally deletes the entire memory system with one command.
 
-### Что СПРАШИВАЕТСЯ у пользователя:
+**Solution**: Two-factor confirmation + Automatic backup to ZIP
 
-| Категория | Почему спрашиваем |
-|-----------|-------------------|
-| **Бизнес-логика** | Слишком субъективно, что важно |
-| **Код-сниппеты** | Могут быть временными |
-| **Контекст сессии** | Много шума, нужен фильтр |
-| **Предпочтения** | Личные настройки |
+---
 
-### Реализация
+## 🤖 Automatic Saving by Patterns
 
-```yaml
-# .agent/memory/13_preferences/auto_save_rules.md
+### Concept
 
-AUTO_SAVE_PATTERNS:
-  # Решения (высокий приоритет)
-  - trigger: ["решили", "выбрали", "будем использовать", "chose", "decided"]
-    category: 03_decisions
-    confidence: 0.9
-    
-  # Баги и фиксы
-  - trigger: ["баг", "bug", "исправил", "fixed", "workaround"]
-    category: 06_problems
-    confidence: 0.8
-    
-  # Интеграции
-  - trigger: ["API", "endpoint", "интеграция", "integration"]
-    category: 09_external
-    confidence: 0.7
+Not everything needs to be asked of the user. Some things are **objectively important** and should be saved automatically.
 
-ASK_USER_PATTERNS:
-  - trigger: ["бизнес", "business", "логика", "logic"]
-    suggestion: "Хочешь сохранить это бизнес-правило?"
-```
+### What is saved AUTOMATICALLY (without asking):
+
+| Category | Trigger | Where it's saved |
+|----------|---------|------------------|
+| **ADR (Decisions)** | Phrases: "we decided", "chose", "will use" | `03_decisions/` |
+| **Bugs and fixes** | Phrases: "bug", "fixed", "workaround", "hack" | `06_problems/` |
+| **External APIs** | Discussion of API keys, endpoints, integrations | `09_external/` |
+| **Architecture** | Discussion of patterns, components, data flow | `02_architecture/` |
+
+### What is ASKED of the user:
+
+| Category | Why we ask |
+|----------|-----------|
+| **Business logic** | Too subjective, what's important varies |
+| **Code snippets** | May be temporary |
+| **Session context** | Lots of noise, needs filtering |
+| **Preferences** | Personal settings |
 
 ---
 
 ## ⏳ TTL (Time-to-Live)
 
-### Концепция
+### Concept
 
-Каждая запись в памяти имеет "срок годности". Не для автоудаления, а для **пометки на ревью**.
+Every entry in memory has an "expiration date". Not for auto-deletion, but for **marking for review**.
 
-### Категории TTL:
+### TTL Categories:
 
-| Категория | TTL | Причина |
-|-----------|-----|---------|
-| `07_context/current_session.md` | 1 день | Актуально только сегодня |
-| `07_context/session_history/` | 30 дней | История устаревает |
-| `06_problems/workarounds/` | 90 дней | Workaround'ы должны стать fix'ами |
-| `03_decisions/` | 365 дней | Решения могут пересматриваться |
-| `02_architecture/` | ∞ | Архитектура редко меняется |
-
-### Как это работает:
-
-1. При создании записи добавляется метаданные:
-```yaml
----
-created: 2026-02-05
-ttl: 90  # дней
-importance: 0.8
-last_accessed: 2026-02-05
-access_count: 1
----
-```
-
-2. При `/wakeup` система проверяет:
-   - Есть ли записи с истёкшим TTL?
-   - Если да → уведомляет пользователя
-
-3. Пользователь решает:
-   - **Продлить** — TTL обновляется
-   - **Архивировать** — Запись сжимается в summary
-   - **Удалить** — Запись удаляется
+| Category | TTL | Reason |
+|----------|-----|--------|
+| `07_context/current_session.md` | 1 day | Only relevant today |
+| `07_context/session_history/` | 30 days | History becomes outdated |
+| `06_problems/workarounds/` | 90 days | Workarounds should become fixes |
+| `03_decisions/` | 365 days | Decisions may need revisiting |
+| `02_architecture/` | ∞ | Architecture rarely changes |
 
 ---
 
 ## ⭐ Importance Score
 
-### Концепция
+### Concept
 
-Не все записи одинаково важны. Importance Score помогает при:
-- Очистке (удаляем низкий score)
-- Поиске (высокий score приоритетнее)
-- Summarization (низкий score сжимается первым)
+Not all entries are equally important. Importance Score helps with:
+- Cleanup (remove low score)
+- Search (high score has priority)
+- Summarization (low score gets compressed first)
 
-### Формула:
+### Formula:
 
 ```
 Importance = Base × Recency × Access × Explicit
 
-Где:
-- Base = базовый вес категории (ADR=0.9, session=0.3)
-- Recency = 1 / (дней с момента создания + 1)
+Where:
+- Base = base category weight (ADR=0.9, session=0.3)
+- Recency = 1 / (days since creation + 1)
 - Access = log(access_count + 1) / 10
-- Explicit = 1.5 если пользователь явно пометил как важное
+- Explicit = 1.5 if user explicitly marked as important
 ```
 
-### Пример расчёта:
+### Thresholds:
 
-```
-Запись: "Выбрали PostgreSQL для ACID"
-- Категория: 03_decisions → Base = 0.9
-- Создана: 30 дней назад → Recency = 1/31 = 0.032
-- Обращений: 5 → Access = log(6)/10 = 0.078
-- Помечена важной: да → Explicit = 1.5
-
-Importance = 0.9 × 0.032 × 0.078 × 1.5 = 0.0034
-
-Но! Для decisions применяется floor = 0.5
-Итого: max(0.0034, 0.5) = 0.5
-```
-
-### Пороги:
-
-| Score | Статус | Действие |
-|-------|--------|----------|
-| > 0.7 | 🟢 Критичная | Никогда не удалять |
-| 0.4-0.7 | 🟡 Важная | Summarize при очистке |
-| 0.2-0.4 | 🟠 Средняя | Архивировать через TTL |
-| < 0.2 | 🔴 Низкая | Кандидат на удаление |
+| Score | Status | Action |
+|-------|--------|--------|
+| > 0.7 | 🟢 Critical | Never delete |
+| 0.4-0.7 | 🟡 Important | Summarize on cleanup |
+| 0.2-0.4 | 🟠 Medium | Archive after TTL |
+| < 0.2 | 🔴 Low | Candidate for deletion |
 
 ---
 
 ## 🧹 Periodic Cleanup
 
-### Концепция
+### Concept
 
-Автоматическая очистка запускается:
-1. **При `/wakeup`** — быстрая проверка
-2. **При `/sleep`** — полная проверка
-3. **Вручную** — `/anchor_cleanup`
+Automatic cleanup runs:
+1. **On `/wakeup`** — quick check
+2. **On `/sleep`** — full check
+3. **Manually** — `/anchor_cleanup`
 
-### Алгоритм очистки:
-
-```
-┌─────────────────────────────────────┐
-│ 1. SCAN — Сканируем все записи      │
-│    ↓                                │
-│ 2. SCORE — Вычисляем Importance     │
-│    ↓                                │
-│ 3. TTL CHECK — Проверяем сроки      │
-│    ↓                                │
-│ 4. CATEGORIZE — Делим на группы:    │
-│    • KEEP — Оставить                │
-│    • SUMMARIZE — Сжать              │
-│    • ARCHIVE — Архивировать         │
-│    • DELETE — Удалить               │
-│    ↓                                │
-│ 5. CONFIRM — Показываем план        │
-│    ↓                                │
-│ 6. EXECUTE — Выполняем (с backup!)  │
-└─────────────────────────────────────┘
-```
-
-### Пример вывода:
+### Cleanup Algorithm:
 
 ```
-🧹 PERIODIC CLEANUP REPORT
-
-📊 Проанализировано: 47 файлов
-
-🟢 KEEP (23 файла):
-   - 03_decisions/ADR-001-database.md (score: 0.89)
-   - 02_architecture/overview.md (score: 0.76)
-   ...
-
-🟡 SUMMARIZE (8 файлов):
-   - 07_context/session_history/2026-01-*.md → 1 summary
-   - 06_problems/bugs/old-auth-bug.md → краткое описание
-
-🟠 ARCHIVE (12 файлов):
-   - 07_context/session_history/2025-*.md → archive.zip
-
-🔴 DELETE (4 файла):
-   - Дубликаты: 2
-   - Пустые файлы: 1
-   - TTL истёк + score < 0.1: 1
-
-Продолжить? [y/N]
+1. SCAN — Scan all entries
+      ↓
+2. SCORE — Calculate Importance
+      ↓
+3. TTL CHECK — Check expiration
+      ↓
+4. CATEGORIZE — Divide into groups:
+   • KEEP — Keep
+   • SUMMARIZE — Compress
+   • ARCHIVE — Archive
+   • DELETE — Delete
+      ↓
+5. CONFIRM — Show plan
+      ↓
+6. EXECUTE — Execute (with backup!)
 ```
 
 ---
 
 ## 📝 Summarization
 
-### Концепция
+### Concept
 
-Вместо полного удаления старых данных — **сжатие в резюме**.
+Instead of completely deleting old data — **compress into a summary**.
 
-### Типы summarization:
+### Types of summarization:
 
-| Тип | Когда применяется | Результат |
-|-----|-------------------|-----------|
-| **Session Merge** | Несколько сессий за период | 1 файл с ключевыми пунктами |
-| **Topic Compress** | Много записей на одну тему | 1 структурированный файл |
-| **Archive Summary** | Перед архивированием | Metadata + 1 абзац |
-
-### Пример Session Merge:
-
-**До (3 файла по ~500 строк каждый):**
-```
-07_context/session_history/2026-01-01.md
-07_context/session_history/2026-01-02.md
-07_context/session_history/2026-01-03.md
-```
-
-**После (1 файл ~50 строк):**
-```markdown
-# 📅 January 2026 Summary
-
-## Ключевые темы:
-- Настройка PostgreSQL (01-02)
-- Рефакторинг auth модуля (01-02, 01-03)
-- Фикс бага с сессиями (01-03)
-
-## Важные решения:
-- ADR-005: Переход на JWT tokens
-
-## Нерешённые вопросы:
-- Оптимизация queries (перенесено)
-```
+| Type | When applied | Result |
+|------|--------------|--------|
+| **Session Merge** | Multiple sessions over a period | 1 file with key points |
+| **Topic Compress** | Many entries on one topic | 1 structured file |
+| **Archive Summary** | Before archiving | Metadata + 1 paragraph |
 
 ---
 
-## 🔐 Safe Remove & Backup System
+## 🔐 Safe Removal and Backup
 
-### `/anchor_backup` — Ручной backup
+### `/anchor_backup` — Manual backup
 
 ```
 User: /anchor_backup
-
-AI: 📦 Creating backup...
-    ✅ Backup created: .agent/backups/anchor_backup_2026-02-05_19-30.zip
-    📊 Size: 2.3 MB
-    📁 Files: 47
+AI: 📦 Backup created: .agent/backups/anchor_backup_2026-02-05.zip
 ```
 
-### `/anchor_remove` — Безопасное удаление
+### `/anchor_remove` — Safe removal
 
 ```
 User: /anchor_remove
-
-AI: ⚠️ WARNING: This will remove the entire RLM-Anchor system!
-
-    Before removal:
-    1. A backup will be created automatically
-    2. All memory files will be archived
+AI: ⚠️ WARNING: This will remove the RLM-Anchor system!
+    🛡️ Your project files and IDE configs will NOT be affected!
     
-    To confirm, type this exact code: [a7x9K2mQ]
-    
-User: a7x9K2mQ
-
-AI: 🔐 Code verified!
-    📦 Creating backup... anchor_backup_2026-02-05_final.zip
-    🗑️ Removing .agent folder...
-    ✅ RLM-Anchor removed successfully.
-    
-    To restore: /anchor_restore ./anchor_backup_2026-02-05_final.zip
+    To confirm, type this code: [a7x9K2mQ]
 ```
 
-### `/anchor_restore` — Восстановление
+### `/anchor_restore` — Restore
 
 ```
-User: /anchor_restore ./anchor_backup_2026-02-05_final.zip
-
-AI: 📦 Restoring from backup...
-    ⚠️ This will overwrite current .agent folder!
-    
-    Confirm? [y/N]
-    
-User: y
-
+User: /anchor_restore ./backup.zip
 AI: ✅ Restored successfully!
-    📁 Files: 47
-    🧠 Memory entries: 23
 ```
 
 ---
 
-## 🔄 Как всё работает вместе
+## 🔄 How It All Works Together
 
-### Жизненный цикл записи:
+### Entry Lifecycle:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      СОЗДАНИЕ                               │
-│  Auto-save по шаблону ──┬── Ручное /remember                │
-│                         ↓                                   │
-│              Запись создана с TTL + Score                   │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│                      ЖИЗНЬ                                  │
-│  При каждом доступе:                                        │
-│  • access_count++                                           │
-│  • last_accessed = now                                      │
-│  • Score пересчитывается                                    │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│                      СТАРЕНИЕ                               │
-│  TTL истёк?                                                 │
-│  ├── Score > 0.7 → Продлить автоматически                   │
-│  ├── Score 0.4-0.7 → Спросить пользователя                  │
-│  └── Score < 0.4 → Summarize + Archive                      │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│                      CLEANUP                                │
-│  Periodic Cleanup находит:                                  │
-│  • Дубликаты → Merge                                        │
-│  • Низкий Score → Delete (с backup)                         │
-│  • Много файлов на тему → Summarize                         │
-└─────────────────────────────────────────────────────────────┘
+CREATION
+  Auto-save by pattern or manual /remember
+         ↓
+      LIFE
+  On each access: access_count++
+  Score is recalculated
+         ↓
+     AGING
+  TTL expired?
+  ├── Score > 0.7 → Auto-extend
+  ├── Score 0.4-0.7 → Ask user
+  └── Score < 0.4 → Summarize + Archive
+         ↓
+      CLEANUP
+  Periodic Cleanup finds:
+  • Duplicates → Merge
+  • Low Score → Delete (with backup)
+  • Many files on topic → Summarize
 ```
 
 ---
 
-## 📊 Реальные преимущества (не теоретические!)
+## 📊 Real Benefits
 
-| Проблема | Без этой системы | С этой системой |
-|----------|------------------|-----------------|
-| Забыл сохранить ADR | AI не знает о решении | Авто-сохранение поймало |
-| 100+ файлов в памяти | Медленный поиск, шум | Периодическая очистка |
-| Устаревшие данные | Неверные советы AI | TTL + уведомления |
-| Страх чистить память | Мусор накапливается | Backup перед удалением |
-| Случайно удалил систему | Потеря всего | Восстановление из ZIP |
-| Переезд на другой ПК | Ручное копирование | `/anchor_backup` + restore |
-
----
-
-## 🛠️ Файлы для реализации
-
-1. `.agent/workflows/anchor_agent.md` — основной workflow (переименован)
-2. `.agent/workflows/anchor_remove.md` — удаление с подтверждением
-3. `.agent/workflows/anchor_backup.md` — ручной backup
-4. `.agent/workflows/anchor_restore.md` — восстановление
-5. `.agent/workflows/anchor_cleanup.md` — ручная очистка
-6. `.agent/memory/13_preferences/auto_save_rules.md` — правила авто-сохранения
-7. `.agent/memory/13_preferences/cleanup_settings.md` — настройки очистки
-8. `.agent/scripts/memory_cleanup.py` — скрипт очистки
-9. `.agent/scripts/memory_backup.py` — скрипт backup/restore
+| Problem | Without this system | With this system |
+|---------|---------------------|------------------|
+| Forgot to save ADR | AI doesn't know about decision | Auto-save caught it |
+| 100+ files in memory | Slow search, noise | Periodic cleanup |
+| Outdated data | Incorrect AI advice | TTL + notifications |
+| Afraid to clean memory | Garbage accumulates | Backup before deletion |
+| Accidentally deleted system | Lost everything | Restore from ZIP |
+| Moving to another PC | Manual copying | `/anchor_backup` + restore |
 
 ---
 
-## ✅ Итого
+## ✅ Summary
 
-Эта система превращает "наивную" память в **self-maintaining knowledge base**:
+This system transforms "naive" memory into a **self-maintaining knowledge base**:
 
-- 🤖 **Автоматизация** — важное сохраняется само
-- ⏳ **Управление временем** — старое не забывается, а сжимается
-- 🧹 **Чистота** — мусор удаляется, но с backup
-- 🔐 **Безопасность** — ничего не теряется навсегда
-- 📦 **Портативность** — легко перенести на другой ПК
-
-Готов к реализации! 🚀
+- 🤖 **Automation** — important things save themselves
+- ⏳ **Time management** — old data is compressed, not forgotten
+- 🧹 **Cleanliness** — garbage is removed, but with backup
+- 🔐 **Safety** — nothing is lost forever
+- 📦 **Portability** — easy to transfer to another PC

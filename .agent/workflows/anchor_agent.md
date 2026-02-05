@@ -28,7 +28,53 @@ Read .agent/memory/13_preferences/language.md
 All output must be in this language!
 ```
 
-### 2. Scan for Existing .agent/ Structure
+### 2. Detect IDE Rules Files
+
+> [!IMPORTANT]
+> Before integration, check for existing IDE configuration files that contain 
+> project rules, preferences, and instructions. These should be imported into 
+> the RLM memory system.
+
+Check for these files in project root:
+
+```yaml
+IDE_RULES_FILES:
+  - GEMINI.md              # Antigravity / Gemini CLI
+  - .cursorrules           # Cursor IDE
+  - .windsurfrules         # Windsurf IDE
+  - .github/copilot-instructions.md  # GitHub Copilot
+  - .aider.conf.yml        # Aider
+  - claude_rules.md        # Claude
+  - .clinerules            # Cline VSCode extension
+  - CLAUDE.md              # Claude Projects
+  - rules.md               # Generic rules file
+```
+
+If any file is found, proceed to Step 3 (Import). Otherwise, skip to Step 4.
+
+### 3. Import IDE Rules Data
+
+For each detected rules file:
+
+1. **Read the file content**
+2. **Parse and categorize the data**:
+   
+   | Content Type | Destination |
+   |-------------|-------------|
+   | Coding style preferences | `13_preferences/coding_style.md` |
+   | Tech stack info | `01_project/techstack.md` |
+   | Project guidelines | `01_project/guidelines.md` |
+   | Communication style | `13_preferences/communication.md` |
+   | Business rules | `04_domain/business_rules.md` |
+   | Architecture decisions | `02_architecture/patterns.md` |
+   
+3. **Add source reference**: Include note about imported data origin
+
+```markdown
+<!-- Imported from GEMINI.md on 2026-02-05 -->
+```
+
+### 4. Scan for Existing .agent/ Structure
 
 Check if these files/folders already exist:
 
@@ -43,7 +89,7 @@ Check existence of:
 - .agent/skills/MEMORY_SKILL.md
 ```
 
-### 3. Report Conflicts
+### 5. Report Conflicts
 
 Output conflict report:
 
@@ -64,7 +110,7 @@ Output conflict report:
 - ...
 ```
 
-### 4. Offer Options
+### 6. Offer Options
 
 Present options to user:
 
@@ -86,7 +132,7 @@ Present options to user:
 4. [CANCEL] Cancel integration
 ```
 
-### 5. Execute Chosen Option
+### 7. Execute Chosen Option
 
 Based on user choice, perform the integration:
 
@@ -108,7 +154,7 @@ Based on user choice, perform the integration:
 - Copy all files from template
 - Overwrite existing files
 
-### 6. Post-Integration Verification
+### 8. Post-Integration Verification
 
 ```
 Run validation:
@@ -117,7 +163,7 @@ Run validation:
 - Test language file
 ```
 
-### 7. Report Success
+### 9. Report Success (with IDE Rules Import)
 
 ```
 ✅ INTEGRATION COMPLETE / ИНТЕГРАЦИЯ ЗАВЕРШЕНА
@@ -135,7 +181,34 @@ Run validation:
 - /recall - Find in memory
 
 🌍 Language set to: [configured language]
+```
 
+**If IDE rules were imported, add this section:**
+
+```
+📥 IDE RULES IMPORTED / ПРАВИЛА IDE ИМПОРТИРОВАНЫ
+═══════════════════════════════════════════════════
+
+The following data was imported from your IDE rules file(s):
+
+| Source File | Imported To | Items |
+|-------------|-------------|-------|
+| GEMINI.md | `coding_style.md` | 5 preferences |
+| GEMINI.md | `guidelines.md` | 3 rules |
+
+> [!TIP]
+> It is recommended to DELETE the original rules file(s) to avoid 
+> conflicts between IDE rules and RLM memory.
+>
+> The imported rules now live in:
+> - `.agent/memory/13_preferences/coding_style.md`
+> - `.agent/memory/01_project/guidelines.md`
+>
+> **File(s) to delete:**
+> - `GEMINI.md`
+```
+
+```
 💡 Run /wakeup to begin!
 ```
 
@@ -144,10 +217,12 @@ Run validation:
 ## Example
 
 ```
-USER: /agent_anchor
+USER: /anchor_agent
 
 AI: 📋 АНАЛИЗ ИНТЕГРАЦИИ
     ═══════════════════════════════════════════
+    
+    🔍 Обнаружен файл правил IDE: GEMINI.md
     
     Сканирую существующую структуру .agent/...
     
@@ -180,6 +255,16 @@ AI: 📦 Выполняю безопасную интеграцию...
     ⚠️ Пропущено: workflows/remember.md (конфликт)
        → Создан: workflows/memory-remember.md
     
+    📥 ИМПОРТИРОВАНЫ ПРАВИЛА IDE:
+    
+    | Источник | Категория | Записей |
+    |----------|-----------|---------|
+    | GEMINI.md | coding_style.md | 5 |
+    | GEMINI.md | guidelines.md | 3 |
+    
+    💡 Рекомендуется удалить GEMINI.md чтобы избежать конфликтов.
+       Правила теперь хранятся в .agent/memory/
+    
     ✅ ИНТЕГРАЦИЯ ЗАВЕРШЕНА!
     
     💡 Выполни /wakeup чтобы начать!
@@ -193,3 +278,5 @@ AI: 📦 Выполняю безопасную интеграцию...
 - Language setting is preserved from existing project if found
 - Existing memory entries are never deleted
 - Conflicts are always reported before any action
+- IDE rules files are imported automatically and user is notified
+- Original IDE rules files should be deleted after import to avoid conflicts
