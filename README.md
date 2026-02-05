@@ -110,10 +110,10 @@ All AI responses, memory entries, and logs will use the configured language.
 User Query
     ↓
 ┌─────────────────────────────────────┐
-│ 1. EXAMINE — Read memory index      │
-│ 2. DECOMPOSE — Identify categories  │
-│ 3. RECURSE — Search relevant files  │
-│ 4. AGGREGATE — Combine information  │
+│ 1. EXAMINE — Read memory index │
+│ 2. DECOMPOSE — Identify categories │
+│ 3. RECURSE — Search relevant files │
+│ 4. AGGREGATE — Combine information │
 └─────────────────────────────────────┘
     ↓
 Contextual Response (in configured language)
