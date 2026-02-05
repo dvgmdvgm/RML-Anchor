@@ -73,8 +73,8 @@ This file is the **entry point** to the project memory system. When accessing me
 | Metric | Value |
 |--------|-------|
 | Total Categories | 13 |
-| Total Entries | 1 |
-| Last Updated | 2026-02-05 |
+| Total Entries | 0 |
+| Last Updated | YYYY-MM-DD |
 
 ---
 

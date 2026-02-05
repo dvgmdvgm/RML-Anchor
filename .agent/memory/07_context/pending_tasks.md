@@ -1,6 +1,6 @@
 # ⏳ Pending Tasks
 
-> **Last Updated**: 2026-02-05
+> **Last Updated**: YYYY-MM-DD
 
 ---
 
@@ -32,9 +32,7 @@
 
 | Task | Completed |
 |------|-----------|
-| Create memory system structure | 2026-02-05 |
-| Add multi-language support | 2026-02-05 |
-| Rename commands to /wakeup and /sleep | 2026-02-05 |
+| — | — |
 
 ---
 

@@ -1,51 +1,39 @@
-# ⚖️ DECISIONS — Architecture Decision Records (ADR)
+# 💡 DECISIONS — Architecture Decisions (ADR)
 
 > **Category**: 03_decisions  
-> **Last Updated**: 2026-02-05
+> **Last Updated**: YYYY-MM-DD
 
 ---
 
 ## 📋 Category Description
 
-This category contains **Architecture Decision Records (ADR)** — documentation of architectural and technical decisions:
-- What was decided
-- Why this choice
-- What alternatives were considered
-- Decision context
+This category contains records of important architecture and technical decisions:
+- Choice of technologies and frameworks
+- Architecture patterns used
+- Solutions to complex architectural problems
+- Trade-offs and rationales
 
 ---
 
 ## 📁 Files in This Category
 
-| ID | File | Decision | Status | Date |
-|----|------|----------|--------|------|
-| 001 | `ADR-001-memory-system.md` | RLM-like memory system creation | Accepted | 2026-02-05 |
-| — | `_template.md` | Template for new ADRs | — | — |
+| File | Decision | Status | Updated |
+|------|----------|--------|---------|
+| — | — | — | — |
 
 ---
 
 ## 🔍 When to Access This Category
 
-- "Why did we choose...?"
-- "What decision was made about...?"
-- "What alternatives were considered?"
-- "When did we decide to use...?"
-- "Rationale for choosing..."
+- "Why was this technology chosen?"
+- "What architecture decisions were made?"
+- "What were the alternatives considered?"
+- "What is the rationale behind this design?"
 
 ---
 
-## ➕ How to Add New Decision
+## ➕ How to Add Entry
 
-1. Copy `_template.md`
-2. Rename to `ADR-NNN-topic.md` (NNN — next number)
-3. Fill all template sections
-4. Update this table
-
----
-
-## 📊 Statistics
-
-- **Total decisions**: 1
-- **Active**: 1
-- **Deprecated**: 0
-- **Cancelled**: 0
+1. Use template from `_template.md`
+2. Save as `ADR-[NNN]-[name].md`
+3. Update this table
