@@ -114,7 +114,7 @@ User Query
 │ 2. DECOMPOSE — Identify categories │
 │ 3. RECURSE — Search relevant files │
 │ 4. AGGREGATE — Combine information │
-└─────────────────────────┘
+
     ↓
 Contextual Response (in configured language)
 ```
