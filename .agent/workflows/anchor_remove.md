@@ -15,7 +15,7 @@ description: Safely removes RLM-Anchor from the project with backup and confirma
 Safely remove the RLM-Anchor memory system from the project with:
 - Two-factor confirmation (random code)
 - Automatic backup before deletion
-- Clear restore instructions
+- **Strict selective deletion** (preserves your custom configs)
 
 > [!IMPORTANT]
 > This command removes ONLY RLM-Anchor files. Other files in `.agent/` 
@@ -29,27 +29,36 @@ The following paths are part of RLM-Anchor and will be removed:
 
 ```yaml
 RLM_PATHS_TO_DELETE:
-  - .agent/memory/              # All memory categories
-  - .agent/workflows/           # RLM workflow files (see list below)
-  - .agent/scripts/             # Python utilities
-  - .agent/skills/MEMORY_SKILL.md  # Memory skill
-  - .agent/docs/ADVANCED_MEMORY_SYSTEM*.md  # RLM documentation
-  - .agent/backups/             # Backup folder
-  - .agent/MEMORY_INDEX.md      # Main memory index
-
-RLM_WORKFLOW_FILES:
-  - remember.md
-  - recall.md
-  - wakeup.md
-  - sleep.md
-  - handoff.md
-  - walkthrough.md
-  - anchor_agent.md
-  - anchor_backup.md
-  - anchor_restore.md
-  - anchor_remove.md
-  - anchor_cleanup.md
-  - memory-stats.md
+  - .agent/memory/01_project
+  - .agent/memory/02_architecture
+  - .agent/memory/03_decisions
+  - .agent/memory/04_domain
+  - .agent/memory/05_code
+  - .agent/memory/06_problems
+  - .agent/memory/07_context
+  - .agent/memory/08_people
+  - .agent/memory/09_external
+  - .agent/memory/10_testing
+  - .agent/memory/11_deployment
+  - .agent/memory/12_roadmap
+  - .agent/memory/13_preferences
+  - .agent/scripts/memory_search.py
+  - .agent/scripts/memory_stats.py
+  - .agent/scripts/memory_validate.py
+  - .agent/skills/MEMORY_SKILL.md
+  - .agent/workflows/anchor_agent.md
+  - .agent/workflows/anchor_backup.md
+  - .agent/workflows/anchor_cleanup.md
+  - .agent/workflows/anchor_remove.md
+  - .agent/workflows/anchor_restore.md
+  - .agent/workflows/handoff.md
+  - .agent/workflows/memory-stats.md
+  - .agent/workflows/recall.md
+  - .agent/workflows/remember.md
+  - .agent/workflows/sleep.md
+  - .agent/workflows/wakeup.md
+  - .agent/workflows/walkthrough.md
+  - .agent/MEMORY_INDEX.md
 ```
 
 ---
@@ -66,215 +75,96 @@ You are about to remove the RLM-Anchor memory system!
 🛡️ **YOUR IDE CONFIGS ARE SAFE!**
 Only RLM-Anchor files will be deleted. Other files in `.agent/` 
 (custom IDE configurations, rules, etc.) will NOT be affected.
-
-This will delete:
-- 📁 .agent/memory/ folder (all 13 categories)
-- 📄 RLM workflow files (12 files)
-- 📄 .agent/MEMORY_INDEX.md
-- 📄 .agent/skills/MEMORY_SKILL.md
-- 📁 .agent/docs/ADVANCED_MEMORY_SYSTEM*.md
-- 📁 .agent/scripts/
-- 📁 .agent/backups/
-
-**Total RLM files to be deleted**: [COUNT]
-**Total memory entries**: [COUNT]
 ```
 
-### Step 2: Generate Confirmation Code
-
-Generate a random 8-character alphanumeric code:
-
-```python
-import random
-import string
-code = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-# Example: "a7x9K2mQ"
-```
-
-### Step 3: Request Confirmation
+### Step 2: Confirmation (Code)
 
 ```markdown
-🔐 **CONFIRMATION REQUIRED**
-
-Before proceeding, a backup will be created automatically.
-
-To confirm removal, type this exact code: **[GENERATED_CODE]**
-
-Type the code or 'cancel' to abort:
+🔐 To confirm, type this code: [GENERATED_CODE]
 ```
 
-### Step 4: Validate Code
+### Step 3: Create Backup
 
-- If code matches exactly → proceed to Step 5
-- If code doesn't match → show error, allow retry (max 3 attempts)
-- If 'cancel' or 3 failed attempts → abort
-
-```markdown
-❌ Code mismatch. Please try again. (Attempt 2/3)
-```
-
-### Step 5: Create Backup
-
-Before any deletion, create a complete backup:
+Before any deletion, create a complete backup of the strict file list.
 
 ```bash
-# Create backups directory if not exists
-mkdir -p .agent/backups
-
-# Create timestamped ZIP backup of RLM files only
-cd .agent && zip -r "anchor_backup_FINAL_$(date +%Y-%m-%d_%H-%M-%S).zip" \
-  memory/ \
-  workflows/ \
-  scripts/ \
-  skills/MEMORY_SKILL.md \
-  docs/ \
-  MEMORY_INDEX.md \
-  -x "backups/*"
-
-# Move backup outside .agent before deletion
-mv .agent/anchor_backup_FINAL_*.zip ./
+# ... (Backup logic same as /anchor_backup) ...
 ```
 
-Report backup creation:
+### Step 4: Remove RLM Files (Strict)
 
-```markdown
-📦 **Backup Created**
-
-✅ Backup saved to: `./anchor_backup_FINAL_2026-02-05_19-30-00.zip`
-📊 Size: 2.3 MB
-📁 RLM files archived: 47
-
-Backup location is OUTSIDE .agent folder for safety.
-```
-
-### Step 6: Remove RLM Files Only
+Delete specific files and subfolders:
 
 ```bash
-# Remove RLM-specific folders
-rm -rf .agent/memory/
-rm -rf .agent/scripts/
-rm -rf .agent/backups/
+# 1. Remove Memory Categories
+rm -rf .agent/memory/01_project
+rm -rf .agent/memory/02_architecture
+rm -rf .agent/memory/03_decisions
+rm -rf .agent/memory/04_domain
+rm -rf .agent/memory/05_code
+rm -rf .agent/memory/06_problems
+rm -rf .agent/memory/07_context
+rm -rf .agent/memory/08_people
+rm -rf .agent/memory/09_external
+rm -rf .agent/memory/10_testing
+rm -rf .agent/memory/11_deployment
+rm -rf .agent/memory/12_roadmap
+rm -rf .agent/memory/13_preferences
 
-# Remove RLM workflow files
-rm -f .agent/workflows/remember.md
-rm -f .agent/workflows/recall.md
-rm -f .agent/workflows/wakeup.md
-rm -f .agent/workflows/sleep.md
-rm -f .agent/workflows/handoff.md
-rm -f .agent/workflows/walkthrough.md
+# 2. Remove Scripts
+rm -f .agent/scripts/memory_search.py
+rm -f .agent/scripts/memory_stats.py
+rm -f .agent/scripts/memory_validate.py
+
+# 3. Remove Skills
+rm -f .agent/skills/MEMORY_SKILL.md
+
+# 4. Remove Workflows
 rm -f .agent/workflows/anchor_agent.md
 rm -f .agent/workflows/anchor_backup.md
-rm -f .agent/workflows/anchor_restore.md
-rm -f .agent/workflows/anchor_remove.md
 rm -f .agent/workflows/anchor_cleanup.md
+rm -f .agent/workflows/anchor_remove.md
+rm -f .agent/workflows/anchor_restore.md
+rm -f .agent/workflows/handoff.md
 rm -f .agent/workflows/memory-stats.md
+rm -f .agent/workflows/recall.md
+rm -f .agent/workflows/remember.md
+rm -f .agent/workflows/sleep.md
+rm -f .agent/workflows/wakeup.md
+rm -f .agent/workflows/walkthrough.md
 
-# Remove RLM skill and index
-rm -f .agent/skills/MEMORY_SKILL.md
+# 5. Remove Index
 rm -f .agent/MEMORY_INDEX.md
-
-# Remove RLM documentation
-rm -f .agent/docs/ADVANCED_MEMORY_SYSTEM*.md
 ```
 
-### Step 7: Confirm Removal
+### Step 5: Conditional Folder Cleanup
+
+Attempt to remove parent folders ONLY if they are empty.
+(Using `rmdir` which fails safely if folder is not empty).
+
+```bash
+# Order MUST be strict:
+
+# 1. Clean memory/
+rmdir .agent/memory 2>/dev/null || true
+
+# 2. Clean scripts/
+rmdir .agent/scripts 2>/dev/null || true
+
+# 3. Clean skills/
+rmdir .agent/skills 2>/dev/null || true
+
+# 4. Clean workflows/
+rmdir .agent/workflows 2>/dev/null || true
+
+# 5. Finally, clean .agent/ root
+rmdir .agent 2>/dev/null || true
+```
+
+### Step 6: Confirm Removal
 
 ```markdown
 ✅ **RLM-Anchor Removed Successfully**
 
-The memory system has been removed from this project.
-
-🛡️ Your custom IDE configs in `.agent/` were preserved.
-
----
-
-## 🔄 To Restore
-
-If you want to restore the system, run:
-
-```
-/anchor_restore ./anchor_backup_FINAL_2026-02-05_19-30-00.zip
-```
-
-Or manually:
-```bash
-unzip anchor_backup_FINAL_2026-02-05_19-30-00.zip -d .agent/
-```
-
----
-
-## 🔄 To Reinstall Fresh
-
-```bash
-git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
-```
-```
-
----
-
-## Error Handling
-
-### Backup Failed
-```markdown
-❌ **Backup Failed**
-
-Could not create backup. Removal aborted for safety.
-Error: [ERROR_MESSAGE]
-
-Please ensure you have write permissions and enough disk space.
-```
-
-### Removal Failed
-```markdown
-❌ **Removal Failed**
-
-Backup was created successfully, but removal failed.
-Error: [ERROR_MESSAGE]
-
-Your backup is safe at: ./anchor_backup_FINAL_*.zip
-Please manually remove RLM files if needed.
-```
-
----
-
-## Security Notes
-
-1. **Random code** prevents accidental removal (typos, auto-complete)
-2. **Backup first** ensures no data loss
-3. **Backup outside .agent** survives the deletion
-4. **Selective deletion** preserves custom IDE configs
-5. **3 attempt limit** prevents brute-force (though not really needed)
-
----
-
-## Example Session
-
-```
-User: /anchor_remove
-
-AI: ⚠️ WARNING: RLM-ANCHOR SYSTEM REMOVAL
-
-    You are about to remove the RLM-Anchor memory system!
-    
-    🛡️ YOUR IDE CONFIGS ARE SAFE!
-    Only RLM-Anchor files will be deleted.
-    
-    This will delete:
-    - 📁 .agent/memory/ (47 files)
-    - 📄 RLM workflows (12 files)
-    - 📄 MEMORY_INDEX.md, MEMORY_SKILL.md
-    
-    🔐 To confirm, type this exact code: a7x9K2mQ
-    
-User: a7x9K2mQ
-
-AI: 📦 Creating backup...
-    ✅ Backup saved: ./anchor_backup_FINAL_2026-02-05_19-30-00.zip
-    
-    🗑️ Removing RLM files...
-    ✅ RLM-Anchor removed successfully!
-    
-    🛡️ Your custom IDE configs were preserved.
-    
-    To restore: /anchor_restore ./anchor_backup_FINAL_2026-02-05_19-30-00.zip
+🛡️ Your custom IDE configs in `.agent/` were preserved (if any existed).
 ```

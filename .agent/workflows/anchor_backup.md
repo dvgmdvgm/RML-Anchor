@@ -31,13 +31,36 @@ The following paths are part of RLM-Anchor and will be backed up:
 
 ```yaml
 RLM_PATHS:
-  - .agent/memory/              # All 13 memory categories
-  - .agent/workflows/           # All workflow definitions
-  - .agent/scripts/             # Python utilities
-  - .agent/skills/MEMORY_SKILL.md  # Memory skill instructions
-  - .agent/docs/                # Documentation
-  - .agent/backups/             # Previous backups (optional)
-  - .agent/MEMORY_INDEX.md      # Main memory index
+  - .agent/memory/01_project
+  - .agent/memory/02_architecture
+  - .agent/memory/03_decisions
+  - .agent/memory/04_domain
+  - .agent/memory/05_code
+  - .agent/memory/06_problems
+  - .agent/memory/07_context
+  - .agent/memory/08_people
+  - .agent/memory/09_external
+  - .agent/memory/10_testing
+  - .agent/memory/11_deployment
+  - .agent/memory/12_roadmap
+  - .agent/memory/13_preferences
+  - .agent/scripts/memory_search.py
+  - .agent/scripts/memory_stats.py
+  - .agent/scripts/memory_validate.py
+  - .agent/skills/MEMORY_SKILL.md
+  - .agent/workflows/anchor_agent.md
+  - .agent/workflows/anchor_backup.md
+  - .agent/workflows/anchor_cleanup.md
+  - .agent/workflows/anchor_remove.md
+  - .agent/workflows/anchor_restore.md
+  - .agent/workflows/handoff.md
+  - .agent/workflows/memory-stats.md
+  - .agent/workflows/recall.md
+  - .agent/workflows/remember.md
+  - .agent/workflows/sleep.md
+  - .agent/workflows/wakeup.md
+  - .agent/workflows/walkthrough.md
+  - .agent/MEMORY_INDEX.md
 ```
 
 ---
@@ -70,15 +93,39 @@ Otherwise:
 anchor_backup_{date}_{time}.zip
 ```
 
-### Step 4: Create ZIP Archive (RLM Files Only)
+### Step 4: Create ZIP Archive (Strict RLM Files Only)
 
 ```bash
 cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
-  memory/ \
-  workflows/ \
-  scripts/ \
+  memory/01_project \
+  memory/02_architecture \
+  memory/03_decisions \
+  memory/04_domain \
+  memory/05_code \
+  memory/06_problems \
+  memory/07_context \
+  memory/08_people \
+  memory/09_external \
+  memory/10_testing \
+  memory/11_deployment \
+  memory/12_roadmap \
+  memory/13_preferences \
+  scripts/memory_search.py \
+  scripts/memory_stats.py \
+  scripts/memory_validate.py \
   skills/MEMORY_SKILL.md \
-  docs/ \
+  workflows/anchor_agent.md \
+  workflows/anchor_backup.md \
+  workflows/anchor_cleanup.md \
+  workflows/anchor_remove.md \
+  workflows/anchor_restore.md \
+  workflows/handoff.md \
+  workflows/memory-stats.md \
+  workflows/recall.md \
+  workflows/remember.md \
+  workflows/sleep.md \
+  workflows/wakeup.md \
+  workflows/walkthrough.md \
   MEMORY_INDEX.md \
   -x "backups/*"
 ```
@@ -90,11 +137,11 @@ cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
 
 📦 File: `.agent/backups/anchor_backup_2026-02-05_19-30-00.zip`
 📊 Size: 2.3 MB
-📁 RLM Files: 47
-🧠 Memory entries: 23
+📁 RLM Files: [COUNT]
 
 🛡️ **Note**: Only RLM-Anchor files were backed up.
    Your custom IDE configs in `.agent/` were NOT included.
+```
 
 ---
 
@@ -114,26 +161,6 @@ cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
 ```bash
 unzip anchor_backup_2026-02-05_19-30-00.zip -d .agent/
 ```
-```
-
----
-
-## Backup Contents
-
-The backup includes:
-
-| Folder/File | Description |
-|-------------|-------------|
-| `memory/` | All 13 memory categories |
-| `workflows/` | All RLM command definitions |
-| `scripts/` | Python utilities |
-| `skills/MEMORY_SKILL.md` | AI memory instructions |
-| `docs/` | Documentation |
-| `MEMORY_INDEX.md` | Main index |
-
-**Excluded**: 
-- Previous backups (to prevent nesting)
-- Custom IDE configs not part of RLM-Anchor
 
 ---
 
@@ -146,29 +173,4 @@ To change this, edit `.agent/memory/13_preferences/cleanup_settings.md`:
 BACKUP:
   MAX_BACKUPS: 5
   AUTO_DELETE_OLD: true
-```
-
----
-
-## Example Session
-
-```
-User: /anchor_backup
-
-AI: 📦 Creating backup...
-    
-    ✅ Backup created!
-    📦 File: .agent/backups/anchor_backup_2026-02-05_19-30-00.zip
-    📊 Size: 2.3 MB
-    📁 RLM Files: 47
-    
-    🛡️ Your custom IDE configs were preserved (not included in backup).
-
-User: /anchor_backup before-refactor
-
-AI: 📦 Creating backup...
-    
-    ✅ Backup created!
-    📦 File: .agent/backups/anchor_backup_before-refactor_2026-02-05.zip
-    📊 Size: 2.3 MB
 ```
