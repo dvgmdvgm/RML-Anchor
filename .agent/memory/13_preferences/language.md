@@ -1,27 +1,14 @@
-# 🧠 LANGUAGE SETTING / НАСТРОЙКА ЯЗЫКА
-
-This file controls the language for ALL AI interactions, memory entries, and response formatting.
-
-```
 LANGUAGE=en
-```
 
----
-
-## 🌍 Supported Languages / Поддерживаемые языки
-
-| Code | Language | Язык |
-|------|----------|------|
-| `en` | English | Английский |
-| `ru` | Russian | Русский |
-| `uk` | Ukrainian | Украинский |
-| `es` | Spanish | Испанский |
-| `de` | German | Немецкий |
-| `fr` | French | Французский |
-| `ja` | Japanese | Японский |
-| `pt` | Portuguese | Португальский |
-| `it` | Italian | Итальянский |
-| `ko` | Korean | Корейский |
-| `zh-CN` | Chinese (Simplified) | Китайский (Упр.) |
-
----
+# Supported languages:
+# en - English
+# ru - Russian
+# uk - Ukrainian
+# es - Spanish
+# de - German
+# fr - French
+# ja - Japanese
+# pt - Portuguese
+# it - Italian
+# ko - Korean
+# zh - Chinese
