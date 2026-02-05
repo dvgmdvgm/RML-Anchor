@@ -20,7 +20,7 @@ LANGUAGE=en
 | `fr` | French | Французский |
 | `ja` | Japanese | Японский |
 | `pt` | Portuguese | Португальский |
-| `it` | Italian | Иタリアнский |
+| `it` | Italian | Итальянский |
 | `ko` | Korean | Корейский |
 | `zh-CN` | Chinese (Simplified) | Китайский (Упр.) |
 

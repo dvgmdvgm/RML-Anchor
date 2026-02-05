@@ -24,7 +24,7 @@ A persistent memory system for AI-powered development environments based on [Rec
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Set your language** in `.agent/memory/13_preferences/language.md` file.
-3. **Run this exact prompt:** ```/agent_anchor scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)``` to safely implement RLM-Anchor into your current project.
+3. **Run this exact prompt:** ```/anchor_agent scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)``` to safely implement RLM-Anchor into your current project.
 4. **Start working** with ```/wakeup``` chat command.
 5. **Work in your IDE** (develop, solve tasks, make business decisions, do everything as usual).
 
@@ -61,7 +61,11 @@ All AI responses, memory entries, and logs will use the configured language.
 | `/recall` | Find information in memory |
 | `/handoff` | Create context summary for model switching |
 | `/walkthrough` | Generate feature documentation |
-| `/agent_anchor` | Safely integrate into existing project |
+| `/anchor_agent` | Safely integrate into existing project |
+| `/anchor_backup` | Create manual backup (for transfer) |
+| `/anchor_restore` | Restore from backup ZIP |
+| `/anchor_remove` | Safe system removal (with backup) |
+| `/anchor_cleanup` | Intelligent memory cleanup (TTL, scoring) |
 | `/memory-stats` | Show memory statistics |
 
 ---
@@ -116,7 +120,7 @@ Contextual Response (in configured language)
 
 ### 🚀 Initialize / Connect
 ```
-User: /agent_anchor
+User: /anchor_agent
 AI: 📋 INTEGRATION ANALYSIS... [Scans and suggests safe integration options]
 ```
 

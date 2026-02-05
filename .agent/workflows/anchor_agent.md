@@ -2,12 +2,13 @@
 description: Safely integrates the Antigravity Agent Template into the current project.
 ---
 
-# /agent_anchor — Safe Integration of RLM-Anchor
+# /anchor_agent — Safe Integration of RLM-Anchor
 
 ## Usage
 
 ```
-/agent_anchor
+/anchor_agent
+/anchor_agent [scan instruction]
 ```
 
 ---

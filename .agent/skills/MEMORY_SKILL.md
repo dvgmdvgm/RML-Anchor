@@ -336,7 +336,11 @@ def write_to_memory(info, category):
 | `sleep.md` | `/sleep` | End session |
 | `handoff.md` | `/handoff` | Context transfer between models |
 | `walkthrough.md` | `/walkthrough` | Generate feature documentation |
-| `agent_anchor.md` | `/agent_anchor` | Integrate into existing project |
+| `anchor_agent.md` | `/anchor_agent` | Integrate into existing project |
+| `anchor_backup.md` | `/anchor_backup` | Create manual backup |
+| `anchor_restore.md` | `/anchor_restore` | Restore from backup |
+| `anchor_remove.md` | `/anchor_remove` | Safe system removal |
+| `anchor_cleanup.md` | `/anchor_cleanup` | Intelligent memory cleanup |
 | `memory-stats.md` | `/memory-stats` | Statistics |
 
 ---

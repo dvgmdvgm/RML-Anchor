@@ -24,7 +24,7 @@ Un système de mémoire persistante pour les environnements de développement pr
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Réglez votre langue** dans le fichier `.agent/memory/13_preferences/language.md`.
-3. **Exécutez exactement ce prompt :** ```/agent_anchor scannez les répertoires du projet actuel pour trouver des données qui aideront à construire le contexte et à configurer la mémoire correctement (données techniques, modèles commerciaux, règles de conception et tous les autres modèles typiques pour trouver et préserver le contexte du projet)``` pour implémenter RLM-Anchor en toute sécurité dans votre projet actuel.
+3. **Exécutez exactement ce prompt :** ```/anchor_agent scannez les répertoires du projet actuel pour trouver des données qui aideront à construire le contexte et à configurer la mémoire correctement (données techniques, modèles commerciaux, règles de conception et tous les autres modèles typiques pour trouver et préserver le contexte du projet)``` pour implémenter RLM-Anchor en toute sécurité dans votre projet actuel.
 4. **Commencez à travailler** avec la commande de chat ```/wakeup```.
 5. **Travaillez dans votre IDE** (développement, résolution de tâches, décisions commerciales, comme d'habitude).
 
@@ -58,7 +58,7 @@ LANGUAGE=en    # Anglais
 | `/recall` | Rechercher des informations en mémoire |
 | `/handoff` | Créer un résumé pour changer de modèle |
 | `/walkthrough` | Générer la documentation d'une fonctionnalité |
-| `/agent_anchor` | Intégration sécurisée dans le projet |
+| `/anchor_agent` | Intégration sécurisée dans le projet |
 | `/memory-stats` | Afficher les statistiques de mémoire |
 
 ---

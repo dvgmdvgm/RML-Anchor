@@ -24,7 +24,7 @@
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **设置语言**: 在 `.agent/memory/13_preferences/language.md` 文件中。
-3. **执行此精确提示词：** ```/agent_anchor 扫描当前项目目录，寻找有助于构建上下文并正确配置记忆的数据（技术数据、业务模型、设计规则以及所有其他用于查找和保留项目上下文的典型模板）``` 以安全地将 RLM-Anchor 集成到当前项目中。
+3. **执行此精确提示词：** ```/anchor_agent 扫描当前项目目录，寻找有助于构建上下文并正确配置记忆的数据（技术数据、业务模型、设计规则以及所有其他用于查找和保留项目上下文的典型模板）``` 以安全地将 RLM-Anchor 集成到当前项目中。
 4. **通过聊天指令** ```/wakeup``` **开始工作**。
 5. **在 IDE 中正常工作**（开发、解决任务、做决策等）。
 
@@ -58,7 +58,7 @@ LANGUAGE=en       # 英语
 | `/recall` | 从记忆中检索信息 |
 | `/handoff` | 为切换模型生成上下文总结 |
 | `/walkthrough` | 生成功能文档 |
-| `/agent_anchor` | 安全集成到项目中 |
+| `/anchor_agent` | 安全集成到项目中 |
 | `/memory-stats` | 显示记忆统计信息 |
 
 ---
