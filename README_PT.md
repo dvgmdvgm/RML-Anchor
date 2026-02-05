@@ -19,20 +19,25 @@ Um sistema de memória persistente para ambientes de desenvolvimento baseados em
 
 ## 📦 Quick Start & Usage
 
+> ⚠️ **IMPORTANTE**: Cada projeto precisa de sua PRÓPRIA instalação RLM-Anchor! Usar a mesma memória para vários projetos causará confusão da IA devido a contextos conflitantes. Sempre instale novamente para cada novo projeto.
+
 1. **Importe a pasta `.agent/`** para o seu projeto via Git:
    ```bash
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Defina seu idioma** no arquivo `.agent/memory/13_preferences/language.md`.
-3. **Execute exatamente este prompt:** ```/anchor_agent escaneie os diretórios do projeto atual em busca de dados que ajudem a construir o contexto e configurar a memória corretamente (dados técnicos, modelos de negócios, regras de design e todos os outros modelos típicos para encontrar e preservar o contexto do projeto)``` para implementar o RLM-Anchor com segurança no seu projeto.
-4. **Comece a trabalhar** com o comando de chat ```/wakeup```.
+3. **Execute este prompt** (copie o bloco inteiro abaixo):
+   ```
+   /anchor_agent escaneie os diretórios do projeto atual em busca de dados que ajudem a construir o contexto e configurar a memória corretamente (dados técnicos, modelos de negócios, regras de design e todos os outros modelos típicos para encontrar e preservar o contexto do projeto)
+   ```
+4. **Comece a trabalhar** com o comando de chat `/wakeup`.
 5. **Trabalhe na sua IDE** (desenvolva, resolva tarefas, tome decisões, faça tudo normalmente).
 
-*Durante o trabalho, em etapas importantes, você pode usar* ```/remember``` *para salvar o contexto relevante.*
+*Durante o trabalho, em etapas importantes, você pode usar* `/remember` *para salvar o contexto relevante.*
 
-6. **Quando terminar o trabalho**, por exemplo, antes de dormir, execute o comando ```/sleep``` para que o RLM-Anchor salve o seu contexto na memória.
+6. **Quando terminar o trabalho**, por exemplo, antes de dormir, execute `/sleep` para que o RLM-Anchor salve seu contexto na memória.
 
-*Toda vez que voltar a trabalhar, basta acordar o RLM-Anchor com* ```/wakeup``` *e, ao final, enviá-lo para dormir com* ```/sleep``` *para que ele lembre de tudo o que foi feito.*
+*Toda vez que voltar a trabalhar, basta acordar o RLM-Anchor com* `/wakeup` *e, ao final, enviá-lo para dormir com* `/sleep` *para que ele lembre de tudo.*
 
 ---
 

@@ -19,20 +19,25 @@ Ein persistentes Gedächtnissystem für KI-gestützte Entwicklungsumgebungen, ba
 
 ## 📦 Quick Start & Usage
 
+> ⚠️ **WICHTIG**: Jedes Projekt benötigt seine EIGENE separate RLM-Anchor-Installation! Die Verwendung desselben Speichers für mehrere Projekte führt zu KI-Verwirrung durch widersprüchliche Kontexte. Installieren Sie immer neu für jedes neue Projekt.
+
 1. **Importieren Sie den `.agent/`-Ordner** mit Git in Ihr Projekt:
    ```bash
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Stellen Sie Ihre Sprache** in der Datei `.agent/memory/13_preferences/language.md` ein.
-3. **Führe genau diesen Prompt aus:** ```/anchor_agent scanne die aktuellen Projektverzeichnisse nach Daten, die helfen, den Kontext aufzubauen und den Speicher korrekt zu konfigurieren (technische Daten, Geschäftsmodelle, Designregeln und alle anderen typischen Vorlagen zum Finden und Erhalten des Projektkontexts)``` um RLM-Anchor sicher in Ihr aktuelles Projekt zu implementieren.
-4. **Beginnen Sie mit der Arbeit** über den Chat-Befehl ```/wakeup```.
+3. **Führen Sie diesen Prompt aus** (kopieren Sie den gesamten Block unten):
+   ```
+   /anchor_agent scanne die aktuellen Projektverzeichnisse nach Daten, die helfen, den Kontext aufzubauen und den Speicher korrekt zu konfigurieren (technische Daten, Geschäftsmodelle, Designregeln und alle anderen typischen Vorlagen zum Finden und Erhalten des Projektkontexts)
+   ```
+4. **Beginnen Sie mit der Arbeit** über den Chat-Befehl `/wakeup`.
 5. **Arbeiten Sie in Ihrer IDE** (entwickeln, Aufgaben lösen, Geschäftsentscheidungen treffen, alles wie gewohnt).
 
-*Während der Arbeit können Sie in wichtigen Phasen* ```/remember``` *verwenden, um wichtigen Kontext zu speichern.*
+*Während der Arbeit können Sie in wichtigen Phasen* `/remember` *verwenden, um wichtigen Kontext zu speichern.*
 
-6. **Wenn Sie die Arbeit beendet haben**, z. B. bevor Sie schlafen gehen, führen Sie den Befehl ```/sleep``` aus, damit RLM-Anchor Ihren Kontext im Gedächtnis speichern kann.
+6. **Wenn Sie die Arbeit beendet haben**, z. B. bevor Sie schlafen gehen, führen Sie `/sleep` aus, damit RLM-Anchor Ihren Kontext speichern kann.
 
-*Jedes Mal, wenn Sie zur Arbeit an Ihrem Projekt zurückkehren, wecken Sie RLM-Anchor einfach mit* ```/wakeup``` *auf und schicken ihn am Ende der Sitzung mit* ```/sleep``` *wieder schlafen, damit er sich an alles erinnert, was Sie getan haben.*
+*Jedes Mal, wenn Sie zur Arbeit an Ihrem Projekt zurückkehren, wecken Sie RLM-Anchor einfach mit* `/wakeup` *und schicken ihn am Ende mit* `/sleep` *schlafen, damit er sich an alles erinnert.*
 
 ---
 

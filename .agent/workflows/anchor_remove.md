@@ -28,8 +28,11 @@ Safely remove the entire RLM-Anchor system from the project with:
 
 You are about to remove the entire RLM-Anchor memory system!
 
+🛡️ **YOUR PROJECT FILES ARE SAFE!**
+Only the `.agent/` folder will be deleted. Your source code, configs, and all other project files will NOT be affected.
+
 This will delete:
-- 📁 .agent/ folder and ALL contents
+- 📁 .agent/ folder and ALL its contents
 - 🧠 All memory entries (13 categories)
 - ⚙️ All workflows and scripts
 - 📝 All preferences and settings

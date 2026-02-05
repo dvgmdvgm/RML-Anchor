@@ -19,20 +19,25 @@ A persistent memory system for AI-powered development environments based on [Rec
 
 ## 📦 Quick Start & Usage
 
+> ⚠️ **IMPORTANT**: Each project needs its OWN separate RLM-Anchor installation! Using the same memory for multiple projects will cause AI confusion due to conflicting context. Always install fresh for each new project.
+
 1. **Import `.agent/` folder** to your project using Git:
    ```bash
    git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
    ```
 2. **Set your language** in `.agent/memory/13_preferences/language.md` file.
-3. **Run this exact prompt:** ```/anchor_agent scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)``` to safely implement RLM-Anchor into your current project.
-4. **Start working** with ```/wakeup``` chat command.
+3. **Run this exact prompt** (copy the entire block below):
+   ```
+   /anchor_agent scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)
+   ```
+4. **Start working** with `/wakeup` chat command.
 5. **Work in your IDE** (develop, solve tasks, make business decisions, do everything as usual).
 
-*In the process of work, at important stages you can use* ```/remember``` *to save important context.*
+*In the process of work, at important stages you can use* `/remember` *to save important context.*
 
-6. **When you finished working** in your IDE, for example, before you go to sleep, execute the command ```/sleep``` so that RLM-Anchor can save your context to memory.
+6. **When you finished working** in your IDE, for example, before you go to sleep, execute the command `/sleep` so that RLM-Anchor can save your context to memory.
 
-*Now every time you return to work on your project, just wake up RLM-Anchor by running* ```/wakeup``` *and at the end of the session, send it back to sleep* ```/sleep``` *so it remembers everything you did.*
+*Now every time you return to work on your project, just wake up RLM-Anchor by running* `/wakeup` *and at the end of the session, send it back to sleep* `/sleep` *so it remembers everything you did.*
 
 ---
 
