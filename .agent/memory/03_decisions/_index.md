@@ -1,7 +1,7 @@
 # 💡 DECISIONS — Architecture Decisions (ADR)
 
 > **Category**: 03_decisions  
-> **Last Updated**: 2026-02-06
+> **Last Updated**: —
 
 ---
 
@@ -19,9 +19,7 @@ This category contains records of important architecture and technical decisions
 
 | File | Decision | Status | Updated |
 |------|----------|--------|---------|
-| `ADR-001-markdown-storage.md` | Use Markdown for storage | ✅ Active | 2026-02-06 |
-| `ADR-002-folder-structure.md` | 13-category organization | ✅ Active | 2026-02-06 |
-| `ADR-003-session-archival.md` | Archive sessions to history | ✅ Active | 2026-02-06 |
+| — | — | — | — |
 
 ---
 

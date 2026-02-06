@@ -3,7 +3,7 @@
 This file controls the language for ALL AI interactions, memory entries, and response formatting.
 
 ```
-LANGUAGE=ru
+LANGUAGE=en
 ```
 
 ---

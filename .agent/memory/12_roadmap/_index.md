@@ -1,7 +1,7 @@
 # 🗓️ ROADMAP — Plans and Future
 
 > **Category**: 12_roadmap  
-> **Last Updated**: 2026-02-06
+> **Last Updated**: —
 
 ---
 
@@ -19,9 +19,7 @@ This category contains future plans:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `features.md` | Planned features by version | 2026-02-06 |
-| `tech_debt.md` | Known technical debt | 2026-02-06 |
-| `changelog.md` | Version history | 2026-02-06 |
+| — | — | — |
 
 ---
 

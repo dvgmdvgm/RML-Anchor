@@ -1,7 +1,7 @@
 # 💬 CONTEXT — Dialog Context
 
 > **Category**: 07_context  
-> **Last Updated**: 2026-02-06
+> **Last Updated**: —
 
 ---
 
@@ -18,8 +18,8 @@ This category contains dialog and session context:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `current_session.md` | Current active session | 2026-02-06 |
-| `pending_tasks.md` | Pending tasks | 2026-02-06 |
+| `current_session.md` | Current active session | — |
+| `pending_tasks.md` | Pending tasks | — |
 
 ### 📂 Subdirectories
 
@@ -37,26 +37,3 @@ This category contains dialog and session context:
 - "What was the conversation about...?"
 - "Continue from where we left off..."
 - "Remind me the context..."
-
----
-
-## ➕ How to Update
-
-### current_session.md
-- Updated during active session
-- Contains key topics of current conversation
-
-### pending_tasks.md
-- Updated when incomplete tasks appear
-- Cleared when tasks are completed
-
-### session_history/session_YYYY-MM-DD_HH-MM.md
-- Created on session end (/sleep)
-- Contains session summary
-
----
-
-## 📊 Statistics
-
-- **Sessions in history**: 0
-- **Pending tasks**: 0

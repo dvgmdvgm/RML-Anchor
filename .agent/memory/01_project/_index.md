@@ -1,7 +1,7 @@
 # 🏗️ PROJECT — General Project Information
 
 > **Category**: 01_project  
-> **Last Updated**: 2026-02-06
+> **Last Updated**: —
 
 ---
 
@@ -19,9 +19,7 @@ This category contains general project information:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `overview.md` | General project description, purpose and goals | 2026-02-06 |
-| `tech_stack.md` | Technology stack | 2026-02-06 |
-| `structure.md` | Project file/folder structure | 2026-02-06 |
+| — | — | — |
 
 ---
 
