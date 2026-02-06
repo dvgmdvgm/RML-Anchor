@@ -1,7 +1,7 @@
 # 🏛️ ARCHITECTURE — System Architecture
 
 > **Category**: 02_architecture  
-> **Last Updated**: 2026-02-05
+> **Last Updated**: 2026-02-06
 
 ---
 
@@ -20,11 +20,9 @@ This category contains information about project architecture:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `overview.md` | Overall architecture description | — |
-| `patterns.md` | Design patterns used | — |
-| `components.md` | Main system components | — |
-| `data_flow.md` | Data flows in the system | — |
-| `diagrams.md` | Architecture diagrams | — |
+| `overview.md` | Layered architecture description | 2026-02-06 |
+| `patterns.md` | Design patterns used | 2026-02-06 |
+| `data_flow.md` | How data flows through the system | 2026-02-06 |
 
 ---
 

@@ -1,7 +1,7 @@
 # 🏗️ PROJECT — General Project Information
 
 > **Category**: 01_project  
-> **Last Updated**: 2026-02-05
+> **Last Updated**: 2026-02-06
 
 ---
 
@@ -19,11 +19,9 @@ This category contains general project information:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `overview.md` | General project description, purpose and goals | — |
-| `goals.md` | Project goals and objectives | — |
-| `tech_stack.md` | Technology stack (languages, frameworks, DB) | — |
-| `structure.md` | Project file/folder structure | — |
-| `dependencies.md` | Key dependencies and their purpose | — |
+| `overview.md` | General project description, purpose and goals | 2026-02-06 |
+| `tech_stack.md` | Technology stack | 2026-02-06 |
+| `structure.md` | Project file/folder structure | 2026-02-06 |
 
 ---
 

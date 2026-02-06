@@ -1,7 +1,7 @@
 # 💬 CONTEXT — Dialog Context
 
 > **Category**: 07_context  
-> **Last Updated**: 2026-02-05
+> **Last Updated**: 2026-02-06
 
 ---
 
@@ -18,8 +18,8 @@ This category contains dialog and session context:
 
 | File | Description | Updated |
 |------|-------------|---------|
-| `current_session.md` | Current active session | — |
-| `pending_tasks.md` | Pending tasks | — |
+| `current_session.md` | Current active session | 2026-02-06 |
+| `pending_tasks.md` | Pending tasks | 2026-02-06 |
 
 ### 📂 Subdirectories
 
@@ -50,7 +50,7 @@ This category contains dialog and session context:
 - Updated when incomplete tasks appear
 - Cleared when tasks are completed
 
-### session_history/YYYY-MM-DD.md
+### session_history/session_YYYY-MM-DD_HH-MM.md
 - Created on session end (/sleep)
 - Contains session summary
 
