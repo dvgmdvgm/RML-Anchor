@@ -23,7 +23,7 @@ All output and saved entries must be in this language!
 
 ### 1. Summarize Current Session
 
-Create a brief session summary:
+Analyze the conversation and create a session summary:
 - Main discussion topics
 - Decisions made
 - Files created/modified
@@ -31,16 +31,17 @@ Create a brief session summary:
 
 **Write in configured language!**
 
-### 2. Save to Session History
+### 2. Archive Session to History
 
 ```
-Create file .agent/memory/07_context/session_history/YYYY-MM-DD.md
+Generate filename: session_YYYY-MM-DD_HH-MM.md
+Copy current_session.md content → .agent/memory/07_context/session_history/[filename]
 ```
 
-Format:
+**Session file format:**
 
 ```markdown
-# Session: YYYY-MM-DD
+# Session: YYYY-MM-DD HH:MM
 
 ## 📋 Discussion Topics
 
@@ -49,24 +50,27 @@ Format:
 
 ## ⚖️ Decisions Made
 
-| Decision | Description |
-|----------|-------------|
-| ... | ... |
+| Decision | Description | Impact |
+|----------|-------------|--------|
+| ... | ... | ... |
 
 ## 📁 Modified Files
 
-- `file1.py` — what changed
-- `file2.html` — what changed
+| File | Change |
+|------|--------|
+| `file1.py` | Added auth logic |
+| `file2.html` | Updated layout |
 
 ## 📝 Notes
 
 - Note 1
 - Note 2
 
-## ⏳ Pending
+## ⏳ Pending (Carried Over)
 
-- Task 1
-- Task 2
+| Priority | Task |
+|----------|------|
+| 🔴 | Task 1 |
 ```
 
 ### 3. Update pending_tasks.md
@@ -75,16 +79,55 @@ Format:
 Update .agent/memory/07_context/pending_tasks.md
 ```
 
-- Add new pending tasks
-- Mark completed ones
+- Add new pending tasks from this session
+- Move completed tasks to "Recently Completed"
 
-### 4. Clear current_session.md
+### 4. Reset current_session.md
 
 ```
-Update .agent/memory/07_context/current_session.md
+Overwrite .agent/memory/07_context/current_session.md with blank template
 ```
 
-Prepare for next session.
+Template:
+```markdown
+# 📍 Current Session
+
+- **Start Date**: YYYY-MM-DD
+- **Last Updated**: YYYY-MM-DD
+
+---
+
+## 🎯 Main Session Topics
+
+1. —
+2. —
+
+---
+
+## 💡 Key Decisions
+
+| Decision | Description |
+|----------|-------------|
+| — | — |
+
+---
+
+## 📌 Topics Discussed
+
+- —
+
+---
+
+## ⏳ Current Status
+
+**Status**: Ready to start
+
+---
+
+## 📝 Notes
+
+- —
+```
 
 ### 5. Update Relevant Indexes
 
@@ -98,16 +141,19 @@ Output in configured language:
 ✅ Session ended!
 
 📊 Session Statistics:
-- Duration: ~X hours
-- Decisions recorded: N
-- Problems documented: M
+| Metric | Value |
+|--------|-------|
+| Duration | ~X hours |
+| Decisions recorded | N |
+| Files modified | M |
 
-📁 Saved:
-- memory/07_context/session_history/2026-02-05.md
+📁 Archived to:
+- `session_history/session_2026-02-06_03-20.md`
 
-📌 For next time:
-- Task 1
-- Task 2
+📌 Carried to next session:
+| Priority | Task |
+|----------|------|
+| 🔴 | Task 1 |
 
 👋 See you later!
 ```
@@ -123,44 +169,57 @@ AI: 📝 Суммаризирую сессию...
 
     ✅ Сессия завершена!
     
-    📊 Сегодня мы:
-    - Обсудили Context Window в LLM
-    - Изучили RLM (Recursive Language Models)  
-    - Создали систему памяти проекта
+    📊 Сегодня:
+    | Показатель | Значение |
+    |------------|----------|
+    | Длительность | ~2 часа |
+    | Решений записано | 3 |
+    | Файлов изменено | 8 |
     
-    📁 Сохранено:
-    - memory/07_context/session_history/2026-02-05.md
-    - 20+ файлов системы памяти
+    📁 Архивировано:
+    - `session_history/session_2026-02-06_03-20.md`
     
-    ⚖️ Записано решение:
-    - ADR-001: Создание RLM-подобной системы памяти
+    ⚖️ Записанные решения:
+    | Решение | Описание |
+    |---------|----------|
+    | ADR-002 | REST API вместо GraphQL |
     
     📌 На следующий раз:
-    - Протестировать систему памяти
-    - Добавить Python скрипты
+    | Приоритет | Задача |
+    |-----------|--------|
+    | 🔴 | Доделать авторизацию |
     
     👋 До встречи!
 ```
 
-## Example (Language: Spanish)
+## Example (Language: English)
 
 ```
 USER: /sleep
 
-AI: 📝 Resumiendo la sesión...
+AI: 📝 Summarizing session...
 
-    ✅ ¡Sesión terminada!
+    ✅ Session ended!
     
-    📊 Hoy hemos:
-    - Discutido Context Window en LLM
-    - Estudiado RLM (Recursive Language Models)  
-    - Creado el sistema de memoria del proyecto
+    📊 Today:
+    | Metric | Value |
+    |--------|-------|
+    | Duration | ~2 hours |
+    | Decisions recorded | 3 |
+    | Files modified | 8 |
     
-    📁 Guardado:
-    - memory/07_context/session_history/2026-02-05.md
+    📁 Archived to:
+    - `session_history/session_2026-02-06_03-20.md`
     
-    📌 Para la próxima vez:
-    - Probar el sistema de memoria
+    ⚖️ Recorded decisions:
+    | Decision | Description |
+    |----------|-------------|
+    | ADR-002 | REST API over GraphQL |
     
-    👋 ¡Hasta luego!
+    📌 For next session:
+    | Priority | Task |
+    |----------|------|
+    | 🔴 | Complete authentication |
+    
+    👋 See you later!
 ```

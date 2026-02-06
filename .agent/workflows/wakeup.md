@@ -32,18 +32,29 @@ Read .agent/MEMORY_INDEX.md
 
 Output brief summary: how many categories, last update date.
 
-### 3. Load Current Session Context
+### 3. Check for Unfinished Session
 
 ```
-Read .agent/memory/07_context/current_session.md (if exists)
+Read .agent/memory/07_context/current_session.md
+```
+
+**If not empty template** (contains actual data):
+- Warn user: "Detected unfinished session from [date]. Data will be archived."
+- Archive it first → `session_history/session_YYYY-MM-DD_orphan.md`
+- Reset `current_session.md` to template
+
+### 4. Load Session History
+
+```
+List files in .agent/memory/07_context/session_history/
+Read last 2-3 sessions for context
 ```
 
 Output:
-- Last session date
-- Main topics
-- Key decisions
+- Last session summary
+- Key decisions from recent sessions
 
-### 4. Check Pending Tasks
+### 5. Check Pending Tasks
 
 ```
 Read .agent/memory/07_context/pending_tasks.md (if exists)
@@ -51,15 +62,26 @@ Read .agent/memory/07_context/pending_tasks.md (if exists)
 
 If there are pending tasks — display the list.
 
-### 5. Load User Preferences
+### 6. Load User Preferences
 
 ```
 Read .agent/memory/13_preferences/_index.md
+Read .agent/memory/13_preferences/communication.md
 ```
 
-If there are entries — take them into account.
+Apply response styling from preferences.
 
-### 6. Report Readiness
+### 7. Initialize New Session
+
+```
+Update .agent/memory/07_context/current_session.md
+```
+
+Set:
+- **Start Date**: current date/time
+- **Status**: Active
+
+### 8. Report Readiness
 
 Output in configured language:
 
@@ -67,25 +89,25 @@ Output in configured language:
 ✅ Session started!
 
 📊 Memory Statistics:
-- Categories: 13
-- Entries: N
-- Last updated: YYYY-MM-DD
+| Category | Status |
+|----------|--------|
+| Categories loaded | 13 |
+| Memory entries | N |
+| Last session | YYYY-MM-DD |
+
+📅 Previous Session Summary:
+| Topic | Decision |
+|-------|----------|
+| ... | ... |
 
 📌 Pending Tasks:
-- [ ] Task 1
-- [ ] Task 2
+| Priority | Task |
+|----------|------|
+| 🔴 High | Task 1 |
+| 🟡 Medium | Task 2 |
 
-💡 Ready to work!
+💡 Ready to work! What shall we do today?
 ```
-
----
-
-## Automatic Execution
-
-This procedure should run automatically on the first user message in a new session if:
-
-1. `.agent/MEMORY_INDEX.md` exists
-2. This is clearly a new session (not a continuation)
 
 ---
 
@@ -99,17 +121,23 @@ AI: 🚀 Загружаю контекст проекта...
     ✅ Сессия начата!
     
     📊 Память проекта:
-    - 13 категорий
-    - 5 записей
-    - Последнее обновление: 2026-02-04
+    | Параметр | Значение |
+    |----------|----------|
+    | Категорий | 13 |
+    | Записей | 5 |
+    | Последняя сессия | 2026-02-05 |
     
-    📅 Прошлая сессия (2026-02-04):
-    - Обсуждали архитектуру API
-    - Решили использовать REST вместо GraphQL
+    📅 Прошлая сессия (2026-02-05):
+    | Тема | Решение |
+    |------|---------|
+    | Архитектура API | REST вместо GraphQL |
+    | Авторизация | OAuth2 + JWT |
     
     📌 Незавершённые задачи:
-    - [ ] Доделать эндпоинт /users
-    - [ ] Написать тесты для авторизации
+    | Приоритет | Задача |
+    |-----------|--------|
+    | 🔴 | Доделать эндпоинт /users |
+    | 🟡 | Написать тесты |
     
     💡 Чем займёмся сегодня?
 ```
@@ -124,17 +152,23 @@ AI: 🚀 Loading project context...
     ✅ Session started!
     
     📊 Project memory:
-    - 13 categories
-    - 5 entries
-    - Last updated: 2026-02-04
+    | Parameter | Value |
+    |-----------|-------|
+    | Categories | 13 |
+    | Entries | 5 |
+    | Last session | 2026-02-05 |
     
-    📅 Previous session (2026-02-04):
-    - Discussed API architecture
-    - Decided to use REST instead of GraphQL
+    📅 Previous session (2026-02-05):
+    | Topic | Decision |
+    |-------|----------|
+    | API Architecture | REST over GraphQL |
+    | Authentication | OAuth2 + JWT |
     
     📌 Pending tasks:
-    - [ ] Complete /users endpoint
-    - [ ] Write authorization tests
+    | Priority | Task |
+    |----------|------|
+    | 🔴 | Complete /users endpoint |
+    | 🟡 | Write tests |
     
     💡 What shall we work on today?
 ```

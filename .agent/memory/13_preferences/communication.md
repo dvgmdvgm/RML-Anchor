@@ -15,6 +15,47 @@
 
 ---
 
+## 📊 Tables & Visual Elements
+
+### Usage Frequency Target: ~65-70%
+
+| Response Type | Use Tables? | Use Lists? |
+|---------------|-------------|------------|
+| Data comparison | ✅ Always | ❌ No |
+| Status report | ✅ Always | ❌ No |
+| File changes | ✅ Preferred | 🟡 Fallback |
+| Step-by-step | 🟡 Optional | ✅ Better |
+| Quick answer | ❌ No | ❌ No |
+| Explanations | 🟡 For data | ✅ For steps |
+
+### When to Use Tables:
+
+- **Comparing items** (features, options, files)
+- **Showing structured data** (stats, settings, statuses)
+- **Decision matrices** (pros/cons, ADRs)
+- **File lists with metadata** (file, change, status)
+- **Task lists with priority** (priority, task, date)
+
+### When NOT to Use Tables:
+
+- Very short responses (1-3 lines)
+- Single item descriptions
+- Narrative explanations
+- Code-heavy responses
+
+### Balance Rule:
+
+```
+~65-70% of responses should include at least one:
+- Table (preferred)
+- Structured list with visual indicators (🔴🟡🟢)
+- Status summary box
+
+~30-35% can be plain text/code
+```
+
+---
+
 ## 📐 Response Structure
 
 ### Standard Response Pattern
@@ -28,13 +69,17 @@ Brief intro sentence (1-2 lines max).
 
 ## 📊 Analysis / Main Content
 
-[Tables, lists, explanations]
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| ... | ... | ... |
 
 ---
 
 ## ✅ Summary / Next Steps
 
-[What was done / What to do next]
+| Action | Status |
+|--------|--------|
+| ... | ... |
 ```
 
 ---
@@ -66,58 +111,6 @@ Brief intro sentence (1-2 lines max).
 
 ---
 
-## 📊 Tables vs Lists
-
-### Use Tables When:
-- Comparing multiple items
-- Showing structured data
-- Mapping relationships
-
-```markdown
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Auth | ✅ Done | OAuth2 |
-| API | 🔄 In Progress | REST |
-```
-
-### Use Lists When:
-- Sequential steps
-- Simple enumeration
-- Nested items
-
-```markdown
-1. First step
-2. Second step
-   - Sub-item
-   - Another sub-item
-```
-
----
-
-## 💻 Code Blocks
-
-### Always Specify Language
-```python
-# ✅ Correct
-def example():
-    pass
-```
-
-### Before/After Pattern
-```markdown
-**Before:**
-```python
-old_code()
-```
-
-**After:**
-```python
-new_code()
-```
-```
-
----
-
 ## ✅❌ Status Indicators
 
 | Symbol | Usage |
@@ -135,14 +128,15 @@ new_code()
 
 ## 📏 Response Length
 
-| Context | Length |
-|---------|--------|
-| Quick answer | 2-5 lines |
-| Explanation | 10-20 lines with structure |
-| Tutorial | Sections with examples |
-| Analysis | Tables + summary |
+| Context | Length | Format |
+|---------|--------|--------|
+| Quick answer | 2-5 lines | Plain text |
+| Explanation | 10-20 lines | Headers + table |
+| Tutorial | Sections | Steps + examples |
+| Analysis | Structured | Tables + summary |
+| Status report | Medium | Mostly tables |
 
-**Rule**: If response is long, add summary at start.
+**Rule**: If response is long, add summary table at start.
 
 ---
 
@@ -186,17 +180,23 @@ Use ONLY the configured language for:
 ## 📋 Summary Box Pattern
 
 ### At Response Start (for long responses):
+
 ```markdown
-> **Quick Summary**: We're doing X to achieve Y. Main steps: A, B, C.
+> **Summary**:
+> | Action | Result |
+> |--------|--------|
+> | Did X | ✅ Success |
 ```
 
 ### At Response End:
+
 ```markdown
 ---
 
-## ✅ Итого / Summary
+## ✅ Summary
 
-- Point 1
-- Point 2
-- Next step: [action]
+| Item | Status |
+|------|--------|
+| Point 1 | ✅ |
+| Next step | [action] |
 ```

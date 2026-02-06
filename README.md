@@ -67,6 +67,7 @@ All AI responses, memory entries, and logs will use the configured language.
 | `/handoff` | Create context summary for model switching |
 | `/walkthrough` | Generate feature documentation |
 | `/anchor_agent` | Safely integrate into existing project |
+| `/anchor_briefing` | Full project briefing (all 13 categories) |
 | `/anchor_backup` | Create manual backup (for transfer) |
 | `/anchor_restore` | Restore from backup ZIP |
 | `/anchor_remove` | Safe system removal (with backup) |
