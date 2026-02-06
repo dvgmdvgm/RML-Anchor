@@ -58,12 +58,17 @@ LANGUAGE=en    # Englisch
 | Befehl | Beschreibung |
 |---------|-------------|
 | `/wakeup` | Sitzung starten, Kontext laden |
-| `/sleep` | Sitzung beenden, Arbeit zusammenfassen |
+| `/sleep` | Sitzung beenden, im Verlauf archivieren |
 | `/remember` | Informationen im Gedächtnis speichern |
 | `/recall` | Informationen im Gedächtnis suchen |
 | `/handoff` | Kontext-Zusammenfassung für Modellwechsel erstellen |
 | `/walkthrough` | Feature-Dokumentation generieren |
 | `/anchor_agent` | Sicher in das Projekt integrieren |
+| `/anchor_briefing` | Vollständiges Projekt-Briefing (alle 13 Kategorien) |
+| `/anchor_backup` | Manuelle Sicherung erstellen (für Transfer) |
+| `/anchor_restore` | Aus ZIP-Sicherung wiederherstellen |
+| `/anchor_remove` | Sichere Systementfernung (mit Backup) |
+| `/anchor_cleanup` | Intelligente Speicherbereinigung (TTL, Scoring) |
 | `/memory-stats` | Gedächtnisstatistiken anzeigen |
 
 ---

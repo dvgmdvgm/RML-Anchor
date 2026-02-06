@@ -58,12 +58,17 @@ LANGUAGE=en    # Inglês
 | Comando | Descrição |
 |---------|-------------|
 | `/wakeup` | Iniciar sessão, carregar contexto |
-| `/sleep` | Encerrar sessão, resumir trabalho |
+| `/sleep` | Encerrar sessão, arquivar no histórico |
 | `/remember` | Salvar informações na memória |
 | `/recall` | Buscar informações na memória |
 | `/handoff` | Criar resumo para troca de modelo |
 | `/walkthrough` | Gerar documentação de funcionalidade |
 | `/anchor_agent` | Integração segura no projeto |
+| `/anchor_briefing` | Briefing completo do projeto (13 categorias) |
+| `/anchor_backup` | Criar backup manual (para transferência) |
+| `/anchor_restore` | Restaurar de backup ZIP |
+| `/anchor_remove` | Remoção segura do sistema (com backup) |
+| `/anchor_cleanup` | Limpeza inteligente de memória (TTL, scoring) |
 | `/memory-stats` | Mostrar estatísticas de memória |
 
 ---

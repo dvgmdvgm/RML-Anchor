@@ -58,12 +58,17 @@ LANGUAGE=en       # 英语
 | 指令 | 描述 |
 |---------|----------|
 | `/wakeup` | 开始会话，加载上下文 |
-| `/sleep` | 结束会话，总结工作 |
+| `/sleep` | 结束会话，归档到历史记录 |
 | `/remember` | 将信息保存到记忆 |
 | `/recall` | 从记忆中检索信息 |
 | `/handoff` | 为切换模型生成上下文总结 |
 | `/walkthrough` | 生成功能文档 |
 | `/anchor_agent` | 安全集成到项目中 |
+| `/anchor_briefing` | 项目完整简报（全部13个类别） |
+| `/anchor_backup` | 创建手动备份（用于传输） |
+| `/anchor_restore` | 从ZIP备份恢复 |
+| `/anchor_remove` | 安全删除系统（带备份） |
+| `/anchor_cleanup` | 智能记忆清理（TTL、评分） |
 | `/memory-stats` | 显示记忆统计信息 |
 
 ---

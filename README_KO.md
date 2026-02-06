@@ -58,12 +58,17 @@ LANGUAGE=en    # 영어
 | 명령 | 설명 |
 |---------|----------|
 | `/wakeup` | 세션 시작, 컨텍스트 로드 |
-| `/sleep` | 세션 종료, 작업 요약 |
+| `/sleep` | 세션 종료, 히스토리에 아카이브 |
 | `/remember` | 정보를 메모리에 저장 |
 | `/recall` | 메모리에서 정보 검색 |
 | `/handoff` | 모델 교체를 위한 요약 생성 |
 | `/walkthrough` | 기능 문서 생성 |
 | `/anchor_agent` | 프로젝트에 안전하게 통합 |
+| `/anchor_briefing` | 프로젝트 전체 브리핑 (13개 카테고리) |
+| `/anchor_backup` | 수동 백업 생성 (전송용) |
+| `/anchor_restore` | ZIP 백업에서 복원 |
+| `/anchor_remove` | 시스템 안전 제거 (백업 포함) |
+| `/anchor_cleanup` | 지능형 메모리 정리 (TTL, 스코어링) |
 | `/memory-stats` | 메모리 통계 표시 |
 
 ---
