@@ -38,26 +38,48 @@ From the user's query, extract:
 
 ---
 
-### 2. Level 1 — Index Search (fast, ~20 KB)
+### 2. Level 1 — Smart Index Search (fast, ~3 KB)
+
+**2.1. Read the master index first (lightweight):**
 
 ```
-Read ALL 13 _index.md files simultaneously:
-- .agent/memory/01_project/_index.md
-- .agent/memory/02_architecture/_index.md
-- .agent/memory/03_decisions/_index.md
-- .agent/memory/04_domain/_index.md
-- .agent/memory/05_code/_index.md
-- .agent/memory/06_problems/_index.md
-- .agent/memory/07_context/_index.md
-- .agent/memory/08_people/_index.md
-- .agent/memory/09_external/_index.md
-- .agent/memory/10_testing/_index.md
-- .agent/memory/11_deployment/_index.md
-- .agent/memory/12_roadmap/_index.md
-- .agent/memory/13_preferences/_index.md
+Read .agent/MEMORY_INDEX.md (~1 KB)
 ```
 
-**Search the file tables** in each _index.md for matches by:
+This file lists all 13 categories with short descriptions.
+
+**2.2. Select 2-3 most relevant categories:**
+
+Based on query keywords, intent, and synonyms from Step 1,
+choose the 2-3 categories most likely to contain the answer.
+
+**Category selection guide:**
+
+| Intent signals | Categories to check |
+|----------------|-------------------|
+| decision, choice, why, chose | `03_decisions` |
+| bug, error, problem, fix, crash | `06_problems` |
+| architecture, structure, pattern, design | `02_architecture` |
+| function, class, API, endpoint | `05_code` |
+| term, definition, glossary, what is | `04_domain` |
+| plan, roadmap, TODO, next | `12_roadmap` |
+| discussed, last time, session | `07_context` |
+| deploy, server, CI/CD, hosting | `11_deployment` |
+| test, coverage, QA | `10_testing` |
+| API key, service, integration | `09_external` |
+| team, author, contact | `08_people` |
+| project, stack, goal | `01_project` |
+| preference, setting, style | `13_preferences` |
+
+**2.3. Read ONLY selected _index.md files:**
+
+```
+Read .agent/memory/{category1}/_index.md
+Read .agent/memory/{category2}/_index.md
+(Read .agent/memory/{category3}/_index.md — if 3rd is likely)
+```
+
+**Search the file tables** for matches by:
 - File name similarity
 - Description similarity
 - Synonym matching
@@ -67,7 +89,22 @@ Read ALL 13 _index.md files simultaneously:
 → Extract relevant sections
 → Go to Step 5 (Format Response)
 
-**If NO matches found:**
+**2.4. If NOT found — fallback to full scan:**
+
+```
+Read ALL remaining _index.md files not yet read
+Search across all of them
+```
+
+> [!NOTE]
+> The fallback ensures we never miss a result.
+> In 80% of cases, Step 2.3 finds the answer with only 2-3 files (~3 KB).
+> Fallback adds the rest (~10 KB) only when needed.
+
+**If matches found after fallback:**
+→ Read the matched files → Go to Step 5
+
+**If still NO matches:**
 → Continue to Level 2
 
 ---
@@ -229,7 +266,7 @@ Suggestions:
 
 | Level | What | Speed | When |
 |-------|------|-------|------|
-| 🟢 Level 1 | Index tables in _index.md | Fast (~20 KB) | Always first |
+| 🟢 Level 1 | MEMORY_INDEX → 2-3 _index.md (fallback: all 13) | Fast (~3 KB) | Always first |
 | 🟡 Level 2 | Grep inside file contents | Medium | If Level 1 empty |
 | 🔴 Level 3 | Archived entries tables | Slow | If Level 2 empty |
 | 🌐 Global | Linked projects indexes | Slow | Only with --global |
