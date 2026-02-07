@@ -281,6 +281,7 @@ Based on user choice, perform the integration:
 - Create `.agent/memory/` folder structure
 - Add `MEMORY_INDEX.md`
 - Add `MEMORY_SKILL.md` to skills/
+- Copy `.agent/VERSION` from template
 - Add workflows with unique names if conflicts exist:
   - `remember.md` → `memory-remember.md`
   - `recall.md` → `memory-recall.md`
@@ -292,7 +293,7 @@ Based on user choice, perform the integration:
 
 #### Option 3: FULL
 - Create backup: `.agent.backup.YYYY-MM-DD/`
-- Copy all files from template
+- Copy all files from template (including `.agent/VERSION`)
 - Overwrite existing files
 
 ### 9. Post-Integration Verification
@@ -300,6 +301,7 @@ Based on user choice, perform the integration:
 ```
 Run validation:
 - Check all required files exist
+- Verify .agent/VERSION exists and contains valid version
 - Verify index structure
 - Test language file
 ```
