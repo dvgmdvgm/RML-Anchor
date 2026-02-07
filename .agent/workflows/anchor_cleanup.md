@@ -7,276 +7,369 @@ description: Runs intelligent cleanup of memory with TTL, importance scoring, an
 ## Usage
 
 ```
-/anchor_cleanup           # Interactive cleanup
-/anchor_cleanup --dry-run # Show what would happen without doing it
-/anchor_cleanup --auto    # Auto-approve low-risk actions
+/anchor_cleanup              # Full interactive cleanup (all 3 phases)
+/anchor_cleanup sessions     # Phase 1 only — Session Merge
+/anchor_cleanup topics       # Phase 2 only — Topic Compress
+/anchor_cleanup --dry-run    # Show what would happen without doing it
 ```
 
 ## Purpose
 
 Maintain a clean, efficient memory by:
-- Removing expired entries (TTL)
-- Archiving low-importance data
-- Summarizing old session history
-- Merging duplicates
-- Deleting empty files
+- **Phase 1**: Merging old session files into monthly digests
+- **Phase 2**: Compressing multiple files on the same topic into one
+- **Phase 3**: Creating archive summaries before any deletion
 
 ---
 
 ## Execution Steps
 
-### Step 1: Load Settings
+### Step 1: Load Settings & Assess Health
 
-Read cleanup settings from:
-`.agent/memory/13_preferences/cleanup_settings.md`
+```
+Read .agent/memory/13_preferences/language.md → use this language for output
+Read .agent/memory/13_preferences/cleanup_settings.md → load TTL, thresholds
+```
 
-### Step 2: Scan Memory
+**Count and report:**
+
+```
+Count files in .agent/memory/07_context/session_history/
+Count total .md files across categories 01-12
+Count files in .agent/memory/archive/ (if exists)
+```
+
+Output health report:
+
+```
+🧹 MEMORY HEALTH ASSESSMENT
+═══════════════════════════════
+
+| Metric           | Value | Status |
+|------------------|-------|--------|
+| Session files    | N     | 🟢/🟡/🔴 |
+| Total entries    | N     | 🟢/🟡/🔴 |
+| Archive size     | N     | — |
+| Memory age       | N days| — |
+
+Phases to run:
+  ✅ Phase 1: Session Merge (N session files found)
+  ✅ Phase 2: Topic Compress (scanning...)
+  ✅ Phase 3: Archive Summary (automatic)
+```
+
+---
+
+### Step 2: Phase 1 — Session Merge
+
+> [!NOTE]
+> Triggers when session_history/ has > 30 files.
+> If ≤ 30 files — skip this phase.
+
+**2.1. Group sessions by month:**
+
+```
+List all files in .agent/memory/07_context/session_history/
+Group by month: session_YYYY-MM-DD.md → group YYYY-MM
+Ignore months with only 1-3 files (too few to merge)
+```
+
+**2.2. For each month with > 3 files:**
+
+1. Read ALL session files for that month
+2. Extract from each session:
+   - Key decisions made
+   - Main topics discussed
+   - Problems found/solved
+   - Tasks created/completed
+3. Generate a monthly digest file
+
+**Digest format:**
 
 ```markdown
-🔍 **Scanning Memory...**
+# 📋 Digest: [Month Year]
 
-Analyzing files in .agent/memory/...
-```
+> Auto-generated from N session files
 
-Scan all files and collect metadata:
-- Created date
-- Last modified date
-- Last accessed date (from metadata if available)
-- File size
-- Category
-- Access count (from metadata)
+## 🎯 Key Decisions
+- [Decision 1]
+- [Decision 2]
 
-### Step 3: Calculate Scores
-
-For each file, calculate:
-
-```
-TTL_Status = (today - created_date) > category_ttl ? EXPIRED : OK
-
-Importance = BASE_WEIGHT[category] 
-           × RECENCY_FACTOR 
-           × ACCESS_FACTOR 
-           × EXPLICIT_BOOST
-
-Where:
-- RECENCY_FACTOR = 1 / (days_since_creation + 1)
-- ACCESS_FACTOR = log(access_count + 1) / 10
-- EXPLICIT_BOOST = 1.5 if marked important, else 1.0
-```
-
-### Step 4: Categorize Files
-
-Sort files into action categories:
-
-| Category | Criteria | Action |
-|----------|----------|--------|
-| 🟢 KEEP | Score > 0.7 OR TTL OK | Do nothing |
-| 🟡 REVIEW | Score 0.4-0.7 AND TTL expired | Ask user |
-| 🟠 SUMMARIZE | Multiple old sessions | Merge into summary |
-| 🔴 ARCHIVE | Score 0.2-0.4 | Move to archive |
-| ⚫ DELETE | Score < 0.2 OR empty | Delete (with backup) |
-
-### Step 5: Show Report
-
-```markdown
-🧹 **CLEANUP ANALYSIS REPORT**
-
-📊 Scanned: 47 files across 13 categories
-
----
-
-## 🟢 KEEP (23 files) — No action needed
-
-| File | Score | TTL Status |
-|------|-------|------------|
-| 03_decisions/ADR-001-database.md | 0.89 | ✅ 335 days left |
-| 02_architecture/overview.md | 0.76 | ✅ Never expires |
-| ... | | |
-
----
-
-## 🟡 REVIEW (5 files) — Your decision needed
-
-| File | Score | TTL Status | Suggestion |
-|------|-------|------------|------------|
-| 06_problems/old-auth-bug.md | 0.52 | ⚠️ Expired 10 days ago | Archive or extend? |
-| 09_external/legacy-api.md | 0.45 | ⚠️ Expired 5 days ago | Still using this API? |
-
----
-
-## 🟠 SUMMARIZE (8 files → 1 file)
-
-Session history from January 2026:
-- 07_context/session_history/2026-01-01.md
-- 07_context/session_history/2026-01-02.md
-- ... (6 more)
-
-**Will create**: `07_context/session_history/2026-01_summary.md`
-
----
-
-## 🔴 ARCHIVE (4 files)
-
-Low importance, moving to `.agent/archive/`:
-| File | Score | Reason |
-|------|-------|--------|
-| 07_context/session_history/2025-12-*.md | 0.15 | Very old |
-
----
-
-## ⚫ DELETE (3 files)
-
-| File | Reason |
-|------|--------|
-| 07_context/temp_notes.md | Empty file |
-| 05_code/duplicate_snippet.md | Duplicate of snippet.md |
-| 06_problems/test.md | Score 0.02, never accessed |
-
----
-
-## 📊 Summary
-
-| Action | Files | Space freed |
-|--------|-------|-------------|
-| Keep | 23 | - |
-| Review | 5 | - |
-| Summarize | 8 → 1 | ~45 KB |
-| Archive | 4 | ~12 KB |
-| Delete | 3 | ~3 KB |
-
-**Total space to be freed**: ~60 KB
-
----
-
-Proceed with cleanup? [y/N/review]
-- **y** — Execute all actions
-- **N** — Cancel
-- **review** — Go through REVIEW items one by one
-```
-
-### Step 6: Execute Actions
-
-Based on user choice:
-
-#### For SUMMARIZE:
-```python
-# Combine multiple session files into one summary
-summary = generate_session_summary(files)
-write_file(summary_path, summary)
-for file in files:
-    move_to_archive(file)
-```
-
-#### For ARCHIVE:
-```python
-# Move to archive folder
-archive_path = ".agent/archive/{date}/"
-for file in archive_files:
-    move(file, archive_path)
-```
-
-#### For DELETE:
-```python
-# Backup before delete
-backup_deleted_files(delete_files)
-for file in delete_files:
-    delete(file)
-```
-
-### Step 7: Report Results
-
-```markdown
-✅ **Cleanup Completed**
-
-| Action | Files | Status |
-|--------|-------|--------|
-| Summarized | 8 → 1 | ✅ |
-| Archived | 4 | ✅ |
-| Deleted | 3 | ✅ |
-
-📦 Deleted files backed up to: `.agent/backups/cleanup_backup_2026-02-05.zip`
-
-🧠 Memory is now cleaner and more efficient!
-```
-
----
-
-## Summarization Algorithm
-
-When summarizing session history:
-
-```markdown
-# 📅 January 2026 — Session Summary
-
-> Auto-generated from 8 session files
-
-## 🎯 Key Topics Discussed
-
-1. PostgreSQL setup and optimization
-2. Auth module refactoring
-3. API integration with Stripe
-
-## 💡 Decisions Made
-
-- ADR-005: JWT tokens for auth
-- ADR-006: Redis for caching
+## 💬 Main Topics
+- [Topic 1] (N sessions)
+- [Topic 2] (N sessions)
 
 ## 🐛 Problems Solved
-
-- Fixed session timeout bug
-- Workaround for Safari CORS issue
+- [Problem 1] — [how solved]
 
 ## ⏳ Carried Over
+- [Unfinished task 1]
 
-- Query optimization (pending)
-- Mobile responsive design (pending)
+## 📊 Statistics
+| Metric | Value |
+|--------|-------|
+| Sessions | N |
+| Decisions | N |
+| Bugs fixed | N |
+
+---
+*Original files archived to: .agent/memory/archive/sessions/YYYY-MM/*
+```
+
+**2.3. Save and archive:**
+
+1. Save digest as `session_history/digest_YYYY-MM.md`
+2. Create folder `.agent/memory/archive/sessions/YYYY-MM/`
+3. Move original session files to that archive folder
+4. Add entry to `07_context/_index.md` → Archived Entries table
+
+**2.4. Report:**
+
+```
+✅ Phase 1: Session Merge
+| Month | Files merged | Before | After | Saved |
+|-------|-------------|--------|-------|-------|
+| Jan 2026 | 30 → 1 | 90 KB | 5 KB | 94% |
+| Dec 2025 | 28 → 1 | 75 KB | 4 KB | 95% |
+```
 
 ---
 
-*Original files archived to: .agent/archive/2026-01/*
+### Step 3: Phase 2 — Topic Compress
+
+> [!NOTE]
+> This phase is INTERACTIVE — always asks the user before merging.
+
+**3.1. Scan for topic clusters:**
+
 ```
+Read titles and tags of all files in categories:
+  03_decisions/
+  06_problems/
+  06_problems/bugs/
+  06_problems/workarounds/
+
+Identify clusters: ≥ 3 files that share the same topic/keyword
+```
+
+**3.2. Present clusters to user:**
+
+```
+🔍 Topic Compress: found N clusters
+
+1. [Topic Name] (N files, ~XX KB → ~X KB)
+   - file1.md
+   - file2.md
+   - file3.md
+   
+2. [Topic Name] (N files, ~XX KB → ~X KB)
+   - file1.md
+   - file2.md
+   - file3.md
+
+Merge cluster #1? [y/N/all/skip]
+  y    — merge this cluster
+  N    — skip this cluster
+  all  — merge all clusters
+  skip — skip Phase 2 entirely
+```
+
+**3.3. For each approved cluster:**
+
+1. Read all files in the cluster
+2. Generate one comprehensive file with full chronology:
+   - Initial problem/decision
+   - Evolution over time
+   - Current status
+   - All related files referenced
+3. Save merged file in the appropriate category
+4. Move originals to `.agent/memory/archive/merged/[topic]/`
+5. Update `_index.md` of the category
+
+**3.4. Report:**
+
+```
+✅ Phase 2: Topic Compress
+| Cluster | Files merged | Before | After | Saved |
+|---------|-------------|--------|-------|-------|
+| CORS issues | 3 → 1 | 25 KB | 8 KB | 68% |
+```
+
+---
+
+### Step 4: Phase 3 — Archive Summary
+
+> [!NOTE]
+> This phase runs AUTOMATICALLY whenever any file is archived or deleted
+> (during Phase 1, Phase 2, or manual deletion).
+
+**For EVERY file moved to archive or deleted:**
+
+1. Read the file content
+2. Generate a one-line summary
+3. Add a row to the `## 📦 Archived Entries` table in the corresponding `_index.md`
+
+**Table format in _index.md:**
+
+```markdown
+## 📦 Archived Entries
+
+| Original File | Summary | Archived |
+|---------------|---------|----------|
+| `PROB-002-memory-leak.md` | WebSocket memory leak, fixed in v1.3 | 2026-03-01 |
+| `session_2026-01-*.md` | → `digest_2026-01.md` (30 sessions merged) | 2026-02-01 |
+```
+
+> [!IMPORTANT]
+> This table is the "safety net" — even if the original file is gone,
+> AI can see during /recall that knowledge existed and can restore
+> from archive if needed.
+
+---
+
+### Step 5: TTL Expiration Check
+
+```
+For each file in categories 01-12:
+  Calculate: days_since_created = today - file_creation_date
+  Compare with: TTL from cleanup_settings.md for that category
+```
+
+**Categorize expired files:**
+
+| Score | Action |
+|-------|--------|
+| TTL expired + still relevant | Extend TTL (ask user) |
+| TTL expired + low relevance | Archive (with summary) |
+| Empty file | Delete |
+| Duplicate content | Merge with original |
+
+**Present to user for confirmation:**
+
+```
+⏰ TTL Check: N files expired
+
+| File | Category | Expired | Suggestion |
+|------|----------|---------|------------|
+| old-api-notes.md | 09_external | 15 days ago | Archive? |
+| test-snippet.md | 05_code | 30 days ago | Delete (empty)? |
+
+Action for each? [archive/delete/extend/skip]
+```
+
+---
+
+### Step 6: Final Report
+
+```
+✅ CLEANUP COMPLETE
+═══════════════════════
+
+📊 Results:
+| Phase | Action | Files | Space saved |
+|-------|--------|-------|-------------|
+| Session Merge | 60 → 2 digests | 58 archived | ~170 KB |
+| Topic Compress | 6 → 2 files | 4 archived | ~34 KB |
+| TTL Expired | 3 archived, 1 deleted | 4 processed | ~8 KB |
+| Archive Summary | 62 entries added to indexes | — | — |
+
+Total space freed: ~212 KB
+Archive location: .agent/memory/archive/
+
+🧠 Memory is now clean and efficient!
+```
+
+---
+
+## Archive Structure
+
+```
+.agent/memory/archive/
+├── sessions/              ← Phase 1: merged sessions
+│   ├── 2026-01/
+│   │   ├── session_2026-01-01.md
+│   │   ├── session_2026-01-02.md
+│   │   └── ...
+│   └── 2026-02/
+├── merged/                ← Phase 2: topic-compressed files
+│   └── cors-issues/
+│       ├── PROB-001-cors.md
+│       ├── PROB-004-cors-again.md
+│       └── PROB-007-cors-preflight.md
+└── expired/               ← Step 5: TTL-expired files
+    └── 2026-03/
+        └── old-api-notes.md
+```
+
+> [!NOTE]  
+> The `archive/` folder is in `.gitignore` — never pushed to repo.
+> Archives can be restored manually if needed.
+
+---
+
+## Safety Rules
+
+1. **NEVER delete without backup** — all deleted files go to archive first
+2. **NEVER auto-merge without asking** — Topic Compress always asks the user
+3. **Session Merge is automatic** — but originals are preserved in archive
+4. **Archive Summary is mandatory** — every archived file gets a one-line trace in _index.md
+5. **Dry-run first** — when in doubt, use `--dry-run` flag
 
 ---
 
 ## Settings Reference
 
-Edit `.agent/memory/13_preferences/cleanup_settings.md` to customize:
+All thresholds and rules are configured in:
+`.agent/memory/13_preferences/cleanup_settings.md`
 
-- TTL per category
-- Importance score weights
-- Action thresholds
-- Summarization settings
+Key settings:
+- `TTL_BY_CATEGORY` — how long entries live per category
+- `CLEANUP_TRIGGERS` — when to run checks (on_wakeup, on_sleep)
+- `SUMMARIZATION` — digest format and merge rules
+- `BACKUP` — backup location and retention
 
 ---
 
 ## Example Session
 
 ```
-User: /anchor_cleanup --dry-run
-
-AI: 🔍 Scanning memory...
-    
-    📊 DRY RUN — No changes will be made
-    
-    Would summarize: 8 session files → 1 summary
-    Would archive: 4 low-score files
-    Would delete: 3 empty/duplicate files
-    
-    Run without --dry-run to execute.
-
 User: /anchor_cleanup
 
-AI: 🧹 CLEANUP ANALYSIS REPORT
-    [... detailed report ...]
+AI: 🧹 MEMORY HEALTH ASSESSMENT
+    ═══════════════════════════
     
-    Proceed? [y/N/review]
+    | Metric        | Value | Status |
+    |---------------|-------|--------|
+    | Session files | 45    | 🟡     |
+    | Total entries | 32    | 🟢     |
+    
+    Running Phase 1: Session Merge...
+    Found 45 session files, grouping by month...
+    
+    ✅ Phase 1 complete:
+    | Month    | Merged    | Saved |
+    |----------|-----------|-------|
+    | Jan 2026 | 30 → 1    | 94%   |
+    | Dec 2025 | 15 → 1    | 91%   |
+    
+    Running Phase 2: Topic Compress...
+    Found 1 cluster:
+    
+    1. CORS (3 files, ~25 KB → ~8 KB)
+       - PROB-001-cors.md
+       - PROB-004-cors-again.md
+       - PROB-007-cors-preflight.md
+    
+    Merge? [y/N] 
     
 User: y
 
-AI: ✅ Cleanup completed!
-    Summarized: 8 → 1
-    Archived: 4
-    Deleted: 3
+AI: ✅ Merged into PROB-001-cors-complete.md
     
-    Backup saved: cleanup_backup_2026-02-05.zip
+    Running Phase 3: Archive Summary...
+    Added 48 entries to _index.md tables.
+    
+    ✅ CLEANUP COMPLETE
+    Total space freed: ~204 KB
+    🧠 Memory is clean!
 ```

@@ -54,7 +54,27 @@ Output:
 - Last session summary
 - Key decisions from recent sessions
 
-### 5. Check Pending Tasks
+### 5. Memory Health Check
+
+```
+Count files in .agent/memory/07_context/session_history/
+Count total .md files across all memory categories (01-12)
+Read thresholds from .agent/memory/13_preferences/cleanup_settings.md
+```
+
+**Quick health evaluation:**
+
+| Condition | Action |
+|-----------|--------|
+| Session files > 30 | ⚠️ Warn: "N session files detected. Consider running /anchor_cleanup" |
+| Session files > 100 | 🔴 Warn: "Memory overload! Strongly recommend /anchor_cleanup" |
+| Total memory files > 100 | ⚠️ Warn: "N memory entries. Topic compression may help" |
+
+> [!NOTE]
+> This is a QUICK check only — no files are modified.
+> It only counts and warns. Actual cleanup requires `/anchor_cleanup`.
+
+### 6. Check Pending Tasks
 
 ```
 Read .agent/memory/07_context/pending_tasks.md (if exists)
@@ -62,7 +82,7 @@ Read .agent/memory/07_context/pending_tasks.md (if exists)
 
 If there are pending tasks — display the list.
 
-### 6. Load User Preferences
+### 7. Load User Preferences
 
 ```
 Read .agent/memory/13_preferences/_index.md
@@ -71,7 +91,7 @@ Read .agent/memory/13_preferences/communication.md
 
 Apply response styling from preferences.
 
-### 7. Initialize New Session
+### 8. Initialize New Session
 
 ```
 Update .agent/memory/07_context/current_session.md
@@ -81,7 +101,7 @@ Set:
 - **Start Date**: current date/time
 - **Status**: Active
 
-### 8. Report Readiness
+### 9. Report Readiness
 
 Output in configured language:
 
@@ -93,6 +113,7 @@ Output in configured language:
 |----------|--------|
 | Categories loaded | 13 |
 | Memory entries | N |
+| Session files | N |
 | Last session | YYYY-MM-DD |
 
 📅 Previous Session Summary:
@@ -105,6 +126,8 @@ Output in configured language:
 |----------|------|
 | 🔴 High | Task 1 |
 | 🟡 Medium | Task 2 |
+
+⚠️ Memory Health: [OK / Warning / Critical]
 
 💡 Ready to work! What shall we do today?
 ```

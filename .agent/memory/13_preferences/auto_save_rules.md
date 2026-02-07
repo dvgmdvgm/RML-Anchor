@@ -1,14 +1,13 @@
-# 📦 Auto-Save Rules / Правила автосохранения
+# 📦 Auto-Save Rules
 
 > **Version**: 1.0.0  
 > **Last Updated**: 2026-02-05
 
 ---
 
-## 🎯 Concept / Концепция
+## 🎯 Concept
 
 This file defines patterns that trigger automatic memory saving without asking the user.
-Этот файл определяет шаблоны, которые активируют автоматическое сохранение в память без вопроса пользователю.
 
 ---
 
@@ -20,14 +19,11 @@ These patterns trigger AUTOMATIC saving (no confirmation needed):
 ```yaml
 CATEGORY: 03_decisions
 TRIGGERS:
-  - "мы решили"
-  - "решили использовать"
-  - "выбрали"
-  - "будем использовать"
   - "we decided"
   - "chose to use"
   - "will use"
   - "going with"
+  - "decided to"
 CONFIDENCE: 0.9
 TTL: 365
 IMPORTANCE_BASE: 0.9
@@ -37,14 +33,11 @@ IMPORTANCE_BASE: 0.9
 ```yaml
 CATEGORY: 06_problems
 TRIGGERS:
-  - "баг"
   - "bug"
-  - "исправил"
   - "fixed"
   - "workaround"
-  - "хак"
   - "hack"
-  - "временное решение"
+  - "temporary solution"
 CONFIDENCE: 0.8
 TTL: 90
 IMPORTANCE_BASE: 0.7
@@ -54,10 +47,8 @@ IMPORTANCE_BASE: 0.7
 ```yaml
 CATEGORY: 09_external
 TRIGGERS:
-  - "API ключ"
   - "API key"
   - "endpoint"
-  - "интеграция с"
   - "integration with"
   - "webhook"
   - "SDK"
@@ -70,14 +61,10 @@ IMPORTANCE_BASE: 0.6
 ```yaml
 CATEGORY: 02_architecture
 TRIGGERS:
-  - "архитектура"
   - "architecture"
-  - "компонент"
   - "component"
-  - "паттерн"
   - "pattern"
   - "data flow"
-  - "поток данных"
 CONFIDENCE: 0.7
 TTL: 365
 IMPORTANCE_BASE: 0.8
@@ -87,13 +74,9 @@ IMPORTANCE_BASE: 0.8
 ```yaml
 CATEGORY: 01_project
 TRIGGERS:
-  - "добавили библиотеку"
   - "added library"
-  - "обновили до"
   - "upgraded to"
-  - "перешли на"
   - "migrated to"
-  - "новая зависимость"
   - "new dependency"
 CONFIDENCE: 0.8
 TTL: 365
@@ -110,39 +93,30 @@ These patterns trigger a CONFIRMATION prompt:
 ```yaml
 CATEGORY: 04_domain
 TRIGGERS:
-  - "бизнес-правило"
   - "business rule"
-  - "логика"
   - "logic"
-  - "требование"
   - "requirement"
-PROMPT: "💡 Обнаружено бизнес-правило. Сохранить в память? [y/N]"
+PROMPT: "💡 Business rule detected. Save to memory? [y/N]"
 ```
 
 ### 2. Code Snippets
 ```yaml
 CATEGORY: 05_code
 TRIGGERS:
-  - "код для"
   - "code for"
-  - "пример кода"
   - "code example"
-  - "сниппет"
   - "snippet"
-PROMPT: "💡 Сохранить этот код-сниппет в память? [y/N]"
+PROMPT: "💡 Save this code snippet to memory? [y/N]"
 ```
 
 ### 3. Personal Preferences
 ```yaml
 CATEGORY: 13_preferences
 TRIGGERS:
-  - "я предпочитаю"
   - "I prefer"
-  - "мне нравится"
   - "I like"
-  - "настройка"
   - "setting"
-PROMPT: "💡 Сохранить это как предпочтение? [y/N]"
+PROMPT: "💡 Save this as a preference? [y/N]"
 ```
 
 ---
@@ -171,23 +145,23 @@ CATEGORY_COOLDOWN: 5
 
 ---
 
-## 📝 How It Works / Как это работает
+## 📝 How It Works
 
-1. **AI анализирует** каждое сообщение пользователя
-2. **Ищет триггеры** из списков выше
-3. **Если найден AUTO_SAVE триггер** → сохраняет + уведомляет
-4. **Если найден ASK_USER триггер** → спрашивает подтверждение
-5. **Если ничего не найдено** → не сохраняет (можно вручную /remember)
+1. **AI analyzes** each user message
+2. **Searches for triggers** from the lists above
+3. **If AUTO_SAVE trigger found** → saves + notifies
+4. **If ASK_USER trigger found** → asks for confirmation
+5. **If nothing found** → doesn't save (use /remember manually)
 
 ---
 
-## 🔧 Customization / Кастомизация
+## 🔧 Customization
 
-Добавляй свои триггеры в соответствующие секции выше.
+Add your own triggers to the corresponding sections above.
 
-Example / Пример:
+Example:
 ```yaml
-# Добавить триггер для DevOps
+# Add trigger for DevOps
 CATEGORY: 11_deployment
 TRIGGERS:
   - "docker"
