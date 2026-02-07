@@ -21,23 +21,28 @@ Preserves all user data, memory entries, session history, and language settings.
 ## File Classification
 
 > [!IMPORTANT]
-> Files are classified into 4 categories that determine how they are updated.
-> This classification MUST be followed exactly.
+> The new version's file list acts as an implicit manifest.
+> Only files that exist in the new version are subject to update.
+> Custom user files (not in new version) are NEVER touched.
 
 ### 🟢 OVERWRITE — Safe to replace entirely
 
-These files contain only product code (no user data):
+Product files that exist in **both** the new version AND the project:
 
 ```yaml
 OVERWRITE:
-  - .agent/workflows/*.md                     # all workflow files
-  - .agent/scripts/*.py                       # all scripts
+  # Only files from the new version's .agent/ are candidates:
+  - .agent/workflows/*.md                     # workflow files
+  - .agent/scripts/*.py                       # scripts
   - .agent/MEMORY_INDEX.md                    # master index
   - .agent/VERSION                            # version file
   - .agent/memory/03_decisions/_template.md   # entry templates
   - .agent/memory/06_problems/_template.md
   - .agent/memory/06_problems/bugs/README.md
   - .agent/memory/06_problems/workarounds/README.md
+
+  # RULE: If a file exists in the project's workflows/
+  # but NOT in the new version → it's a custom user file → SKIP
 ```
 
 ### 🟡 SMART_MERGE — Update structure, keep user data
@@ -82,25 +87,7 @@ NEVER_TOUCH:
   - .agent/memory/07_context/pending_tasks.md        # pending tasks
   - .agent/memory/archive/*                          # archived files
   - Any user-created .md files in categories 01-12   # memory entries
-```
-
-### 🆕 ADD_NEW — New files from update
-
-```yaml
-ADD_NEW:
-  - Any file that exists in the new version but NOT in the project
-  - Examples: new workflow, new template, new preference file
-  - These are created fresh and then translated to user's language
-```
-
-### ⛔ DEPRECATED — Files removed in new version
-
-```yaml
-DEPRECATED:
-  - Any workflow/script/template that exists in the project
-    but does NOT exist in the new version
-  - User is asked whether to keep or delete each one
-  - User data files (memory entries) are NEVER flagged as deprecated
+  - Any file in project's workflows/ NOT in new version  # custom workflows
 ```
 
 ---
@@ -159,9 +146,12 @@ Create backup of current .agent/ folder:
 ### Step 5: Apply OVERWRITE Files
 
 ```
-For each file in the OVERWRITE list:
-  Copy from temp/new version → project .agent/
-  Overwrite existing file completely
+For each OVERWRITE-type file in the NEW version:
+  If file also exists in the project → overwrite it
+  If file does NOT exist in project → create it (ADD_NEW)
+  
+For each file in project's workflows/ NOT in the new version:
+  → SKIP (this is a custom user workflow, do not touch)
 ```
 
 Report:
@@ -170,39 +160,13 @@ Report:
   - workflows/recall.md (updated)
   - workflows/anchor_validate.md (updated)
   - MEMORY_INDEX.md (updated)
-  - ...
+
+🆕 New files: N
+  - workflows/new_feature.md (added)
+
+🔒 Custom (untouched): N
+  - workflows/deploy.md (user's custom workflow)
 ```
-
-### Step 5.5: Detect DEPRECATED Files
-
-```
-Compare project's .agent/ files against new version:
-  For each file in project's workflows/ that does NOT exist in new version:
-    → Flag as deprecated
-  For each file in project's scripts/ that does NOT exist in new version:
-    → Flag as deprecated
-  For each _template.md in project that does NOT exist in new version:
-    → Flag as deprecated
-  NEVER flag user data files (memory entries, sessions, logs)
-```
-
-**If deprecated files found — ask user:**
-
-```
-⛔ Deprecated files (removed in new version):
-
-| File | Action? |
-|------|---------|
-| workflows/old_feature.md | [keep/delete] |
-| scripts/legacy_tool.py | [keep/delete] |
-
-These files were removed in the new version.
-Keep them (they won't be updated) or delete?
-```
-
-> [!NOTE]
-> Keeping deprecated files is harmless but may cause confusion.
-> They will no longer receive updates.
 
 ### Step 6: Apply SMART_MERGE Files
 
@@ -287,7 +251,7 @@ Delete temp directory (/tmp/anchor_update/)
 | 🟢 Overwritten | N | workflows, scripts, templates |
 | 🟡 Merged | N | indexes (kept M user entries) |
 | 🆕 Added | N | new files |
-| ⛔ Deprecated | N | removed/kept by user choice |
+| 🔒 Custom | N | user workflows (untouched) |
 | 🌐 Translated | N | to [language] |
 | 🔴 Skipped | N | user data (untouched) |
 
@@ -369,8 +333,9 @@ RESULT:
 
 1. **ALWAYS backup before update** — no exceptions
 2. **NEVER overwrite user data files** — follow NEVER_TOUCH list exactly
-3. **User entries in _index.md are sacred** — merge, not replace
-4. **User preference values are sacred** — add new settings, keep existing values
-5. **Translate after update** — ensure all user-facing text matches language
-6. **Version check first** — don't update if already on latest
-7. **Backup path in report** — so user knows where to restore from
+3. **NEVER touch custom workflows** — files not in new version are user's own
+4. **User entries in _index.md are sacred** — merge, not replace
+5. **User preference values are sacred** — add new settings, keep existing values
+6. **Translate after update** — ensure all user-facing text matches language
+7. **Version check first** — don't update if already on latest
+8. **Backup path in report** — so user knows where to restore from
