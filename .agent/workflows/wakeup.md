@@ -78,9 +78,19 @@ Count file entries across all _index.md tables
 If counts don't match → ⚠️ "Index out of sync. Run /anchor_validate"
 ```
 
+**Anomaly detection (from stats log):**
+
+```
+Read last 2 rows from .agent/memory/07_context/memory_stats_log.md
+If log has ≥ 2 entries, compare last two rows:
+  If entries grew > 10 since last session → ⚠️ "Rapid growth: +N new entries"
+  If size grew > 50 KB since last session → ⚠️ "Large data increase: +X KB"
+If log is empty or has 1 entry → skip (not enough data)
+```
+
 > [!NOTE]
 > This is a QUICK check only — no files are modified.
-> It only counts and warns. Full validation requires `/anchor_validate`.
+> It only counts and warns. Full analytics via `/memory-stats`.
 
 ### 6. Check Pending Tasks
 

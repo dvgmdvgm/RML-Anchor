@@ -145,6 +145,23 @@ If any orphan found → add it to _index.md now (before session ends)
 > This catches files saved via /remember or manually that may have
 > been missed in _index.md updates. Runs silently — only warns if issues found.
 
+### 5.7. Update Stats Log
+
+```
+Append one row to .agent/memory/07_context/memory_stats_log.md
+```
+
+Collect:
+- **Date**: today's date (YYYY-MM-DD)
+- **Sessions**: count files in session_history/
+- **Entries**: count total content .md files across categories 01-12
+- **Size**: total size of .agent/memory/ folder
+- **Decisions**: count files in 03_decisions/ (exclude _index.md, _template.md)
+- **Problems**: count files in 06_problems/ (exclude _index.md, _template.md, subdirs)
+- **Cleanup**: "cleanup" if /anchor_cleanup was run this session, "—" otherwise
+
+Append as a new table row. **Never overwrite** existing rows.
+
 ### 6. Confirm to User
 
 Output in configured language:
