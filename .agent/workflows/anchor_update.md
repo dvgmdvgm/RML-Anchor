@@ -212,20 +212,74 @@ Report:
   - memory/13_preferences/linked_projects.md
 ```
 
-### Step 8: Translate New/Updated Files
+### Step 8: Translate Updated Files
 
-```
-If LANGUAGE ≠ "en":
-  For each OVERWRITE and ADD_NEW file that is in the translation list:
-    Read its content
-    Translate to user's language
-    Write back
-```
-
-> [!NOTE]
-> Uses the same translation rules as anchor_agent.md Step 1.
-> Only translates files from the translation list (26 files).
+> [!IMPORTANT]
+> Files downloaded from GitHub are in English.
+> If the user's language ≠ "en", all user-facing .md files must be translated.
 > Workflow files are NOT translated (they are AI instructions, always English).
+
+**8.1. Check if translation is needed:**
+
+```
+Read LANGUAGE value from Step 3
+If LANGUAGE == "en" → skip this step entirely
+If LANGUAGE ≠ "en" → translate all files below
+```
+
+**8.2. Files to translate (26 files):**
+
+```yaml
+# ── Category Indexes (13 files) ──
+- .agent/memory/01_project/_index.md
+- .agent/memory/02_architecture/_index.md
+- .agent/memory/03_decisions/_index.md
+- .agent/memory/04_domain/_index.md
+- .agent/memory/05_code/_index.md
+- .agent/memory/06_problems/_index.md
+- .agent/memory/07_context/_index.md
+- .agent/memory/08_people/_index.md
+- .agent/memory/09_external/_index.md
+- .agent/memory/10_testing/_index.md
+- .agent/memory/11_deployment/_index.md
+- .agent/memory/12_roadmap/_index.md
+- .agent/memory/13_preferences/_index.md
+
+# ── Templates (2 files) ──
+- .agent/memory/03_decisions/_template.md
+- .agent/memory/06_problems/_template.md
+
+# ── Context files (2 files) ──
+- .agent/memory/07_context/current_session.md
+- .agent/memory/07_context/pending_tasks.md
+
+# ── Preferences/Settings (9 files) ──
+- .agent/memory/13_preferences/auto_save_rules.md
+- .agent/memory/13_preferences/cleanup_settings.md
+- .agent/memory/13_preferences/coding_style.md
+- .agent/memory/13_preferences/communication.md
+- .agent/memory/13_preferences/linked_projects.md
+- .agent/memory/13_preferences/memory_settings.md
+- .agent/memory/13_preferences/response_templates.md
+- .agent/memory/13_preferences/language.md
+- .agent/MEMORY_INDEX.md
+```
+
+**8.3. Translation rules — for EACH file:**
+
+1. Read its content
+2. Translate ALL English text to the target language (headings, descriptions, table headers, hints, comments)
+3. **Keep unchanged**: structure, formatting, emoji, markdown syntax, code blocks
+4. **Keep unchanged**: category codes (`01_project`, `02_architecture`, etc.)
+5. **Keep unchanged**: YAML keys (`TRIGGERS`, `CONFIDENCE`, `TTL`, `AUTO_SAVE`, etc.)
+6. **Keep unchanged**: file paths and filenames inside the content
+7. **Keep unchanged**: user data entries in _index.md tables (they were preserved during SMART_MERGE)
+8. Write the translated content back to the file
+
+> [!CAUTION]
+> For SMART_MERGE files (_index.md): only translate the TEMPLATE portions
+> (headings, descriptions, hints). User data rows in tables must stay
+> exactly as they were — they may already be in the user's language.
 
 ### Step 9: Update Version
 
