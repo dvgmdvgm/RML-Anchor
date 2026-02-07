@@ -35,7 +35,7 @@ Read .agent/memory/13_preferences/language.md
 Extract the value of LANGUAGE= (e.g., "en", "ru", "es", "de", etc.)
 ```
 
-**1.2. If language is NOT "en" — translate these files (exactly 25):**
+**1.2. If language is NOT "en" — translate these files (exactly 26):**
 
 ```yaml
 # ── Category indexes (13 files) ──
@@ -65,11 +65,12 @@ Extract the value of LANGUAGE= (e.g., "en", "ru", "es", "de", etc.)
 - .agent/memory/06_problems/bugs/README.md
 - .agent/memory/06_problems/workarounds/README.md
 
-# ── Preferences / Settings (6 files) ──
+# ── Preferences / Settings (7 files) ──
 - .agent/memory/13_preferences/auto_save_rules.md
 - .agent/memory/13_preferences/cleanup_settings.md
 - .agent/memory/13_preferences/coding_style.md
 - .agent/memory/13_preferences/communication.md
+- .agent/memory/13_preferences/linked_projects.md
 - .agent/memory/13_preferences/memory_settings.md
 - .agent/memory/13_preferences/response_templates.md
 ```

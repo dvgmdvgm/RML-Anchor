@@ -26,6 +26,7 @@ This category contains user preferences:
 | `response_templates.md` | **TEMPLATES** — standard response patterns | 2026-02-05 |
 | `auto_save_rules.md` | **AUTO-SAVE** — patterns for automatic memory saving | 2026-02-05 |
 | `cleanup_settings.md` | **CLEANUP** — TTL, scoring, and cleanup configuration | 2026-02-05 |
+| `linked_projects.md` | **LINKED PROJECTS** — cross-project search paths for /recall --global | 2026-02-07 |
 | `tools.md` | Preferred tools | — |
 
 ---
