@@ -93,6 +93,16 @@ ADD_NEW:
   - These are created fresh and then translated to user's language
 ```
 
+### ⛔ DEPRECATED — Files removed in new version
+
+```yaml
+DEPRECATED:
+  - Any workflow/script/template that exists in the project
+    but does NOT exist in the new version
+  - User is asked whether to keep or delete each one
+  - User data files (memory entries) are NEVER flagged as deprecated
+```
+
 ---
 
 ## Execution Steps
@@ -162,6 +172,37 @@ Report:
   - MEMORY_INDEX.md (updated)
   - ...
 ```
+
+### Step 5.5: Detect DEPRECATED Files
+
+```
+Compare project's .agent/ files against new version:
+  For each file in project's workflows/ that does NOT exist in new version:
+    → Flag as deprecated
+  For each file in project's scripts/ that does NOT exist in new version:
+    → Flag as deprecated
+  For each _template.md in project that does NOT exist in new version:
+    → Flag as deprecated
+  NEVER flag user data files (memory entries, sessions, logs)
+```
+
+**If deprecated files found — ask user:**
+
+```
+⛔ Deprecated files (removed in new version):
+
+| File | Action? |
+|------|---------|
+| workflows/old_feature.md | [keep/delete] |
+| scripts/legacy_tool.py | [keep/delete] |
+
+These files were removed in the new version.
+Keep them (they won't be updated) or delete?
+```
+
+> [!NOTE]
+> Keeping deprecated files is harmless but may cause confusion.
+> They will no longer receive updates.
 
 ### Step 6: Apply SMART_MERGE Files
 
@@ -246,6 +287,7 @@ Delete temp directory (/tmp/anchor_update/)
 | 🟢 Overwritten | N | workflows, scripts, templates |
 | 🟡 Merged | N | indexes (kept M user entries) |
 | 🆕 Added | N | new files |
+| ⛔ Deprecated | N | removed/kept by user choice |
 | 🌐 Translated | N | to [language] |
 | 🔴 Skipped | N | user data (untouched) |
 
