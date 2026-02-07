@@ -1,201 +1,155 @@
-# 🧠 AI Memory System (RLM-Anchor)
+# 🧠 RLM-Anchor — AI Memory System
 
-> **RLM-inspired Long-term Memory for AI Assistants**
-
-A persistent memory system for AI-powered development environments based on [Recursive Language Models](https://arxiv.org/abs/2512.24601) principles (see [Video Guide](https://www.youtube.com/watch?v=huszaaJPjU8)).
+> Give your AI assistant a **persistent memory** that survives between chat sessions.
 
 ---
 
-## 🌟 Features
+## 💡 The Problem
 
-- **📁 13 Organized Categories** — structured storage for all project knowledge
-- **🔍 RLM-like Search** — Examine → Decompose → Recurse → Aggregate
-- **🌍 Multi-language Support** — respond and record in any language
-- **⚡ Simple Commands** — `/remember`, `/recall`, `/wakeup`, `/sleep`
-- **🔄 Session Persistence** — context preserved between sessions
-- **📝 Markdown-based** — human-readable, Git-friendly
+Every time you start a new chat with an AI assistant, it forgets everything:
+- Your project architecture
+- Past decisions and their reasons
+- Known bugs and workarounds
+- Your coding style preferences
+- What you worked on yesterday
 
----
-
-## 📦 Quick Start & Usage
-
-> ⚠️ **IMPORTANT**: Each project needs its OWN separate RLM-Anchor installation! Using the same memory for multiple projects will cause AI confusion due to conflicting context. Always install fresh for each new project.
-
-1. **Import `.agent/` folder** to your project using Git:
-   ```bash
-   git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
-   ```
-2. **Set your language** in `.agent/memory/13_preferences/language.md` file.
-3. **Run this exact prompt** (copy the entire block below):
-   ```
-   /anchor_agent scan the current project directories for data that will help build context and configure memory correctly (technical data, business models, design rules, and all other typical templates to find and preserve project context)
-   ```
-4. **Start working** with `/wakeup` chat command.
-5. **Work in your IDE** (develop, solve tasks, make business decisions, do everything as usual).
-
-*In the process of work, at important stages you can use* `/remember` *to save important context.*
-
-6. **When you finished working** in your IDE, for example, before you go to sleep, execute the command `/sleep` so that RLM-Anchor can save your context to memory.
-
-*Now every time you return to work on your project, just wake up RLM-Anchor by running* `/wakeup` *and at the end of the session, send it back to sleep* `/sleep` *so it remembers everything you did.*
+**RLM-Anchor solves this.** It gives AI a structured long-term memory — stored as simple Markdown files right in your project.
 
 ---
 
-## 🌍 Language Configuration
+## 🚀 Quick Start (3 steps)
+
+### 1. Install
+
+```bash
+git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git .temp && cp -r .temp/.agent . && rm -rf .temp
+```
+
+### 2. Set Language
 
 Edit `.agent/memory/13_preferences/language.md`:
-
 ```
-LANGUAGE=en    # English
-LANGUAGE=ru    # Russian  
-LANGUAGE=uk    # Ukrainian
-...
+LANGUAGE=en
 ```
 
-All AI responses, memory entries, and logs will use the configured language.
+### 3. Initialize
+
+Paste this into your AI chat:
+```
+/anchor_agent scan the current project directories for data that will help build context and configure memory correctly
+```
+
+**Done!** Now use `/wakeup` to start and `/sleep` to finish each session.
 
 ---
 
-## ⚡ Commands
+## ⚡ Daily Workflow
 
-| Command | Description |
+```
+/wakeup          → AI loads your project context
+  ... work ...   → develop, ask questions, make decisions
+/remember ...    → save important info to memory
+/sleep           → AI saves session, you can close the chat
+```
+
+Next time you open a new chat → `/wakeup` → AI remembers everything.
+
+---
+
+## 📋 Commands
+
+| Command | What it does |
 |---------|-------------|
-| `/wakeup` | Start session, load context |
-| `/sleep` | End session, summarize work |
-| `/remember` | Save information to memory |
-| `/recall` | Find information in memory |
-| `/handoff` | Create context summary for model switching |
-| `/walkthrough` | Generate feature documentation |
-| `/anchor_agent` | Safely integrate into existing project |
-| `/anchor_briefing` | Full project briefing (all 13 categories) |
-| `/anchor_backup` | Create manual backup (for transfer) |
-| `/anchor_restore` | Restore from backup ZIP |
-| `/anchor_remove` | Safe system removal (with backup) |
-| `/anchor_cleanup` | Intelligent memory cleanup (TTL, scoring) |
+| `/wakeup` | Start session — load project memory |
+| `/sleep` | End session — save everything |
+| `/remember` | Save a fact, decision, or note |
+| `/recall` | Find something in memory |
+| `/anchor_briefing` | Get full project overview |
+| `/anchor_update` | Update RLM-Anchor to latest version |
+| `/anchor_backup` | Create a backup |
+| `/anchor_restore` | Restore from backup |
+| `/handoff` | Create summary for switching AI models |
 | `/memory-stats` | Show memory statistics |
 
 ---
 
-## 📁 Structure
+## 🧩 How It Works
 
 ```
-.agent/
-├── MEMORY_INDEX.md           # Main memory index
-├── skills/
-│   └── MEMORY_SKILL.md       # AI instructions
-├── workflows/                 # Command definitions
-├── scripts/                   # Python utilities
-└── memory/
-    ├── 01_project/           # Project info
-    ├── 02_architecture/      # System architecture
-    ├── 03_decisions/         # Architecture decisions (ADR)
-    ├── 04_domain/            # Business domain
-    ├── 05_code/              # Code documentation
-    ├── 06_problems/          # Problems & solutions
-    ├── 07_context/           # Session context
-    ├── 08_people/            # People & roles
-    ├── 09_external/          # External dependencies
-    ├── 10_testing/           # Testing info
-    ├── 11_deployment/        # Deployment info
-    ├── 12_roadmap/           # Plans & future
-    └── 13_preferences/       # User preferences & LANGUAGE
+Your Project/
+├── src/                    ← your code (unchanged)
+├── .agent/                 ← AI memory lives here
+│   ├── memory/
+│   │   ├── 01_project/     ← project info
+│   │   ├── 02_architecture/← system design
+│   │   ├── 03_decisions/   ← why you chose X over Y
+│   │   ├── 04_domain/      ← business logic
+│   │   ├── 05_code/        ← code patterns & style
+│   │   ├── 06_problems/    ← bugs & workarounds
+│   │   ├── 07_context/     ← session history
+│   │   ├── 08_people/      ← team & roles
+│   │   ├── 09_external/    ← APIs & services
+│   │   ├── 10_testing/     ← test strategies
+│   │   ├── 11_deployment/  ← deployment info
+│   │   ├── 12_roadmap/     ← future plans
+│   │   └── 13_preferences/ ← your preferences
+│   ├── workflows/          ← command definitions
+│   └── MEMORY_INDEX.md     ← master index
 ```
 
----
-
-## 🔄 How It Works
-
-### RLM-like Process
-
-```
-User Query
-    ↓
-┌─────────────────────────┐
-│ 1. EXAMINE — Read memory index      │
-│ 2. DECOMPOSE — Identify categories   │
-│ 3. RECURSE — Search relevant files      │
-│ 4. AGGREGATE — Combine information │
-└──────────────────────────┘
-    ↓
-Contextual Response (in configured language)
-```
+**Key idea:** Everything is Markdown. You can read, edit, or version-control your AI's memory just like code.
 
 ---
 
-## 📝 Usage Examples
+## 🔍 The RLM Search Process
 
-### 🚀 Initialize / Connect
-```
-User: /anchor_agent
-AI: 📋 INTEGRATION ANALYSIS... [Scans and suggests safe integration options]
-```
+When you ask a question, AI doesn't read ALL memory files. Instead:
 
-### ☀️ Start a Session
 ```
-User: /wakeup
-AI: 🚀 Loading project context...
-    ✅ Session started!
-    📌 Pending tasks: 2
+1. EXAMINE   → Read the master index (which categories exist?)
+2. DECOMPOSE → Pick 2-3 relevant categories
+3. RECURSE   → Search files in those categories
+4. AGGREGATE → Combine findings into an answer
 ```
 
-### 📌 Saving Information
-```
-User: /remember We chose PostgreSQL for ACID transactions
-AI: ✅ Saved to memory/03_decisions/ADR-002-database.md
-```
-
-### 🔍 Recalling Knowledge
-```
-User: /recall Why did we choose PostgreSQL?
-AI: 📁 Found in memory:
-    Source: memory/03_decisions/ADR-002-database.md
-    We chose PostgreSQL for ACID transaction support...
-```
-
-### 🔄 Model Handoff
-```
-User: /handoff
-AI: 🔄 Creating context handoff summary... [Generates summary for another model]
-```
-
-### 📖 Generate Documentation
-```
-User: /walkthrough New Auth Feature
-AI: 📖 Walkthrough created! Saved to memory/07_context/walkthroughs/2026-02-05_auth.md
-```
-
-### 📊 Check Statistics
-```
-User: /memory-stats
-AI: 📊 Memory Stats: 42 files, 13 categories...
-```
-
-### 🌙 End Session
-```
-User: /sleep
-AI: 📝 Summarizing session...
-    ✅ Session history saved.
-    👋 Goodbye!
-```
+This keeps responses **fast** even with hundreds of memory files.
 
 ---
 
-## 🛠️ Customization
+## ⚠️ Important Rules
 
-### Add New Categories
-1. Create folder in `memory/`
-2. Add `_index.md` 
-3. Update `MEMORY_INDEX.md`
+- **One project = one RLM-Anchor** — never share `.agent/` between projects
+- **Always `/sleep` before closing** — otherwise AI won't save the session
+- **Don't edit `_index.md` manually** — AI manages these files
+- **Memory is Git-friendly** — commit `.agent/` to your repo for team sharing
 
-### Extend Workflows
-Edit files in `workflows/` to customize commands.
+---
+
+## 🔄 Updating
+
+```
+/anchor_update              # update to latest version
+/anchor_update --check      # just check, don't update
+```
+
+Your data (memory entries, preferences, session history) is **never overwritten** during updates.
+
+---
+
+## 🌍 Supported Languages
+
+RLM-Anchor works in any language. Set your preference in `language.md` and all AI responses, memory entries, and system messages will use that language.
 
 ---
 
 ## 📄 License
-MIT License — feel free to fork and improve!
+
+MIT License — free to use, fork, and improve.
 
 ---
 
-## 🙏 Credits
-Inspired by [MIT RLM Research](https://arxiv.org/abs/2512.24601) on Recursive Language Models and [this video guide](https://www.youtube.com/watch?v=huszaaJPjU8).
+## 🙏 Inspired By
+
+[MIT RLM Research](https://arxiv.org/abs/2512.24601) on Recursive Language Models.
+
+> 📚 Full technical documentation → [docs/archive/](docs/archive/)
