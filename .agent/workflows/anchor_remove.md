@@ -48,6 +48,7 @@ RLM_PATHS_TO_DELETE:
   - .agent/skills/MEMORY_SKILL.md
   - .agent/workflows/anchor_agent.md
   - .agent/workflows/anchor_backup.md
+  - .agent/workflows/anchor_briefing.md
   - .agent/workflows/anchor_cleanup.md
   - .agent/workflows/anchor_remove.md
   - .agent/workflows/anchor_restore.md
@@ -122,6 +123,7 @@ rm -f .agent/skills/MEMORY_SKILL.md
 # 4. Remove Workflows
 rm -f .agent/workflows/anchor_agent.md
 rm -f .agent/workflows/anchor_backup.md
+rm -f .agent/workflows/anchor_briefing.md
 rm -f .agent/workflows/anchor_cleanup.md
 rm -f .agent/workflows/anchor_remove.md
 rm -f .agent/workflows/anchor_restore.md
