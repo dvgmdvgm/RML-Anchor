@@ -50,6 +50,7 @@ RLM_PATHS:
   - .agent/skills/MEMORY_SKILL.md
   - .agent/workflows/anchor_agent.md
   - .agent/workflows/anchor_backup.md
+  - .agent/workflows/anchor_briefing.md
   - .agent/workflows/anchor_cleanup.md
   - .agent/workflows/anchor_remove.md
   - .agent/workflows/anchor_restore.md
@@ -116,6 +117,7 @@ cd .agent && zip -r "backups/anchor_backup_2026-02-05_19-30-00.zip" \
   skills/MEMORY_SKILL.md \
   workflows/anchor_agent.md \
   workflows/anchor_backup.md \
+  workflows/anchor_briefing.md \
   workflows/anchor_cleanup.md \
   workflows/anchor_remove.md \
   workflows/anchor_restore.md \
