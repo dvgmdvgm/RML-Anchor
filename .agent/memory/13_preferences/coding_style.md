@@ -5,6 +5,11 @@
 >
 > Based on Claude Opus 4.5/4.6 (Extended Thinking) coding patterns.
 > Covers: Python, JavaScript/TypeScript, React, Java, Rust, Go, C++, C#, HTML/CSS, SQL, Django Templates.
+>
+> **AI: How to edit this file:**
+> - To update an existing rule → find the correct section by its header (`## 🐍 Python`, `## 💜 C#`, etc.) and edit within that section
+> - To add a new language/framework → create a new `## ` section following the same structure as existing ones, place it **before** the `🔀 Language Comparison` table, and add the language to that comparison table
+> - **Never** append loose rules to the end of the file — always use structured sections
 
 ---
 
