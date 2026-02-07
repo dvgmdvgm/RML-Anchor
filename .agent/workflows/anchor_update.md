@@ -18,6 +18,21 @@ Preserves all user data, memory entries, session history, and language settings.
 
 ---
 
+## ⚠️ Prerequisites
+
+> [!CAUTION]
+> **Recommended order: `/sleep` → `/anchor_update` → `/wakeup`**
+>
+> Running `/anchor_update` during an active session is possible but NOT recommended:
+> - Unsaved session data may be lost if something goes wrong
+> - AI has already loaded old workflow instructions into context — 
+>   updated files on disk won't change AI behavior until a new chat
+> - Session statistics won't be recorded in `memory_stats_log.md`
+>
+> **Always `/sleep` first** to save your current work, then update, then `/wakeup` to reload with new instructions.
+
+---
+
 ## File Classification
 
 > [!IMPORTANT]
