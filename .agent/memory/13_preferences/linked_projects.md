@@ -19,17 +19,17 @@ projects in addition to the current one.
 
 ## 📂 Linked Projects
 
-| Project | Path | Description |
-|---------|------|-------------|
+| Project | Path to .agent/ | Description |
+|---------|-----------------|-------------|
 | — | — | — |
 
 **Example:**
 
 ```markdown
-| Project | Path | Description |
-|---------|------|-------------|
-| MyApp | D:/Projects/myapp | Main web application |
-| API-Gateway | D:/Projects/gateway | API gateway service |
+| Project | Path to .agent/ | Description |
+|---------|-----------------|-------------|
+| MyApp | D:/Projects/myapp/.agent | Main web application |
+| API-Gateway | D:/Projects/gateway/.agent | API gateway service |
 ```
 
 ---
@@ -51,7 +51,7 @@ SEARCH_DEPTH: index_only    # index_only | content_too
 
 ## ⚠️ Important
 
-- Paths must be **absolute**
-- Each linked project must have `.agent/memory/` folder
+- Paths must be **absolute** and point to the `.agent/` folder
+- Each linked project must have `.agent/memory/` inside
 - Global search is **opt-in** — only works with `--global` flag
 - AI will **never modify** linked project files

@@ -149,20 +149,21 @@ Restore this file? [y/N]
 
 ```
 Read .agent/memory/13_preferences/linked_projects.md
-Get list of project paths
+Get list of project paths (each path points to a .agent/ folder)
 ```
 
-**4G.2. For each linked project:**
+**4G.2. For each linked project path:**
 
 ```
-Read ONLY their _index.md files (Level 1 search only!)
+The path from linked_projects.md points to .agent/ folder.
+Read ONLY their _index.md files at: {path}/memory/*/_index.md
 Do NOT grep their file contents (privacy)
 Do NOT modify anything in their memory
 ```
 
 **4G.3. If matches found in linked projects:**
 
-→ Read the specific matched files from the linked project
+→ Read the specific matched files from `{path}/memory/{category}/{file}`
 → Include in results with project label
 
 ---
