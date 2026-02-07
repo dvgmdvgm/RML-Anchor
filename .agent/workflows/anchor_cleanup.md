@@ -259,6 +259,20 @@ Action for each? [archive/delete/extend/skip]
 
 ---
 
+### Step 5.5: Post-Cleanup Validation
+
+> [!NOTE]
+> Cleanup moves and archives files — this may desync _index.md.
+> Quick validation ensures everything is still consistent.
+
+```
+Run quick sync validation (same as /anchor_validate --quick):
+  Count content files on disk vs entries in _index.md
+  If mismatch → auto-fix _index.md (remove ghost entries for archived files)
+```
+
+---
+
 ### Step 6: Final Report
 
 ```

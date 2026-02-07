@@ -54,7 +54,7 @@ Output:
 - Last session summary
 - Key decisions from recent sessions
 
-### 5. Memory Health Check
+### 5. Memory Health Check & Quick Validation
 
 ```
 Count files in .agent/memory/07_context/session_history/
@@ -70,9 +70,17 @@ Read thresholds from .agent/memory/13_preferences/cleanup_settings.md
 | Session files > 100 | 🔴 Warn: "Memory overload! Strongly recommend /anchor_cleanup" |
 | Total memory files > 100 | ⚠️ Warn: "N memory entries. Topic compression may help" |
 
+**Quick sync validation:**
+
+```
+Count content files on disk (exclude _index.md, _template.md, system files)
+Count file entries across all _index.md tables
+If counts don't match → ⚠️ "Index out of sync. Run /anchor_validate"
+```
+
 > [!NOTE]
 > This is a QUICK check only — no files are modified.
-> It only counts and warns. Actual cleanup requires `/anchor_cleanup`.
+> It only counts and warns. Full validation requires `/anchor_validate`.
 
 ### 6. Check Pending Tasks
 

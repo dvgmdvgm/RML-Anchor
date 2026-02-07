@@ -133,6 +133,18 @@ Template:
 
 If new entries were created in other categories — update their `_index.md`.
 
+### 5.5. Quick Sync Validation
+
+```
+Verify: every content file created/modified during this session
+        is listed in its category's _index.md
+If any orphan found → add it to _index.md now (before session ends)
+```
+
+> [!NOTE]
+> This catches files saved via /remember or manually that may have
+> been missed in _index.md updates. Runs silently — only warns if issues found.
+
 ### 6. Confirm to User
 
 Output in configured language:
