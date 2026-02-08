@@ -31,7 +31,8 @@ Generates comprehensive documentation after implementing a feature, fixing a bug
 ### 0. Check Language Setting — CRITICAL!
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 ENTIRE walkthrough must be in configured language!
 ```
 

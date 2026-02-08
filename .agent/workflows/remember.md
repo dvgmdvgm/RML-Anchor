@@ -27,7 +27,8 @@ or simply
 ### 0. Check Language Setting
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 All saved entries must be written in this language!
 ```
 

@@ -142,7 +142,8 @@ Read /tmp/anchor_update/.agent/VERSION → latest version
 ### Step 3: Read User's Language
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 Extract LANGUAGE= value
 All new files will be translated to this language after update
 ```

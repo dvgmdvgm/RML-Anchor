@@ -78,6 +78,9 @@
 # ── Backups (created by /anchor_backup) ──
 .agent/backups/
 
+# ── Local language override (never push to GitHub) ──
+.agent/memory/13_preferences/language_local.md
+
 # ── OS / IDE artifacts ──
 .DS_Store
 Thumbs.db

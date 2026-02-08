@@ -27,7 +27,8 @@ Maintain a clean, efficient memory by:
 ### Step 1: Load Settings & Assess Health
 
 ```
-Read .agent/memory/13_preferences/language.md → use this language for output
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md → use this language for output
 Read .agent/memory/13_preferences/cleanup_settings.md → load TTL, thresholds
 ```
 

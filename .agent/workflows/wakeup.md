@@ -19,7 +19,8 @@ description: Start a work session, load project context and memory
 ### 1. Read Language Settings
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 Extract LANGUAGE= value
 All subsequent output must be in this language!
 ```

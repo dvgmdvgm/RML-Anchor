@@ -23,7 +23,8 @@ Generate a **comprehensive briefing** that covers ALL aspects of the project sto
 ### 1. Read Language Settings
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 All output must be in this language!
 ```
 

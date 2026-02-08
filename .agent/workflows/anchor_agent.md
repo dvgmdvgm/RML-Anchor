@@ -31,7 +31,8 @@ This workflow safely integrates the AI Memory System into an existing project wi
 **1.1. Read language setting:**
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 Extract the value of LANGUAGE= (e.g., "en", "ru", "es", "de", etc.)
 ```
 

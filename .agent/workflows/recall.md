@@ -20,7 +20,8 @@ description: Find and recall information from project memory
 ### 0. Check Language Setting
 
 ```
-Read .agent/memory/13_preferences/language.md
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 All output must be in this language!
 ```
 
