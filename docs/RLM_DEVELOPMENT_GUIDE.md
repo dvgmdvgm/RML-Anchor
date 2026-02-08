@@ -1,8 +1,8 @@
 # 🧠 RLM-Anchor: Comprehensive Development Guide
 
 > **Author**: dvgmdvgm  
-> **Date**: 2026-02-06  
-> **Version**: 1.0  
+> **Last update**: 2026-02-06  
+> **Version**: 2.0  
 > **Document Type**: Strategic Development Guide
 
 ---

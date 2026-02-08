@@ -1,8 +1,7 @@
 # 🧠 Advanced Memory System — Design Document
 
 > **Author**: dvgmdvgm  
-> **Date**: 2026-02-05  
-> **Status**: Implementation Plan
+> **Last update**: 2026-02-05  
 
 ---
 
