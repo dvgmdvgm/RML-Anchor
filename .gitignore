@@ -1,0 +1,85 @@
+# ═══════════════════════════════════════════════════
+# RLM-Anchor: Separate PRODUCT files from USER DATA
+# ═══════════════════════════════════════════════════
+#
+# PRODUCT (tracked in git):
+#   - workflows, scripts, skills
+#   - template _index.md, _template.md, README.md
+#   - 13_preferences/ template files
+#   - MEMORY_INDEX.md, VERSION
+#
+# USER DATA (ignored by git):
+#   - Memory entries created by /remember
+#   - Session history from /sleep
+#   - Walkthroughs from /walkthrough
+#   - Backups from /anchor_backup
+#   - Stats log from /memory-stats
+#
+# NOTE: _index.md files are tracked as clean templates.
+#       Use `git update-index --skip-worktree` to hide
+#       local changes when you add user entries.
+#       See: .agent/scripts/gitignore_setup.sh
+# ═══════════════════════════════════════════════════
+
+# ── User-created memory entries ──
+# (files created by /remember in categories 01-12)
+.agent/memory/01_project/*.md
+!.agent/memory/01_project/_index.md
+
+.agent/memory/02_architecture/*.md
+!.agent/memory/02_architecture/_index.md
+
+.agent/memory/03_decisions/*.md
+!.agent/memory/03_decisions/_index.md
+!.agent/memory/03_decisions/_template.md
+
+.agent/memory/04_domain/*.md
+!.agent/memory/04_domain/_index.md
+
+.agent/memory/05_code/*.md
+!.agent/memory/05_code/_index.md
+
+.agent/memory/06_problems/*.md
+.agent/memory/06_problems/**/*.md
+!.agent/memory/06_problems/_index.md
+!.agent/memory/06_problems/_template.md
+!.agent/memory/06_problems/bugs/README.md
+!.agent/memory/06_problems/workarounds/README.md
+
+.agent/memory/07_context/*.md
+!.agent/memory/07_context/_index.md
+!.agent/memory/07_context/current_session.md
+!.agent/memory/07_context/pending_tasks.md
+
+.agent/memory/08_people/*.md
+!.agent/memory/08_people/_index.md
+
+.agent/memory/09_external/*.md
+!.agent/memory/09_external/_index.md
+
+.agent/memory/10_testing/*.md
+!.agent/memory/10_testing/_index.md
+
+.agent/memory/11_deployment/*.md
+!.agent/memory/11_deployment/_index.md
+
+.agent/memory/12_roadmap/*.md
+!.agent/memory/12_roadmap/_index.md
+
+# ── Session history (created by /sleep) ──
+.agent/memory/07_context/session_history/
+
+# ── Walkthroughs (created by /walkthrough) ──
+.agent/memory/07_context/walkthroughs/
+
+# ── Memory stats log (updated by /memory-stats) ──
+.agent/memory/07_context/memory_stats_log.md
+
+# ── Backups (created by /anchor_backup) ──
+.agent/backups/
+
+# ── OS / IDE artifacts ──
+.DS_Store
+Thumbs.db
+*.swp
+*~
