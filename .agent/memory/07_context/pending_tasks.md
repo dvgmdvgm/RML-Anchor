@@ -1,6 +1,6 @@
 # ⏳ Pending Tasks
 
-> **Last Updated**: YYYY-MM-DD
+> **Updated**: YYYY-MM-DD
 
 ---
 
@@ -38,6 +38,6 @@
 
 ## 📝 How to Use
 
-1. When an incomplete task appears — add it here
-2. When completed — move to "Recently Completed"
-3. Check this file at the start of each session
+1. New unfinished task → add here
+2. Completed → move to "Recently Completed"
+3. Check this file at the start of every session

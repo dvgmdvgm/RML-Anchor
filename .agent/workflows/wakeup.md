@@ -110,6 +110,29 @@ Read .agent/memory/13_preferences/communication.md
 
 Apply response styling from preferences.
 
+### 7.5. Output Critical Rules Reminder
+
+After loading preferences, output a **CRITICAL RULES** block. This serves as an in-context reminder on top of the system prompt files:
+
+```
+Read .cursorrules or CLAUDE.md or GEMINI.md (whichever exists)
+Extract the CUSTOM PROJECT RULES section
+Display as a compact reminder block
+```
+
+Output format:
+```markdown
+🔴 **CRITICAL RULES (active this session):**
+- Language: [ru/en/...]
+- [Custom rule 1 from system prompt file]
+- [Custom rule 2 from system prompt file]
+- ...
+```
+
+> [!NOTE]
+> If no system prompt file exists, warn:
+> "⚠️ No .cursorrules/CLAUDE.md/GEMINI.md found. Run `/anchor_sync` to generate."
+
 ### 8. Initialize New Session
 
 ```

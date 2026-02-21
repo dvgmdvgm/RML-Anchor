@@ -1,0 +1,81 @@
+# RLM-Anchor — System Rules
+# This file is auto-read by Cursor AI on EVERY request.
+# Keep it compact (<80 lines). Details → .agent/memory/
+
+# ═══════════════════════════════════════
+# 🔴 CRITICAL RULES (never violate)
+# ═══════════════════════════════════════
+
+# Language: ALWAYS respond in the language specified below.
+# If .agent/memory/13_preferences/language_local.md exists, use it.
+# Otherwise use .agent/memory/13_preferences/language.md
+# Default: English
+
+# ═══════════════════════════════════════
+# 🟡 PROJECT RULES
+# ═══════════════════════════════════════
+
+# Before generating UI/CSS:
+# - Read .agent/memory/13_preferences/coding_style.md
+# - Read .agent/memory/05_code/conventions.md
+# - Apply project design rules (colors, spacing, typography)
+
+# Before making architecture decisions:
+# - Read .agent/memory/03_decisions/ for existing ADRs
+# - Don't repeat solved problems → check .agent/memory/06_problems/
+
+# ═══════════════════════════════════════
+# 🟢 MEMORY SYSTEM
+# ═══════════════════════════════════════
+
+# This project uses RLM-Anchor persistent memory.
+# Memory location: .agent/memory/ (13 categories)
+# Index: .agent/MEMORY_INDEX.md
+
+# Available commands (user says /command):
+# /wakeup  — Start session, load context
+# /sleep   — End session, archive knowledge
+# /remember — Save information to memory
+# /recall  — Search memory
+
+# When user says /wakeup → follow .agent/workflows/wakeup.md
+# When user says /sleep  → follow .agent/workflows/sleep.md
+
+# ═══════════════════════════════════════
+# 📐 CODE STYLE (quick reference)
+# ═══════════════════════════════════════
+
+# Full reference: .agent/memory/13_preferences/coding_style.md
+# Python: 4 spaces, double quotes, type hints always, Google docstrings
+# JS/TS: 2 spaces, single quotes, semicolons, ES modules
+# HTML/CSS: 2 spaces, BEM naming, semantic HTML
+
+# ═══════════════════════════════════════
+# ⚙️ TOOLS & ENVIRONMENT
+# ═══════════════════════════════════════
+
+# OS: Windows — NEVER use Unix commands (du, wc, find, grep, sed, awk)
+# Use PowerShell equivalents or built-in agent tools
+# Full reference: .agent/memory/13_preferences/tools.md
+
+# ═══════════════════════════════════════
+# 🎯 CUSTOM PROJECT RULES
+# ═══════════════════════════════════════
+
+# Add your project-specific rules below this line.
+# These rules are enforced on EVERY AI request.
+# Examples:
+#   - Never use white backgrounds for buttons
+#   - Always use dark theme colors
+#   - API responses must include error codes
+#   - Database queries must use parameterized statements
+
+# ═══════════════════════════════════════
+# 📖 FOR FULL CONTEXT
+# ═══════════════════════════════════════
+# Project overview:  .agent/memory/01_project/overview.md
+# Architecture:      .agent/memory/02_architecture/patterns.md
+# Decisions (ADRs):  .agent/memory/03_decisions/
+# Known problems:    .agent/memory/06_problems/
+# Session history:   .agent/memory/07_context/session_history/
+# User preferences:  .agent/memory/13_preferences/
