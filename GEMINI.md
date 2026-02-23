@@ -65,6 +65,30 @@ Before finalizing code output, verify:
 - [ ] Does the code avoid patterns listed in `06_problems/`?
 - [ ] Does the code comply with CUSTOM PROJECT RULES below?
 
+### Step 5: Memory transparency footer (EVERY response)
+
+**At the end of EVERY response**, append a short memory audit block. This is mandatory, no exceptions.
+
+**Format when memory was consulted:**
+```
+---
+📎 **Память:** `conventions.md`, `coding_style.md` (HTML/CSS) → тёмная тема, без белых фонов, BEM-именование
+```
+
+**Format when no memory was needed:**
+```
+---
+📎 **Память:** обращение к файлам памяти не требовалось
+```
+
+**Rules for the footer:**
+- Keep it to **1-3 lines maximum**
+- List only the **file names** (not full paths), e.g. `conventions.md`, not `.agent/memory/05_code/conventions.md`
+- After `→` add a **brief summary** of the key rules extracted (5-15 words)
+- If multiple files were read, separate with commas
+- Use the **configured language** for the footer text
+- This footer is **not optional** — include it even for simple answers
+
 ---
 
 ## 🟢 MEMORY SYSTEM

@@ -60,6 +60,27 @@
 # - Avoids patterns from 06_problems/?
 # - Complies with CUSTOM PROJECT RULES?
 
+# STEP 5: MEMORY TRANSPARENCY FOOTER (EVERY response)
+#
+# At the end of EVERY response, append a short memory audit block.
+# This is mandatory, no exceptions.
+#
+# When memory was consulted:
+#   ---
+#   📎 **Память:** `conventions.md`, `coding_style.md` (HTML/CSS)
+#       → тёмная тема, без белых фонов, BEM-именование
+#
+# When no memory was needed:
+#   ---
+#   📎 **Память:** обращение к файлам памяти не требовалось
+#
+# Rules:
+# - 1-3 lines max
+# - File names only (not full paths)
+# - After → brief summary of key rules (5-15 words)
+# - Use configured language
+# - NOT optional — include even for simple answers
+
 # ═══════════════════════════════════════
 # 🟢 MEMORY SYSTEM
 # ═══════════════════════════════════════
