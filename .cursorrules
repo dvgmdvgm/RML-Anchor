@@ -1,81 +1,102 @@
 # RLM-Anchor — System Rules
 # This file is auto-read by Cursor AI on EVERY request.
-# Keep it compact (<80 lines). Details → .agent/memory/
+# It contains routing logic for the RLM-Anchor memory system.
+# Details → .agent/memory/
 
 # ═══════════════════════════════════════
-# 🔴 CRITICAL RULES (never violate)
+# 🔴 CRITICAL RULES (always active)
 # ═══════════════════════════════════════
 
-# Language: ALWAYS respond in the language specified below.
-# If .agent/memory/13_preferences/language_local.md exists, use it.
-# Otherwise use .agent/memory/13_preferences/language.md
-# Default: English
+# Language: ALWAYS respond in the language from
+# .agent/memory/13_preferences/language_local.md (if exists)
+# Otherwise: .agent/memory/13_preferences/language.md
+
+# OS: Windows — NEVER use Unix commands (du, wc, find, grep, sed, awk)
+# Use PowerShell or built-in agent tools
 
 # ═══════════════════════════════════════
-# 🟡 PROJECT RULES
+# 🧠 MEMORY-AWARE ROUTING ENGINE
 # ═══════════════════════════════════════
 
-# Before generating UI/CSS:
-# - Read .agent/memory/13_preferences/coding_style.md
-# - Read .agent/memory/05_code/conventions.md
-# - Apply project design rules (colors, spacing, typography)
+# BEFORE generating any response that involves creating,
+# editing, or reviewing code/content, you MUST follow this process:
 
-# Before making architecture decisions:
-# - Read .agent/memory/03_decisions/ for existing ADRs
-# - Don't repeat solved problems → check .agent/memory/06_problems/
+# STEP 1: CLASSIFY the request
+#
+# | Type         | Trigger keywords                                      |
+# |--------------|-------------------------------------------------------|
+# | CODE         | write code, create function, add method, refactor     |
+# | UI           | page, button, layout, CSS, design, style, template    |
+# | ARCHITECTURE | system design, API design, component structure         |
+# | DOMAIN       | business logic, business rule, workflow, process       |
+# | DEBUG        | bug, error, not working, fix, broken, crash            |
+# | DEPLOY       | deploy, server, config, production, CI/CD              |
+# | TEST         | test, coverage, QA, edge case                          |
+# | GENERAL      | question, explanation, discussion                      |
+
+# STEP 2: READ the required memory files (MANDATORY)
+#
+# CODE         → .agent/memory/05_code/_index.md → relevant files
+#                + .agent/memory/13_preferences/coding_style.md (relevant section)
+# UI           → .agent/memory/05_code/conventions.md
+#                + coding_style.md (HTML/CSS section) + CUSTOM PROJECT RULES below
+# ARCHITECTURE → .agent/memory/02_architecture/_index.md
+#                + .agent/memory/03_decisions/_index.md (check existing ADRs)
+# DOMAIN       → .agent/memory/04_domain/_index.md → relevant files
+# DEBUG        → .agent/memory/06_problems/_index.md → bugs/, workarounds/
+# DEPLOY       → .agent/memory/11_deployment/_index.md
+# TEST         → .agent/memory/10_testing/_index.md
+# GENERAL      → No memory reading required
+#
+# KEY: Read _index.md first → it tells you which files exist.
+# Read ONLY the files relevant to the current request.
+
+# STEP 3: APPLY rules from memory + CUSTOM RULES below
+
+# STEP 4: SELF-CHECK (for CODE/UI)
+# Before finalizing output, verify:
+# - Follows conventions from 05_code/conventions.md?
+# - Follows coding_style.md rules?
+# - Avoids patterns from 06_problems/?
+# - Complies with CUSTOM PROJECT RULES?
 
 # ═══════════════════════════════════════
 # 🟢 MEMORY SYSTEM
 # ═══════════════════════════════════════
 
 # This project uses RLM-Anchor persistent memory.
-# Memory location: .agent/memory/ (13 categories)
+# Memory: .agent/memory/ (13 categories)
 # Index: .agent/MEMORY_INDEX.md
-
-# Available commands (user says /command):
-# /wakeup  — Start session, load context
-# /sleep   — End session, archive knowledge
-# /remember — Save information to memory
-# /recall  — Search memory
-
-# When user says /wakeup → follow .agent/workflows/wakeup.md
-# When user says /sleep  → follow .agent/workflows/sleep.md
-
-# ═══════════════════════════════════════
-# 📐 CODE STYLE (quick reference)
-# ═══════════════════════════════════════
-
-# Full reference: .agent/memory/13_preferences/coding_style.md
-# Python: 4 spaces, double quotes, type hints always, Google docstrings
-# JS/TS: 2 spaces, single quotes, semicolons, ES modules
-# HTML/CSS: 2 spaces, BEM naming, semantic HTML
-
-# ═══════════════════════════════════════
-# ⚙️ TOOLS & ENVIRONMENT
-# ═══════════════════════════════════════
-
-# OS: Windows — NEVER use Unix commands (du, wc, find, grep, sed, awk)
-# Use PowerShell equivalents or built-in agent tools
-# Full reference: .agent/memory/13_preferences/tools.md
+# Commands: /wakeup, /sleep, /remember, /recall, /anchor_sync
 
 # ═══════════════════════════════════════
 # 🎯 CUSTOM PROJECT RULES
 # ═══════════════════════════════════════
 
-# Add your project-specific rules below this line.
-# These rules are enforced on EVERY AI request.
-# Examples:
-#   - Never use white backgrounds for buttons
-#   - Always use dark theme colors
-#   - API responses must include error codes
-#   - Database queries must use parameterized statements
+# ADD YOUR PROJECT-SPECIFIC RULES BELOW THIS LINE.
+# These are checked on EVERY request that involves CODE or UI.
+# Keep rules short and specific.
+#
+# Example rules (replace with your own):
+#   - NEVER use white or light backgrounds for buttons
+#   - ALWAYS use CSS variables: var(--btn-primary), var(--bg-main)
+#   - ALWAYS use dark theme colors from project palette
+#   - Django templates: spaces around == in {% if %}, tags on single line
+#   - API responses must include error codes and messages
 
 # ═══════════════════════════════════════
-# 📖 FOR FULL CONTEXT
+# 📖 MEMORY CATEGORIES REFERENCE
 # ═══════════════════════════════════════
-# Project overview:  .agent/memory/01_project/overview.md
-# Architecture:      .agent/memory/02_architecture/patterns.md
-# Decisions (ADRs):  .agent/memory/03_decisions/
-# Known problems:    .agent/memory/06_problems/
-# Session history:   .agent/memory/07_context/session_history/
-# User preferences:  .agent/memory/13_preferences/
+# 01_project     → Project overview, tech stack
+# 02_architecture → System design
+# 03_decisions   → ADRs (check before architectural choices)
+# 04_domain      → Business logic
+# 05_code        → Code conventions, models, APIs
+# 06_problems    → Known bugs, workarounds (check before fixing)
+# 07_context     → Session history, pending tasks
+# 08_people      → Team roles
+# 09_external    → External APIs, integrations
+# 10_testing     → Test strategies
+# 11_deployment  → Deploy configs
+# 12_roadmap     → Future plans, tech debt
+# 13_preferences → Code style, language, communication
