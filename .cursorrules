@@ -80,6 +80,7 @@
 # - After → brief summary of key rules (5-15 words)
 # - Use configured language
 # - NOT optional — include even for simple answers
+# - If Step 6 triggered a save → add: "💾 Сохранено: [what] → [category]"
 
 # STEP 6: POST-ACTION ANALYSIS (after every completed task)
 #

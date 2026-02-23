@@ -88,6 +88,7 @@ Before finalizing code output, verify:
 - If multiple files were read, separate with commas
 - Use the **configured language** for the footer text
 - This footer is **not optional** — include it even for simple answers
+- If Step 6 triggered a save → add a second line: `💾 Сохранено: [what] → [category]`
 
 ### Step 6: Post-action analysis (after EVERY completed task)
 
