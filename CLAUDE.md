@@ -67,7 +67,11 @@ Before finalizing code output, verify:
 
 ### Step 5: Memory transparency footer (EVERY response)
 
-**At the end of EVERY response**, append a short memory audit block. This is mandatory, no exceptions.
+**At the end of EVERY response**, you MUST:
+1. First, run Step 6 analysis (did this task change anything significant?)
+2. Then, append the footer block below with the results
+
+This is mandatory, no exceptions. The footer has TWO parts:
 
 **Format when memory was consulted:**
 ```
