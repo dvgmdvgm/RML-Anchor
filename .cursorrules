@@ -81,6 +81,30 @@
 # - Use configured language
 # - NOT optional — include even for simple answers
 
+# STEP 6: POST-ACTION ANALYSIS (after every completed task)
+#
+# After completing a task, evaluate:
+#
+# 6a. Is this a SIGNIFICANT change?
+#   - Design/architecture decision?
+#   - Bug fix or workaround?
+#   - Convention change or new pattern?
+#   - Business logic modification?
+#
+# 6b. If YES → update current_session.md:
+#   Append to Topics Discussed and Key Decisions sections.
+#   This ensures /sleep has full session record.
+#
+# 6c. If FUNDAMENTAL (affects multiple files, changes convention):
+#   Save to memory using triggers from auto_save_rules.md:
+#   - Architecture → 03_decisions/
+#   - Bug fix → 06_problems/bugs/
+#   - Convention → 05_code/conventions.md
+#   - Business rule → 04_domain/
+#   Notify: "💾 Auto-saved: [description] → [category]"
+#
+# 6d. If NOT significant → do nothing.
+
 # ═══════════════════════════════════════
 # 🟢 MEMORY SYSTEM
 # ═══════════════════════════════════════

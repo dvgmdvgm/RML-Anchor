@@ -89,6 +89,43 @@ Before finalizing code output, verify:
 - Use the **configured language** for the footer text
 - This footer is **not optional** — include it even for simple answers
 
+### Step 6: Post-action analysis (after EVERY completed task)
+
+After completing a task (code written, bug fixed, design changed, etc.), evaluate:
+
+**6a. Is this a significant change?** Ask yourself:
+- Did we make a **design/architecture decision**? (e.g., "remove premium icons everywhere")
+- Did we **fix a bug** or find a **workaround**?
+- Did we **change project conventions** or **add a new pattern**?
+- Did we **modify business logic** or **change how something works**?
+
+**6b. If YES — update `current_session.md`:**
+
+Append to the `## 📌 Topics Discussed` and `## 💡 Key Decisions` sections of `.agent/memory/07_context/current_session.md`. This ensures `/sleep` has a complete record even after hours of work.
+
+Format to append:
+```
+## 📌 Topics Discussed
+- [HH:MM] Brief description of what was done
+
+## 💡 Key Decisions
+| Decision | Description |
+|----------|-------------|
+| [short name] | [what was decided and why] |
+```
+
+**6c. If the change is FUNDAMENTAL** (affects multiple files/pages, changes a convention, or is a decision that must be remembered across sessions):
+
+Save to the appropriate memory category using the trigger patterns from `.agent/memory/13_preferences/auto_save_rules.md`:
+- Architecture decision → `03_decisions/`
+- Bug fix / workaround → `06_problems/bugs/` or `06_problems/workarounds/`
+- New convention → `05_code/conventions.md`
+- Business rule change → `04_domain/`
+
+Notify the user: `💾 Auto-saved: [brief description] → [category]`
+
+**6d. If NO — do nothing.** Not every task needs to be logged. Simple edits, minor fixes, and routine work don't require memory updates.
+
 ---
 
 ## 🟢 MEMORY SYSTEM
