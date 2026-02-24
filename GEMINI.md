@@ -10,6 +10,7 @@
 
 - **Language**: ALWAYS respond in the language from `.agent/memory/13_preferences/language_local.md`. If missing → use `.agent/memory/13_preferences/language.md`
 - **OS**: Windows — NEVER use Unix commands (`du`, `wc`, `find`, `grep`, `sed`, `awk`). Use PowerShell or built-in agent tools
+- **Session logging**: After completing ANY code/UI/architecture task, you MUST append what was done to `.agent/memory/07_context/current_session.md` (Topics Discussed section). If a design decision was made → also save to `03_decisions/`. Report in footer: `💾 Сохранено: [what] → [where]`. See Step 6 for details.
 
 ---
 

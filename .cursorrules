@@ -14,6 +14,11 @@
 # OS: Windows — NEVER use Unix commands (du, wc, find, grep, sed, awk)
 # Use PowerShell or built-in agent tools
 
+# Session logging: After completing ANY code/UI/architecture task,
+# MUST append what was done to .agent/memory/07_context/current_session.md
+# If design decision → also save to 03_decisions/
+# Report in footer: "💾 Сохранено: [what] → [where]". See Step 6.
+
 # ═══════════════════════════════════════
 # 🧠 MEMORY-AWARE ROUTING ENGINE
 # ═══════════════════════════════════════
