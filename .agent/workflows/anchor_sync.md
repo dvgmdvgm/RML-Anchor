@@ -1,5 +1,5 @@
 ---
-description: Generate/update system prompt files (.cursorrules, CLAUDE.md, GEMINI.md) from RLM-Anchor memory
+description: Generate/update system prompt files (.cursorrules, CLAUDE.md, GEMINI.md, .github/copilot-instructions.md) from RLM-Anchor memory
 ---
 
 # /anchor_sync — Sync System Prompts
@@ -14,7 +14,7 @@ description: Generate/update system prompt files (.cursorrules, CLAUDE.md, GEMIN
 
 ## Purpose
 
-Generates IDE system prompt files (`.cursorrules`, `CLAUDE.md`, `GEMINI.md`) from RLM-Anchor memory.
+Generates IDE system prompt files (`.cursorrules`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`) from RLM-Anchor memory.
 These files are automatically injected by the IDE into **every** AI request, providing enforcement of critical rules.
 
 > [!IMPORTANT]
@@ -44,6 +44,7 @@ Read .agent/memory/01_project/overview.md (extract project type and stack)
 If .cursorrules exists → read CUSTOM PROJECT RULES section
 If CLAUDE.md exists → read CUSTOM PROJECT RULES section
 If GEMINI.md exists → read CUSTOM PROJECT RULES section
+If .github/copilot-instructions.md exists → read CUSTOM PROJECT RULES section
 Preserve all custom rules during regeneration!
 ```
 
@@ -67,6 +68,7 @@ Build a compact (50-80 lines) system prompt containing:
 Write .cursorrules (# comment format for Cursor)
 Write CLAUDE.md (Markdown format for Claude Code)
 Write GEMINI.md (Markdown format for Gemini CLI)
+Write .github/copilot-instructions.md (Markdown format for VS Code Copilot Chat)
 ```
 
 ### 5. Report
@@ -79,6 +81,7 @@ Write GEMINI.md (Markdown format for Gemini CLI)
 | .cursorrules | ✅ Updated | N |
 | CLAUDE.md | ✅ Updated | N |
 | GEMINI.md | ✅ Updated | N |
+| .github/copilot-instructions.md | ✅ Updated | N |
 
 Custom rules preserved: N rules
 Language: [language]

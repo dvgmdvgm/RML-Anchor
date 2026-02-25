@@ -7,405 +7,153 @@ description: Update RLM-Anchor to the latest version from GitHub without losing 
 ## Usage
 
 ```
-/anchor_update                  # Interactive update
-/anchor_update --check          # Check for updates only (no changes)
+/anchor_update             # Interactive update
+/anchor_update --check     # Check only (no changes)
 ```
 
-## Purpose
-
-Safely update the RLM-Anchor system to the latest version from GitHub.
-Preserves all user data, memory entries, session history, and language settings.
-
----
-
-## ⚠️ Prerequisites
-
 > [!CAUTION]
-> **Recommended order: `/sleep` → `/anchor_update` → `/wakeup`**
->
-> Running `/anchor_update` during an active session is possible but NOT recommended:
-> - Unsaved session data may be lost if something goes wrong
-> - AI has already loaded old workflow instructions into context — 
->   updated files on disk won't change AI behavior until a new chat
-> - Session statistics won't be recorded in `memory_stats_log.md`
->
-> **Always `/sleep` first** to save your current work, then update, then `/wakeup` to reload with new instructions.
+> **Recommended order: `/sleep` → `/anchor_update` → (new chat) → `/wakeup`**
+> Running during an active session is NOT recommended — AI has old instructions in context.
 
 ---
 
 ## File Classification
 
 > [!IMPORTANT]
-> The new version's file list acts as an implicit manifest.
-> Only files that exist in the new version are subject to update.
+> Only files present in the new version are candidates for update.
 > Custom user files (not in new version) are NEVER touched.
 
-### 🟢 OVERWRITE — Safe to replace entirely
-
-Product files that exist in **both** the new version AND the project:
+### 🟢 OVERWRITE — Replace entirely
 
 ```yaml
 OVERWRITE:
-  # Only files from the new version's .agent/ are candidates:
-  - .agent/workflows/*.md                     # workflow files
-  - .agent/scripts/*.py                       # scripts
-  - .agent/MEMORY_INDEX.md                    # master index
-  - .agent/VERSION                            # version file
-  - .agent/memory/03_decisions/_template.md   # entry templates
+  - .agent/workflows/*.md
+  - .agent/scripts/*.py
+  - .agent/MEMORY_INDEX.md
+  - .agent/VERSION
+  - .agent/memory/03_decisions/_template.md
   - .agent/memory/06_problems/_template.md
   - .agent/memory/06_problems/bugs/README.md
   - .agent/memory/06_problems/workarounds/README.md
-
-  # RULE: If a file exists in the project's workflows/
-  # but NOT in the new version → it's a custom user file → SKIP
+  - .github/prompts/*.prompt.md            # Copilot Chat prompt files
+  # Files in project's workflows/ NOT in new version → SKIP (custom)
 ```
 
 ### 🟡 SMART_MERGE — Update structure, keep user data
 
-These files have both template structure AND user-created entries:
-
 ```yaml
 SMART_MERGE:
-  # Category indexes (user entries in file tables)
-  - .agent/memory/01_project/_index.md
-  - .agent/memory/02_architecture/_index.md
-  - .agent/memory/03_decisions/_index.md
-  - .agent/memory/04_domain/_index.md
-  - .agent/memory/05_code/_index.md
-  - .agent/memory/06_problems/_index.md
-  - .agent/memory/07_context/_index.md
-  - .agent/memory/08_people/_index.md
-  - .agent/memory/09_external/_index.md
-  - .agent/memory/10_testing/_index.md
-  - .agent/memory/11_deployment/_index.md
-  - .agent/memory/12_roadmap/_index.md
-  - .agent/memory/13_preferences/_index.md
-
-  # Preference files (user may have customized values)
-  - .agent/memory/13_preferences/cleanup_settings.md
-  - .agent/memory/13_preferences/auto_save_rules.md
-  - .agent/memory/13_preferences/memory_settings.md
-  - .agent/memory/13_preferences/communication.md
-  - .agent/memory/13_preferences/coding_style.md
-  - .agent/memory/13_preferences/response_templates.md
+  - .agent/memory/*/_index.md          # all 13 category indexes
+  - .agent/memory/13_preferences/*.md  # preference files (keep user values)
+  - .cursorrules                       # keep CUSTOM PROJECT RULES section
+  - CLAUDE.md                          # keep CUSTOM PROJECT RULES section
+  - GEMINI.md                          # keep CUSTOM PROJECT RULES section
+  - .github/copilot-instructions.md    # keep CUSTOM PROJECT RULES section
 ```
 
-### 🔴 NEVER_TOUCH — User data, never overwrite
+### 🔴 NEVER_TOUCH — User data
 
 ```yaml
 NEVER_TOUCH:
-  - .agent/memory/13_preferences/language.md        # user's language choice
-  - .agent/memory/13_preferences/linked_projects.md  # user's project links
-  - .agent/memory/07_context/session_history/*       # session history
-  - .agent/memory/07_context/memory_stats_log.md     # stats log
-  - .agent/memory/07_context/current_session.md      # current session
-  - .agent/memory/07_context/pending_tasks.md        # pending tasks
-  - .agent/memory/archive/*                          # archived files
-  - Any user-created .md files in categories 01-12   # memory entries
-  - Any file in project's workflows/ NOT in new version  # custom workflows
+  - .agent/memory/13_preferences/language.md
+  - .agent/memory/13_preferences/language_local.md
+  - .agent/memory/13_preferences/linked_projects.md
+  - .agent/memory/07_context/session_history/*
+  - .agent/memory/07_context/memory_stats_log.md
+  - .agent/memory/07_context/current_session.md
+  - .agent/memory/07_context/pending_tasks.md
+  - User-created .md files in categories 01-12
+  - Custom workflows not in new version
 ```
 
 ---
 
 ## Execution Steps
 
-### Step 1: Check Current Version
+### 1. Check Version
 
 ```
-Read .agent/VERSION
-If file doesn't exist → assume version 1.0.0
-Display current version
+Read .agent/VERSION (if missing → assume 1.0.0)
 ```
 
-### Step 2: Download Latest Version
+### 2. Download Latest
 
 ```
-Create temp directory (e.g., /tmp/anchor_update/)
-Clone the latest version:
-  git clone --depth 1 https://github.com/dvgmdvgm/AnchorGravity.git /tmp/anchor_update/
-Read /tmp/anchor_update/.agent/VERSION → latest version
+Clone: git clone --depth 1 https://github.com/dvgmdvgm/RML-Anchor.git /tmp/anchor_update/
+Read /tmp/anchor_update/.agent/VERSION → compare
+If same version → "✅ Already up to date" → stop
+If --check → "📦 Update available: X → Y" → stop
 ```
 
-**If current version = latest version:**
-```
-✅ Already up to date (version X.Y.Z)
-```
-→ Clean up temp dir and stop.
-
-**If --check flag:**
-```
-📦 Update available: X.Y.Z → A.B.C
-   Run /anchor_update to apply
-```
-→ Clean up temp dir and stop.
-
-### Step 3: Read User's Language
+### 3. Read Language
 
 ```
-Read .agent/memory/13_preferences/language_local.md (if exists, use it)
-Otherwise read .agent/memory/13_preferences/language.md
-Extract LANGUAGE= value
-All new files will be translated to this language after update
+Read language_local.md (or language.md) → LANGUAGE value
 ```
 
-### Step 4: Create Backup
+### 4. Create Backup
 
 ```
-Create backup of current .agent/ folder:
-  Copy .agent/ → .agent/backups/pre_update_vX.Y.Z_YYYY-MM-DD/
+Copy .agent/ → .agent/backups/pre_update_vX.Y.Z_YYYY-MM-DD/
 ```
 
-> [!CAUTION]
-> ALWAYS backup before updating. If something goes wrong,
-> user can restore from this backup.
+### 5. Apply OVERWRITE
 
-### Step 5: Apply OVERWRITE Files
+Replace each OVERWRITE file from new version. New files not in project → create. Custom files not in new version → skip.
 
-```
-For each OVERWRITE-type file in the NEW version:
-  If file also exists in the project → overwrite it
-  If file does NOT exist in project → create it (ADD_NEW)
-  
-For each file in project's workflows/ NOT in the new version:
-  → SKIP (this is a custom user workflow, do not touch)
-```
+### 6. Apply SMART_MERGE
 
-Report:
-```
-🟢 Overwritten: N files
-  - workflows/recall.md (updated)
-  - workflows/anchor_validate.md (updated)
-  - MEMORY_INDEX.md (updated)
+**For _index.md files:**
+1. Extract user data rows from OLD file tables
+2. Take NEW template structure
+3. Insert user data back → write merged result
 
-🆕 New files: N
-  - workflows/new_feature.md (added)
+**For preference files:**
+1. Keep all user's existing values
+2. Add any NEW settings with defaults
 
-🔒 Custom (untouched): N
-  - workflows/deploy.md (user's custom workflow)
-```
+**For .cursorrules / CLAUDE.md / GEMINI.md / .github/copilot-instructions.md:**
+1. Extract CUSTOM PROJECT RULES section from OLD file
+2. Take NEW routing engine
+3. Insert user's CUSTOM RULES back → write merged result
 
-### Step 6: Apply SMART_MERGE Files
+### 7. Translate (if needed)
 
-**For each _index.md file:**
+If LANGUAGE ≠ "en": translate all user-facing .md files (indexes, templates, preferences). Keep structure, emoji, paths, YAML keys unchanged. Do NOT translate workflow files or user data.
 
-1. Read the OLD file (current project)
-2. Read the NEW file (from update)
-3. Extract user data from OLD file:
-   - All rows in `## 📁 Files in This Category` table (except header/separator)
-   - All rows in `## 📦 Archived Entries` table (except header/separator)
-   - Any user-added sections
-4. Take the NEW template structure (headings, descriptions, hints)
-5. Insert user data back into the new structure
-6. Write the merged result
-
-**For each preferences file (cleanup_settings.md, etc.):**
-
-1. Read the OLD file (user's customized values)
-2. Read the NEW file (may have new settings added)
-3. Keep all user's existing values
-4. Add any NEW settings from update (with default values)
-5. Write the merged result
-
-Report:
-```
-🟡 Merged: N files
-  - 06_problems/_index.md (kept 5 user entries, updated structure)
-  - 13_preferences/cleanup_settings.md (added 2 new settings)
-```
-
-### Step 7: Apply ADD_NEW Files
+### 8. Update Version & Cleanup
 
 ```
-For each file in new version that doesn't exist in project:
-  Copy to project
-  Mark for translation
+Write new version → .agent/VERSION
+Delete /tmp/anchor_update/
 ```
 
-Report:
-```
-🆕 New files: N
-  - workflows/anchor_update.md
-  - memory/13_preferences/linked_projects.md
-```
-
-### Step 8: Translate Updated Files
-
-> [!IMPORTANT]
-> Files downloaded from GitHub are in English.
-> If the user's language ≠ "en", all user-facing .md files must be translated.
-> Workflow files are NOT translated (they are AI instructions, always English).
-
-**8.1. Check if translation is needed:**
+### 9. Report
 
 ```
-Read LANGUAGE value from Step 3
-If LANGUAGE == "en" → skip this step entirely
-If LANGUAGE ≠ "en" → translate all files below
-```
+✅ UPDATE COMPLETE: vX.Y.Z → vA.B.C
 
-**8.2. Files to translate (26 files):**
-
-```yaml
-# ── Category Indexes (13 files) ──
-- .agent/memory/01_project/_index.md
-- .agent/memory/02_architecture/_index.md
-- .agent/memory/03_decisions/_index.md
-- .agent/memory/04_domain/_index.md
-- .agent/memory/05_code/_index.md
-- .agent/memory/06_problems/_index.md
-- .agent/memory/07_context/_index.md
-- .agent/memory/08_people/_index.md
-- .agent/memory/09_external/_index.md
-- .agent/memory/10_testing/_index.md
-- .agent/memory/11_deployment/_index.md
-- .agent/memory/12_roadmap/_index.md
-- .agent/memory/13_preferences/_index.md
-
-# ── Templates (2 files) ──
-- .agent/memory/03_decisions/_template.md
-- .agent/memory/06_problems/_template.md
-
-# ── Context files (2 files) ──
-- .agent/memory/07_context/current_session.md
-- .agent/memory/07_context/pending_tasks.md
-
-# ── Preferences/Settings (9 files) ──
-- .agent/memory/13_preferences/auto_save_rules.md
-- .agent/memory/13_preferences/cleanup_settings.md
-- .agent/memory/13_preferences/coding_style.md
-- .agent/memory/13_preferences/communication.md
-- .agent/memory/13_preferences/linked_projects.md
-- .agent/memory/13_preferences/memory_settings.md
-- .agent/memory/13_preferences/response_templates.md
-- .agent/memory/13_preferences/language.md
-- .agent/MEMORY_INDEX.md
-```
-
-**8.3. Translation rules — for EACH file:**
-
-1. Read its content
-2. Translate ALL English text to the target language (headings, descriptions, table headers, hints, comments)
-3. **Keep unchanged**: structure, formatting, emoji, markdown syntax, code blocks
-4. **Keep unchanged**: category codes (`01_project`, `02_architecture`, etc.)
-5. **Keep unchanged**: YAML keys (`TRIGGERS`, `CONFIDENCE`, `TTL`, `AUTO_SAVE`, etc.)
-6. **Keep unchanged**: file paths and filenames inside the content
-7. **Keep unchanged**: user data entries in _index.md tables (they were preserved during SMART_MERGE)
-8. Write the translated content back to the file
-
-> [!CAUTION]
-> For SMART_MERGE files (_index.md): only translate the TEMPLATE portions
-> (headings, descriptions, hints). User data rows in tables must stay
-> exactly as they were — they may already be in the user's language.
-
-### Step 9: Update Version
-
-```
-Write new version to .agent/VERSION
-```
-
-### Step 10: Cleanup & Report
-
-```
-Delete temp directory (/tmp/anchor_update/)
-```
-
-**Final report:**
-
-```
-✅ ANCHOR UPDATE COMPLETE: vX.Y.Z → vA.B.C
-═══════════════════════════════════════════
-
-📦 Changes applied:
-| Action | Files | Details |
-|--------|-------|---------|
-| 🟢 Overwritten | N | workflows, scripts, templates |
-| 🟡 Merged | N | indexes (kept M user entries) |
-| 🆕 Added | N | new files |
-| 🔒 Custom | N | user workflows (untouched) |
-| 🌐 Translated | N | to [language] |
-| 🔴 Skipped | N | user data (untouched) |
+| Action | Files |
+|--------|-------|
+| 🟢 Overwritten | N |
+| 🟡 Merged | N |
+| 🆕 Added | N |
+| 🔒 Custom (untouched) | N |
+| 🌐 Translated | N |
 
 💾 Backup: .agent/backups/pre_update_vX.Y.Z_YYYY-MM-DD/
-
-📋 What's new in vA.B.C:
-  - [AI reads CHANGELOG or commit messages and summarizes]
-
-⚠️ If anything looks wrong, restore from backup:
-   /anchor_restore .agent/backups/pre_update_vX.Y.Z_YYYY-MM-DD/
-```
-
----
-
-## Smart Merge Algorithm (detailed)
-
-### For _index.md files:
-
-```
-OLD _index.md:                          NEW _index.md (from update):
-┌──────────────────────┐                ┌──────────────────────┐
-│ # PROBLEMS (old h1)  │  ← replace    │ # PROBLEMS (new h1)  │
-│                      │               │                      │
-│ ## Description       │  ← replace    │ ## Description (new) │
-│ Old description...   │               │ Better description..│
-│                      │               │                      │
-│ ## Files             │  ← keep hdr   │ ## Files             │
-│ | PROB-001 | cors |  │  ← KEEP!     │ | (empty template)   │
-│ | PROB-002 | mem  |  │  ← KEEP!     │                      │
-│                      │               │ ## 📦 Archived       │ ← NEW section!
-│ ## When to Access    │  ← replace    │ (new in this version)│
-│ Old hints...         │               │                      │
-│                      │               │ ## When to Access    │
-│                      │               │ New hints...         │
-└──────────────────────┘                └──────────────────────┘
-
-RESULT:
-┌──────────────────────┐
-│ # PROBLEMS (new h1)  │ ← from NEW
-│                      │
-│ ## Description (new) │ ← from NEW
-│ Better description..│
-│                      │
-│ ## Files             │ ← header from NEW
-│ | PROB-001 | cors |  │ ← DATA from OLD
-│ | PROB-002 | mem  |  │ ← DATA from OLD
-│                      │
-│ ## 📦 Archived       │ ← NEW section (added!)
-│ (empty)              │
-│                      │
-│ ## When to Access    │ ← from NEW
-│ New hints...         │
-└──────────────────────┘
-```
-
-### For preference files:
-
-```
-OLD cleanup_settings.md:                NEW cleanup_settings.md:
-┌──────────────────────┐                ┌──────────────────────┐
-│ TTL_DEFAULT: 90      │  ← user set   │ TTL_DEFAULT: 180     │ ← new default
-│ MAX_FILES: 50        │  ← user set   │ MAX_FILES: 100       │ ← new default
-│                      │               │ SESSION_MERGE: 30    │ ← NEW setting!
-│                      │               │ TOPIC_THRESHOLD: 3   │ ← NEW setting!
-└──────────────────────┘                └──────────────────────┘
-
-RESULT:
-┌──────────────────────┐
-│ TTL_DEFAULT: 90      │ ← KEPT user's value
-│ MAX_FILES: 50        │ ← KEPT user's value
-│ SESSION_MERGE: 30    │ ← ADDED from new (default)
-│ TOPIC_THRESHOLD: 3   │ ← ADDED from new (default)
-└──────────────────────┘
+⚠️ Restore: /anchor_restore [backup_path]
 ```
 
 ---
 
 ## Safety Rules
 
-1. **ALWAYS backup before update** — no exceptions
-2. **NEVER overwrite user data files** — follow NEVER_TOUCH list exactly
-3. **NEVER touch custom workflows** — files not in new version are user's own
-4. **User entries in _index.md are sacred** — merge, not replace
-5. **User preference values are sacred** — add new settings, keep existing values
-6. **Translate after update** — ensure all user-facing text matches language
-7. **Version check first** — don't update if already on latest
-8. **Backup path in report** — so user knows where to restore from
+1. **ALWAYS** backup before update
+2. **NEVER** overwrite user data (NEVER_TOUCH list)
+3. **NEVER** touch custom workflows not in new version
+4. User entries in `_index.md` tables are **sacred** — merge, not replace
+5. User preference values are **sacred** — add new settings, keep existing
+6. CUSTOM PROJECT RULES in system prompts are **sacred** — preserve on merge
+7. Translate after update if language ≠ en
+8. Include backup path in report

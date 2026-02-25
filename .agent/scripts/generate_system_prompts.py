@@ -219,10 +219,11 @@ def generate_markdown_prompt(
     project_summary: str,
     target_ide: str,
 ) -> str:
-    """Generate CLAUDE.md or GEMINI.md content."""
+    """Generate CLAUDE.md, GEMINI.md, or copilot-instructions.md content."""
     ide_names = {
         "claude": "Claude Code",
         "gemini": "Gemini CLI / Antigravity",
+        "copilot": "GitHub Copilot Chat (VS Code)",
     }
     ide_label = ide_names.get(target_ide, target_ide)
 
@@ -276,10 +277,10 @@ This project uses **RLM-Anchor** persistent memory.
 **Commands** (user says `/command`):
 | Command | Action |
 |---------|--------|
-| `/wakeup` | Start session → `.agent/workflows/wakeup.md` |
-| `/sleep` | End session → `.agent/workflows/sleep.md` |
-| `/remember` | Save to memory → `.agent/workflows/remember.md` |
-| `/recall` | Search memory → `.agent/workflows/recall.md` |
+| `/wakeup` | Start session |
+| `/sleep` | End session |
+| `/remember` | Save to memory |
+| `/recall` | Search memory |
 
 ---
 
@@ -345,6 +346,8 @@ def main():
     cursorrules_path = project_dir / ".cursorrules"
     claude_path = project_dir / "CLAUDE.md"
     gemini_path = project_dir / "GEMINI.md"
+    copilot_dir = project_dir / ".github"
+    copilot_path = copilot_dir / "copilot-instructions.md"
 
     custom_cursorrules = extract_custom_rules(
         read_file_safe(cursorrules_path), "comment"
@@ -354,6 +357,9 @@ def main():
     )
     custom_gemini = extract_custom_rules(
         read_file_safe(gemini_path), "markdown"
+    )
+    custom_copilot = extract_custom_rules(
+        read_file_safe(copilot_path), "markdown"
     )
 
     # Generate .cursorrules
@@ -380,9 +386,19 @@ def main():
     lines_gm = len(gemini_content.split("\n"))
     print(f"  ✅ GEMINI.md: {lines_gm} lines")
 
+    # Generate .github/copilot-instructions.md
+    copilot_dir.mkdir(parents=True, exist_ok=True)
+    copilot_content = generate_markdown_prompt(
+        language, code_style, os_name, custom_copilot, project_summary, "copilot"
+    )
+    copilot_path.write_text(copilot_content, encoding="utf-8")
+    lines_cp = len(copilot_content.split("\n"))
+    print(f"  ✅ .github/copilot-instructions.md: {lines_cp} lines")
+
     print("\n✅ System prompts synced!")
     print(f"  Custom rules preserved: cursorrules={bool(custom_cursorrules)}, "
-          f"claude={bool(custom_claude)}, gemini={bool(custom_gemini)}")
+          f"claude={bool(custom_claude)}, gemini={bool(custom_gemini)}, "
+          f"copilot={bool(custom_copilot)}")
 
 
 if __name__ == "__main__":
