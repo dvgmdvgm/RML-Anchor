@@ -1,5 +1,6 @@
 ---
-description: Runs intelligent cleanup of memory with TTL, importance scoring, and summarization.
+agent: agent
+description: "Anchor cleanup (RLM-Anchor)"
 ---
 
 # /anchor_cleanup — Intelligent Memory Cleanup

@@ -159,6 +159,10 @@ def generate_cursorrules(
 # Language: ALWAYS respond in: {language}
 # Source: .agent/memory/13_preferences/language_local.md
 
+# Session logging: After ANY work, append to .agent/memory/07_context/current_session.md
+# Auto-compression: IF "Topics Discussed" > 50 items -> summarize to 20 key points.
+# Context7 MCP: Always use Context7 MCP for library/API documentation, code generation, setup or configuration.
+
 # ═══════════════════════════════════════
 # 🟡 PROJECT RULES
 # ═══════════════════════════════════════
@@ -251,7 +255,19 @@ def generate_markdown_prompt(
 
 ## 🔴 CRITICAL RULES (never violate)
 
+**Auto-Context Load (MANDATORY)**: IF this is the FIRST message in a new chat → you MUST automatically read `.agent/memory/07_context/current_session.md` before doing anything else. In your VERY FIRST response, start with the exact line: `✅ Context loaded from current_session.md`. Failure to do this will confuse the user.
+
 **Language**: ALWAYS respond in: **{language}**
+
+**Session logging**: After ANY work, append it to `.agent/memory/07_context/current_session.md` (Topics Discussed).
+**Auto-compression**: IF "Topics Discussed" > 50 items → summarize them into 20 key points immediately.
+**Context7 MCP**: Always use Context7 MCP when I need library/API documentation, code generation, setup or configuration steps without me having to explicitly ask.
+
+**Token Efficiency**: Your context window is limited (128k). To stay in one chat longer:
+1. FAVOR RLM memory over global searches (`@workspace`).
+2. DO NOT read entire files if you only need a specific part; use line ranges.
+3. MINIMIZE terminal output; show only errors or concise summaries.
+4. **Multi-Phase Workflow**: For complex tasks (e.g., full-stack, backend + mobile), execute incrementally. Complete one phase, save results to `current_session.md`, and SUGGEST starting a new chat for the next phase to reset the 128k limit.
 
 ---
 
@@ -317,6 +333,49 @@ Full: `.agent/memory/13_preferences/coding_style.md`
 """
 
 
+def sync_workflows_to_copilot(project_dir: Path):
+    """Mirror .agent/workflows/*.md to .github/prompts/*.prompt.md."""
+    workflows_dir = project_dir / ".agent" / "workflows"
+    prompts_dir = project_dir / ".github" / "prompts"
+
+    if not workflows_dir.exists():
+        return
+
+    prompts_dir.mkdir(parents=True, exist_ok=True)
+    count = 0
+
+    for wf_file in workflows_dir.glob("*.md"):
+        # Map filenames: anchor_sync.md -> anchor-sync.prompt.md
+        name = wf_file.stem.replace("_", "-")
+        target_file = prompts_dir / f"{name}.prompt.md"
+        
+        content = wf_file.read_text(encoding="utf-8")
+        
+        # Extract title/description if possible, or use filename
+        description = name.replace("-", " ").capitalize()
+        
+        # Prepare Copilot-style prompt header
+        header = (
+            "---\n"
+            "agent: agent\n"
+            f"description: \"{description} (RLM-Anchor)\"\n"
+            "---\n\n"
+        )
+        
+        # If the file already has frontmatter, we merge or replace
+        if content.startswith("---"):
+            # Strip existing frontmatter
+            parts = content.split("---", 2)
+            if len(parts) >= 3:
+                content = parts[2].strip()
+        
+        final_content = header + content
+        target_file.write_text(final_content, encoding="utf-8")
+        count += 1
+    
+    print(f"  [OK] Copilot prompts: {count} commands synced")
+
+
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
@@ -330,7 +389,7 @@ def main():
     args = parser.parse_args()
     project_dir = Path(args.project_dir).resolve()
 
-    print(f"🔄 Generating system prompts for: {project_dir}")
+    print(f"[*] Generating system prompts for: {project_dir}")
 
     # Extract data from memory
     language = extract_language(project_dir)
@@ -368,7 +427,7 @@ def main():
     )
     cursorrules_path.write_text(cursorrules_content, encoding="utf-8")
     lines_cr = len(cursorrules_content.split("\n"))
-    print(f"  ✅ .cursorrules: {lines_cr} lines")
+    print(f"  [OK] .cursorrules: {lines_cr} lines")
 
     # Generate CLAUDE.md
     claude_content = generate_markdown_prompt(
@@ -376,7 +435,7 @@ def main():
     )
     claude_path.write_text(claude_content, encoding="utf-8")
     lines_cl = len(claude_content.split("\n"))
-    print(f"  ✅ CLAUDE.md: {lines_cl} lines")
+    print(f"  [OK] CLAUDE.md: {lines_cl} lines")
 
     # Generate GEMINI.md
     gemini_content = generate_markdown_prompt(
@@ -384,7 +443,7 @@ def main():
     )
     gemini_path.write_text(gemini_content, encoding="utf-8")
     lines_gm = len(gemini_content.split("\n"))
-    print(f"  ✅ GEMINI.md: {lines_gm} lines")
+    print(f"  [OK] GEMINI.md: {lines_gm} lines")
 
     # Generate .github/copilot-instructions.md
     copilot_dir.mkdir(parents=True, exist_ok=True)
@@ -393,9 +452,12 @@ def main():
     )
     copilot_path.write_text(copilot_content, encoding="utf-8")
     lines_cp = len(copilot_content.split("\n"))
-    print(f"  ✅ .github/copilot-instructions.md: {lines_cp} lines")
+    print(f"  [OK] .github/copilot-instructions.md: {lines_cp} lines")
 
-    print("\n✅ System prompts synced!")
+    # Sync all workflows to Copilot commands
+    sync_workflows_to_copilot(project_dir)
+
+    print("\n[DONE] System prompts synced!")
     print(f"  Custom rules preserved: cursorrules={bool(custom_cursorrules)}, "
           f"claude={bool(custom_claude)}, gemini={bool(custom_gemini)}, "
           f"copilot={bool(custom_copilot)}")

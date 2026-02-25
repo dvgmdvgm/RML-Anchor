@@ -44,28 +44,31 @@ Copy current_session.md content → .agent/memory/07_context/session_history/[fi
 ```markdown
 # Session: YYYY-MM-DD HH:MM
 
-## 📋 Discussion Topics
+## 🎯 Main Session Topics
 
 1. Topic 1
 2. Topic 2
 
-## ⚖️ Decisions Made
+## 💡 Key Decisions
 
-| Decision | Description | Impact |
-|----------|-------------|--------|
-| ... | ... | ... |
+| Decision | Description |
+|----------|-------------|
+| ... | ... |
 
 ## 📁 Modified Files
 
 | File | Change |
 |------|--------|
 | `file1.py` | Added auth logic |
-| `file2.html` | Updated layout |
+
+## 📌 Topics Discussed (Chronological)
+
+- [HH:MM] Detail 1
+- [HH:MM] Detail 2
 
 ## 📝 Notes
 
 - Note 1
-- Note 2
 
 ## ⏳ Pending (Carried Over)
 
@@ -109,6 +112,14 @@ Template:
 
 | Decision | Description |
 |----------|-------------|
+| — | — |
+
+---
+
+## 📁 Modified Files
+
+| File | Change |
+|------|--------|
 | — | — |
 
 ---

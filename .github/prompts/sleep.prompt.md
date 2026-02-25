@@ -1,19 +1,29 @@
 ---
 agent: agent
-description: "End session — save context and summarize the work done (RLM-Anchor)"
+description: "Sleep (RLM-Anchor)"
 ---
 
 # /sleep — End Session
 
-You are executing the **RLM-Anchor /sleep** workflow. Follow these steps precisely:
+## Usage
 
-## Step 0: Check Language Setting
+```
+/sleep
+```
 
-Read `.agent/memory/13_preferences/language_local.md` (if exists, use it).
-Otherwise read `.agent/memory/13_preferences/language.md`.
+---
+
+## Execution Steps
+
+### 0. Check Language Setting
+
+```
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 All output and saved entries must be in this language!
+```
 
-## Step 1: Summarize Current Session
+### 1. Summarize Current Session
 
 Analyze the conversation and create a session summary:
 - Main discussion topics
@@ -23,7 +33,7 @@ Analyze the conversation and create a session summary:
 
 **Write in configured language!**
 
-## Step 2: Archive Session to History
+### 2. Archive Session to History
 
 ```
 Generate filename: session_YYYY-MM-DD_HH-MM.md
@@ -35,39 +45,55 @@ Copy current_session.md content → .agent/memory/07_context/session_history/[fi
 ```markdown
 # Session: YYYY-MM-DD HH:MM
 
-## 📋 Discussion Topics
+## 🎯 Main Session Topics
+
 1. Topic 1
 2. Topic 2
 
-## ⚖️ Decisions Made
-| Decision | Description | Impact |
-|----------|-------------|--------|
-| ... | ... | ... |
+## 💡 Key Decisions
+
+| Decision | Description |
+|----------|-------------|
+| ... | ... |
 
 ## 📁 Modified Files
+
 | File | Change |
 |------|--------|
 | `file1.py` | Added auth logic |
 
+## 📌 Topics Discussed (Chronological)
+
+- [HH:MM] Detail 1
+- [HH:MM] Detail 2
+
 ## 📝 Notes
+
 - Note 1
 
 ## ⏳ Pending (Carried Over)
+
 | Priority | Task |
 |----------|------|
 | 🔴 | Task 1 |
 ```
 
-## Step 3: Update pending_tasks.md
+### 3. Update pending_tasks.md
 
-Update `.agent/memory/07_context/pending_tasks.md`:
+```
+Update .agent/memory/07_context/pending_tasks.md
+```
+
 - Add new pending tasks from this session
 - Move completed tasks to "Recently Completed"
 
-## Step 4: Reset current_session.md
+### 4. Reset current_session.md
 
-Overwrite `.agent/memory/07_context/current_session.md` with blank template:
+```
+Overwrite .agent/memory/07_context/current_session.md with blank template
+```
 
+Template:
 ```markdown
 # 📍 Current Session
 
@@ -77,49 +103,79 @@ Overwrite `.agent/memory/07_context/current_session.md` with blank template:
 ---
 
 ## 🎯 Main Session Topics
+
 1. —
 2. —
 
 ---
 
 ## 💡 Key Decisions
+
 | Decision | Description |
 |----------|-------------|
 | — | — |
 
 ---
 
+## 📁 Modified Files
+
+| File | Change |
+|------|--------|
+| — | — |
+
+---
+
 ## 📌 Topics Discussed
+
 - —
 
 ---
 
 ## ⏳ Current Status
+
 **Status**: Ready to start
 
 ---
 
 ## 📝 Notes
+
 - —
 ```
 
-## Step 5: Update Relevant Indexes
+### 5. Update Relevant Indexes
 
 If new entries were created in other categories — update their `_index.md`.
 
-Verify: every content file created/modified during this session is listed in its category's `_index.md`. If any orphan found → add it now.
+### 5.5. Quick Sync Validation
 
-## Step 5.7: Update Stats Log
+```
+Verify: every content file created/modified during this session
+        is listed in its category's _index.md
+If any orphan found → add it to _index.md now (before session ends)
+```
 
-Append one row to `.agent/memory/07_context/memory_stats_log.md`:
-- **Date**: today's date
+> [!NOTE]
+> This catches files saved via /remember or manually that may have
+> been missed in _index.md updates. Runs silently — only warns if issues found.
+
+### 5.7. Update Stats Log
+
+```
+Append one row to .agent/memory/07_context/memory_stats_log.md
+```
+
+Collect:
+- **Date**: today's date (YYYY-MM-DD)
 - **Sessions**: count files in session_history/
 - **Entries**: count total content .md files across categories 01-12
 - **Size**: total size of .agent/memory/ folder
-- **Decisions**: count files in 03_decisions/
-- **Problems**: count files in 06_problems/
+- **Decisions**: count files in 03_decisions/ (exclude _index.md, _template.md)
+- **Problems**: count files in 06_problems/ (exclude _index.md, _template.md, subdirs)
+- **Cleanup**: "cleanup" if /anchor_cleanup was run this session, "—" otherwise
 
-## Step 6: Confirm to User
+Append as a new table row. **Never overwrite** existing rows.
+
+### 6. Confirm to User
 
 Output in configured language:
 
@@ -134,7 +190,7 @@ Output in configured language:
 | Files modified | M |
 
 📁 Archived to:
-- `session_history/session_YYYY-MM-DD_HH-MM.md`
+- `session_history/session_2026-02-06_03-20.md`
 
 📌 Carried to next session:
 | Priority | Task |
@@ -142,4 +198,70 @@ Output in configured language:
 | 🔴 | Task 1 |
 
 👋 See you later!
+```
+
+---
+
+## Example (Language: Russian)
+
+```
+USER: /sleep
+
+AI: 📝 Суммаризирую сессию...
+
+    ✅ Сессия завершена!
+    
+    📊 Сегодня:
+    | Показатель | Значение |
+    |------------|----------|
+    | Длительность | ~2 часа |
+    | Решений записано | 3 |
+    | Файлов изменено | 8 |
+    
+    📁 Архивировано:
+    - `session_history/session_2026-02-06_03-20.md`
+    
+    ⚖️ Записанные решения:
+    | Решение | Описание |
+    |---------|----------|
+    | ADR-002 | REST API вместо GraphQL |
+    
+    📌 На следующий раз:
+    | Приоритет | Задача |
+    |-----------|--------|
+    | 🔴 | Доделать авторизацию |
+    
+    👋 До встречи!
+```
+
+## Example (Language: English)
+
+```
+USER: /sleep
+
+AI: 📝 Summarizing session...
+
+    ✅ Session ended!
+    
+    📊 Today:
+    | Metric | Value |
+    |--------|-------|
+    | Duration | ~2 hours |
+    | Decisions recorded | 3 |
+    | Files modified | 8 |
+    
+    📁 Archived to:
+    - `session_history/session_2026-02-06_03-20.md`
+    
+    ⚖️ Recorded decisions:
+    | Decision | Description |
+    |----------|-------------|
+    | ADR-002 | REST API over GraphQL |
+    
+    📌 For next session:
+    | Priority | Task |
+    |----------|------|
+    | 🔴 | Complete authentication |
+    
+    👋 See you later!
 ```

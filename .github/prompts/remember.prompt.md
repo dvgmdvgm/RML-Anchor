@@ -1,23 +1,41 @@
 ---
 agent: agent
-description: "Save information to project memory system (RLM-Anchor)"
+description: "Remember (RLM-Anchor)"
 ---
 
 # /remember — Save to Memory
 
-You are executing the **RLM-Anchor /remember** workflow.
+## Usage
 
-The user wants to save information to the project's persistent memory system.
+```
+/remember [category] [information]
+```
 
-## Step 0: Check Language Setting
+or simply
 
-Read `.agent/memory/13_preferences/language_local.md` (if exists, use it).
-Otherwise read `.agent/memory/13_preferences/language.md`.
+```
+/remember
+```
+
+(AI will determine category automatically)
+
+---
+
+## Execution Steps
+
+// turbo-all
+
+### 0. Check Language Setting
+
+```
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
 All saved entries must be written in this language!
+```
 
-## Step 1: Determine Category
+### 1. Determine Category
 
-Based on the user's message context, determine the appropriate category:
+If category not specified, determine by context:
 
 | Context | Category |
 |---------|----------|
@@ -27,20 +45,24 @@ Based on the user's message context, determine the appropriate category:
 | External API, integration | `09_external` |
 | Plan, idea, TODO | `12_roadmap` |
 | User preference | `13_preferences` |
-| Other | Ask user |
+| Other | ask user |
 
-## Step 2: Read Category Index
+### 2. Read Category Index
 
-Read `.agent/memory/[category]/_index.md` to understand existing entries.
+```
+Read .agent/memory/[category]/_index.md
+```
 
-## Step 3: Determine File
+### 3. Determine File
 
-- If information relates to an existing file → update it
+- If information relates to existing file → update it
 - If new topic → create new file
 
-## Step 4: Create/Update Entry
+### 4. Create/Update Entry
 
-Use template from `_template.md` if available, or standard format:
+Use template from `_template.md` if available, or standard format.
+
+**IMPORTANT: Write content in the configured language!**
 
 ```markdown
 # [Title - in configured language]
@@ -55,16 +77,50 @@ Use template from `_template.md` if available, or standard format:
 [Information - in configured language]
 ```
 
-**IMPORTANT: Write content in the configured language!**
-
-## Step 5: Update Category Index
+### 5. Update Category Index
 
 Add new file to `_index.md` table.
 
-## Step 6: Confirm to User
+### 6. Confirm to User
 
 Output in configured language:
 
 ```
 ✅ Saved to memory/[category]/[file].md
+```
+
+---
+
+## Examples
+
+### Example 1: Explicit Category (Russian)
+
+```
+USER: /remember decisions мы выбрали PostgreSQL потому что нужны транзакции
+
+AI: Создаю ADR-001-database-choice.md...
+    ✅ Записано в memory/03_decisions/ADR-001-database-choice.md
+```
+
+### Example 2: Auto-detection (English)
+
+```
+USER: /remember fixed authentication bug, the problem was wrong redirect_uri
+
+AI: Determining category... → problems
+    Creating PROB-001-auth-redirect.md...
+    ✅ Saved to memory/06_problems/PROB-001-auth-redirect.md
+```
+
+### Example 3: Without Parameters (Spanish)
+
+```
+USER: Decidimos usar Celery para tareas en segundo plano
+
+AI: [notices important decision]
+    ¿Quieres que guarde esta decisión en la memoria?
+    
+USER: sí
+
+AI: ✅ Guardado en memory/03_decisions/ADR-002-celery.md
 ```

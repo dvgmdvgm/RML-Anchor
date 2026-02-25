@@ -1,80 +1,150 @@
 ---
 agent: agent
-description: "Start a work session — load project context and memory (RLM-Anchor)"
+description: "Wakeup (RLM-Anchor)"
 ---
 
 # /wakeup — Start Session
 
-You are executing the **RLM-Anchor /wakeup** workflow. Follow these steps precisely:
+## Usage
 
-## Step 1: Read Language Settings
+```
+/wakeup
+```
 
-Read the file `.agent/memory/13_preferences/language_local.md` (if it exists, use it).
-Otherwise read `.agent/memory/13_preferences/language.md`.
-Extract the `LANGUAGE=` value. **All subsequent output must be in this language!**
+---
 
-## Step 2: Read Main Memory Index
+## Execution Steps
 
-Read `.agent/MEMORY_INDEX.md`.
+// turbo-all
+
+### 1. Read Language Settings
+
+```
+Read .agent/memory/13_preferences/language_local.md (if exists, use it)
+Otherwise read .agent/memory/13_preferences/language.md
+Extract LANGUAGE= value
+All subsequent output must be in this language!
+```
+
+### 2. Read Main Memory Index
+
+```
+Read .agent/MEMORY_INDEX.md
+```
+
 Output brief summary: how many categories, last update date.
 
-## Step 3: Check for Unfinished Session
+### 3. Check for Unfinished Session
 
-Read `.agent/memory/07_context/current_session.md`.
+```
+Read .agent/memory/07_context/current_session.md
+```
 
-**If it contains actual data** (not just the blank template):
+**If not empty template** (contains actual data):
 - Warn user: "Detected unfinished session from [date]. Data will be archived."
-- Copy its content to `.agent/memory/07_context/session_history/session_YYYY-MM-DD_orphan.md`
-- Reset `current_session.md` to the blank template
+- Archive it first → `session_history/session_YYYY-MM-DD_orphan.md`
+- Reset `current_session.md` to template
 
-## Step 4: Load Session History
+### 4. Load Session History
 
-List files in `.agent/memory/07_context/session_history/`.
-Read the last 2-3 session files for context.
-Output: last session summary, key decisions.
+```
+List files in .agent/memory/07_context/session_history/
+Read last 2-3 sessions for context
+```
 
-## Step 5: Memory Health Check
+Output:
+- Last session summary
+- Key decisions from recent sessions
 
-Count files in `.agent/memory/07_context/session_history/`.
-Count total `.md` files across all memory categories (01-12).
+### 5. Memory Health Check & Quick Validation
+
+```
+Count files in .agent/memory/07_context/session_history/
+Count total .md files across all memory categories (01-12)
+Read thresholds from .agent/memory/13_preferences/cleanup_settings.md
+```
+
+**Quick health evaluation:**
 
 | Condition | Action |
 |-----------|--------|
-| Session files > 30 | ⚠️ Warn: "N session files. Consider /anchor-sync" |
-| Session files > 100 | 🔴 Warn: "Memory overload! Recommend cleanup" |
-| Total memory files > 100 | ⚠️ Warn: "N memory entries. Compression may help" |
+| Session files > 30 | ⚠️ Warn: "N session files detected. Consider running /anchor_cleanup" |
+| Session files > 100 | 🔴 Warn: "Memory overload! Strongly recommend /anchor_cleanup" |
+| Total memory files > 100 | ⚠️ Warn: "N memory entries. Topic compression may help" |
 
-## Step 6: Check Pending Tasks
+**Quick sync validation:**
 
-Read `.agent/memory/07_context/pending_tasks.md` (if exists).
+```
+Count content files on disk (exclude _index.md, _template.md, system files)
+Count file entries across all _index.md tables
+If counts don't match → ⚠️ "Index out of sync. Run /anchor_validate"
+```
+
+**Anomaly detection (from stats log):**
+
+```
+Read last 2 rows from .agent/memory/07_context/memory_stats_log.md
+If log has ≥ 2 entries, compare last two rows:
+  If entries grew > 10 since last session → ⚠️ "Rapid growth: +N new entries"
+  If size grew > 50 KB since last session → ⚠️ "Large data increase: +X KB"
+If log is empty or has 1 entry → skip (not enough data)
+```
+
+> [!NOTE]
+> This is a QUICK check only — no files are modified.
+> It only counts and warns. Full analytics via `/memory-stats`.
+
+### 6. Check Pending Tasks
+
+```
+Read .agent/memory/07_context/pending_tasks.md (if exists)
+```
+
 If there are pending tasks — display the list.
 
-## Step 7: Load User Preferences
+### 7. Load User Preferences
 
-Read `.agent/memory/13_preferences/_index.md`.
-Read `.agent/memory/13_preferences/communication.md` (if exists).
+```
+Read .agent/memory/13_preferences/_index.md
+Read .agent/memory/13_preferences/communication.md
+```
+
 Apply response styling from preferences.
 
-## Step 7.5: Output Critical Rules Reminder
+### 7.5. Output Critical Rules Reminder
 
-Read `.github/copilot-instructions.md`.
-Extract the CUSTOM PROJECT RULES section.
-Display as a compact reminder block:
+After loading preferences, output a **CRITICAL RULES** block. This serves as an in-context reminder on top of the system prompt files:
 
 ```
+Read .cursorrules or CLAUDE.md or GEMINI.md (whichever exists)
+Extract the CUSTOM PROJECT RULES section
+Display as a compact reminder block
+```
+
+Output format:
+```markdown
 🔴 **CRITICAL RULES (active this session):**
-- Language: [configured language]
-- [Custom rule 1]
-- [Custom rule 2]
+- Language: [ru/en/...]
+- [Custom rule 1 from system prompt file]
+- [Custom rule 2 from system prompt file]
+- ...
 ```
 
-## Step 8: Initialize New Session
+> [!NOTE]
+> If no system prompt file exists, warn:
+> "⚠️ No .cursorrules/CLAUDE.md/GEMINI.md found. Run `/anchor_sync` to generate."
 
-Update `.agent/memory/07_context/current_session.md`:
+### 8. Initialize New Session
+
+```
+Update .agent/memory/07_context/current_session.md
+```
+
+Set:
 - **Start Date**: current date/time
 - **Status**: Active
 
-## Step 9: Report Readiness
+### 9. Report Readiness
 
 Output in configured language:
 
@@ -98,8 +168,73 @@ Output in configured language:
 | Priority | Task |
 |----------|------|
 | 🔴 High | Task 1 |
+| 🟡 Medium | Task 2 |
 
 ⚠️ Memory Health: [OK / Warning / Critical]
 
 💡 Ready to work! What shall we do today?
+```
+
+---
+
+## Example (Language: Russian)
+
+```
+USER: Привет! Давай продолжим работу над проектом.
+
+AI: 🚀 Загружаю контекст проекта...
+
+    ✅ Сессия начата!
+    
+    📊 Память проекта:
+    | Параметр | Значение |
+    |----------|----------|
+    | Категорий | 13 |
+    | Записей | 5 |
+    | Последняя сессия | 2026-02-05 |
+    
+    📅 Прошлая сессия (2026-02-05):
+    | Тема | Решение |
+    |------|---------|
+    | Архитектура API | REST вместо GraphQL |
+    | Авторизация | OAuth2 + JWT |
+    
+    📌 Незавершённые задачи:
+    | Приоритет | Задача |
+    |-----------|--------|
+    | 🔴 | Доделать эндпоинт /users |
+    | 🟡 | Написать тесты |
+    
+    💡 Чем займёмся сегодня?
+```
+
+## Example (Language: English)
+
+```
+USER: Hi! Let's continue working on the project.
+
+AI: 🚀 Loading project context...
+
+    ✅ Session started!
+    
+    📊 Project memory:
+    | Parameter | Value |
+    |-----------|-------|
+    | Categories | 13 |
+    | Entries | 5 |
+    | Last session | 2026-02-05 |
+    
+    📅 Previous session (2026-02-05):
+    | Topic | Decision |
+    |-------|----------|
+    | API Architecture | REST over GraphQL |
+    | Authentication | OAuth2 + JWT |
+    
+    📌 Pending tasks:
+    | Priority | Task |
+    |----------|------|
+    | 🔴 | Complete /users endpoint |
+    | 🟡 | Write tests |
+    
+    💡 What shall we work on today?
 ```
