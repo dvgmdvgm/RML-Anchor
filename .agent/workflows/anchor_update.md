@@ -79,8 +79,17 @@ Read .agent/VERSION (if missing → assume 1.0.0)
 ### 2. Download Latest
 
 ```
-Clone: git clone --depth 1 https://github.com/dvgmdvgm/RML-Anchor.git /tmp/anchor_update/
-Read /tmp/anchor_update/.agent/VERSION → compare
+# IMPORTANT: Use OS-appropriate temp directory!
+# Windows: use $env:TEMP or %TEMP% (e.g., C:\Users\...\AppData\Local\Temp\anchor_update)
+# Unix/Mac: use /tmp/anchor_update/
+
+# Windows (PowerShell):
+git clone --depth 1 https://github.com/dvgmdvgm/RML-Anchor.git "$env:TEMP\anchor_update"
+
+# Unix/Mac:
+# git clone --depth 1 https://github.com/dvgmdvgm/RML-Anchor.git /tmp/anchor_update/
+
+Read [temp_dir]/anchor_update/.agent/VERSION → compare with local .agent/VERSION
 If same version → "✅ Already up to date" → stop
 If --check → "📦 Update available: X → Y" → stop
 ```
@@ -99,7 +108,24 @@ Copy .agent/ → .agent/backups/pre_update_vX.Y.Z_YYYY-MM-DD/
 
 ### 5. Apply OVERWRITE
 
-Replace each OVERWRITE file from new version. New files not in project → create. Custom files not in new version → skip.
+> [!IMPORTANT]
+> For EVERY file in the OVERWRITE list: if the file exists in the downloaded new version,
+> copy it to the project. **Create any missing parent directories first!**
+> This includes the `.github/` and `.github/prompts/` directories.
+
+**Explicit steps:**
+
+1. Read each file path from the OVERWRITE list above
+2. Check if the file exists in the downloaded new version (temp dir)
+3. If YES → create parent directories if needed → copy/overwrite the file
+4. If the file is new (doesn't exist in project yet) → still create it!
+5. If the file exists in project but NOT in new version → skip (it's custom)
+
+**Example for `.github/prompts/` files:**
+```
+# Create .github/prompts/ directory if it doesn't exist
+# Then copy all .prompt.md files from new version
+```
 
 ### 6. Apply SMART_MERGE
 
@@ -125,7 +151,9 @@ If LANGUAGE ≠ "en": translate all user-facing .md files (indexes, templates, p
 
 ```
 Write new version → .agent/VERSION
-Delete /tmp/anchor_update/
+Delete the temp clone directory (same path used in Step 2)
+# Windows: Remove-Item -Recurse -Force "$env:TEMP\anchor_update"
+# Unix: rm -rf /tmp/anchor_update/
 ```
 
 ### 9. Report
