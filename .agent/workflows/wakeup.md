@@ -25,13 +25,18 @@ Extract LANGUAGE= value
 All subsequent output must be in this language!
 ```
 
-### 2. Read Main Memory Index
+### 2. Check for Handoff Snapshot (v2.5.2 Lean Entry)
 
 ```
-Read .agent/MEMORY_INDEX.md
+Check if .agent/memory/07_context/handoff_snapshot.md exists.
 ```
 
-Output brief summary: how many categories, last update date.
+If it exists:
+- Read MUST be limited to this ONE file.
+- Skip steps 3, 4, 5, and 6 (Index, History, Stats, Tasks). All that info is in the snapshot.
+
+If NOT exists (cold start):
+- Perform standard legacy steps (3-6).
 
 ### 3. Check for Unfinished Session
 
@@ -112,26 +117,9 @@ Apply response styling from preferences.
 
 ### 7.5. Output Critical Rules Reminder
 
-After loading preferences, output a **CRITICAL RULES** block. This serves as an in-context reminder on top of the system prompt files:
-
-```
-Read .cursorrules or CLAUDE.md or GEMINI.md (whichever exists)
-Extract the CUSTOM PROJECT RULES section
-Display as a compact reminder block
-```
-
-Output format:
-```markdown
-🔴 **CRITICAL RULES (active this session):**
-- Language: [ru/en/...]
-- [Custom rule 1 from system prompt file]
-- [Custom rule 2 from system prompt file]
-- ...
-```
-
-> [!NOTE]
-> If no system prompt file exists, warn:
-> "⚠️ No .cursorrules/CLAUDE.md/GEMINI.md found. Run `/anchor_sync` to generate."
+Do NOT read .cursorrules/CLAUDE.md/GEMINI.md files. 
+The AI already has this information in its system prompt context. 
+Extract the CUSTOM PROJECT RULES from your current memory and display them.
 
 ### 8. Initialize New Session
 

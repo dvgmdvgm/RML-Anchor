@@ -13,6 +13,13 @@
 # Auto-compression: IF "Topics Discussed" > 50 items -> summarize to 20 key points.
 # Context7 MCP: Always use Context7 MCP for library/API documentation, code generation, setup or configuration.
 
+# Token Efficiency: Your context window is limited (128k). To stay in one chat longer:
+# 1. FAVOR RLM memory over global searches (@workspace).
+# 2. DO NOT read entire files if you only need a specific part; use line ranges.
+# 3. MINIMIZE terminal output; show only errors or concise summaries.
+# 4. **Multi-Phase Workflow**: For complex tasks, execute incrementally.
+# 5. IGNORE other AI system files: CLAUDE.md, GEMINI.md, .github/copilot-instructions.md.
+
 # ═══════════════════════════════════════
 # 🟡 PROJECT RULES
 # ═══════════════════════════════════════
