@@ -10,6 +10,8 @@ that IDEs inject into every AI request automatically.
 
 import argparse
 import re
+import sys
+from datetime import datetime
 from pathlib import Path
 
 
@@ -131,6 +133,47 @@ def extract_project_summary(project_dir: Path) -> str:
     return ""
 
 
+def validate_memory_availability(project_dir: Path) -> bool:
+    """Check if critical memory files are present before running."""
+    critical_files = [
+        project_dir / ".agent" / "memory" / "13_preferences" / "coding_style.md",
+        project_dir / ".agent" / "memory" / "13_preferences" / "language.md",
+    ]
+    missing = [str(f) for f in critical_files if not f.exists()]
+    if missing:
+        print(f"[ERROR] Critical memory missing: {', '.join(missing)}")
+        return False
+    return True
+
+
+def verify_sync_results(project_dir: Path, workflow_count: int):
+    """Update health summary and correlate workflows with copilot prompts."""
+    prompt_files = [
+        project_dir / ".cursorrules",
+        project_dir / "CLAUDE.md",
+        project_dir / "GEMINI.md",
+        project_dir / ".github" / "copilot-instructions.md"
+    ]
+    
+    today = datetime.now().date()
+    updated_today = 0
+    for pf in prompt_files:
+        if pf.exists() and datetime.fromtimestamp(pf.stat().st_mtime).date() == today:
+            updated_today += 1
+
+    prompts_dir = project_dir / ".github" / "prompts"
+    actual_prompts = len(list(prompts_dir.glob("*.prompt.md"))) if prompts_dir.exists() else 0
+    
+    print("\n[V] Sync Health Summary:")
+    print(f"  - Core Prompt Files Updated: {updated_today}/{len(prompt_files)}")
+    print(f"  - Workflow/Copilot Sync: {actual_prompts}/{workflow_count} tasks")
+    
+    if updated_today < len(prompt_files):
+        print("  [!] Warning: Some core prompt files were not updated.")
+    if actual_prompts != workflow_count:
+        print(f"  [!] Warning: Mismatch detected between .agent/workflows/ ({workflow_count}) and .github/prompts/ ({actual_prompts})")
+
+
 def generate_cursorrules(
     language: str,
     code_style: str,
@@ -165,10 +208,11 @@ def generate_cursorrules(
 
 # Token Efficiency: Your context window is limited (128k). To stay in one chat longer:
 # 1. FAVOR RLM memory over global searches (@workspace).
-# 2. DO NOT read entire files if you only need a specific part; use line ranges.
-# 3. MINIMIZE terminal output; show only errors or concise summaries.
-# 4. **Multi-Phase Workflow**: For complex tasks, execute incrementally.
-# 5. IGNORE other AI system files: CLAUDE.md, GEMINI.md, .github/copilot-instructions.md.
+# 2. **Anchor Orchestra**: For complex tasks, use /anchor_plan to create a Spec file in .agent/memory/07_context/specs/.
+# 3. **Orchestration**: Act as the ORCHESTRATOR. Delegate coding to subagents via `runSubagent` or a new chat using the Spec file.
+# 4. DO NOT read entire files if you only need a specific part; use line ranges.
+# 5. MINIMIZE terminal output; show only errors or concise summaries.
+# 6. IGNORE other AI system files: CLAUDE.md, GEMINI.md, .github/copilot-instructions.md.
 
 # ═══════════════════════════════════════
 # 🟡 PROJECT RULES
@@ -280,9 +324,10 @@ def generate_markdown_prompt(
 
 **Token Efficiency**: Your context window is limited (128k). To stay in one chat longer:
 1. FAVOR RLM memory over global searches (`@workspace`).
-2. DO NOT read entire files if you only need a specific part; use line ranges.
-3. MINIMIZE terminal output; show only errors or concise summaries.
-4. **Multi-Phase Workflow**: For complex tasks (e.g., full-stack, backend + mobile), execute incrementally. Complete one phase, save results to `current_session.md`, and SUGGEST starting a new chat for the next phase to reset the 128k limit.
+2. **Anchor Orchestra**: For complex tasks, use `/anchor_plan` to create a Spec file in `.agent/memory/07_context/specs/`.
+3. **Orchestration**: Act as the ORCHESTRATOR. Delegate coding to subagents via `runSubagent` or a new chat using the Spec file.
+4. DO NOT read entire files if you only need a specific part; use line ranges.
+5. MINIMIZE terminal output; show only errors or concise summaries.
 {exclusion_rule}
 
 ---
@@ -390,6 +435,7 @@ def sync_workflows_to_copilot(project_dir: Path):
         count += 1
     
     print(f"  [OK] Copilot prompts: {count} commands synced")
+    return count
 
 
 def main():
@@ -404,6 +450,9 @@ def main():
     )
     args = parser.parse_args()
     project_dir = Path(args.project_dir).resolve()
+
+    if not validate_memory_availability(project_dir):
+        sys.exit(1)
 
     print(f"[*] Generating system prompts for: {project_dir}")
 
@@ -424,18 +473,21 @@ def main():
     copilot_dir = project_dir / ".github"
     copilot_path = copilot_dir / "copilot-instructions.md"
 
-    custom_cursorrules = extract_custom_rules(
-        read_file_safe(cursorrules_path), "comment"
-    )
-    custom_claude = extract_custom_rules(
-        read_file_safe(claude_path), "markdown"
-    )
-    custom_gemini = extract_custom_rules(
-        read_file_safe(gemini_path), "markdown"
-    )
-    custom_copilot = extract_custom_rules(
-        read_file_safe(copilot_path), "markdown"
-    )
+    # Pre-check for Custom Rules loss safeguard
+    def safe_extract(path, fmt):
+        content = read_file_safe(path)
+        extracted = extract_custom_rules(content, fmt)
+        if not extracted and "🎯 CUSTOM PROJECT RULES" in content:
+            # Check if it actually had content beyond headers
+            if len(content.split("🎯 CUSTOM PROJECT RULES")[1].strip()) > 50:
+                 print(f"  [!] Safeguard: Custom rules found in {path.name} but extraction returned empty. Aborting to prevent overwrite.")
+                 sys.exit(1)
+        return extracted
+
+    custom_cursorrules = safe_extract(cursorrules_path, "comment")
+    custom_claude = safe_extract(claude_path, "markdown")
+    custom_gemini = safe_extract(gemini_path, "markdown")
+    custom_copilot = safe_extract(copilot_path, "markdown")
 
     # Generate .cursorrules
     cursorrules_content = generate_cursorrules(
@@ -471,12 +523,15 @@ def main():
     print(f"  [OK] .github/copilot-instructions.md: {lines_cp} lines")
 
     # Sync all workflows to Copilot commands
-    sync_workflows_to_copilot(project_dir)
+    workflow_count = sync_workflows_to_copilot(project_dir)
 
     print("\n[DONE] System prompts synced!")
     print(f"  Custom rules preserved: cursorrules={bool(custom_cursorrules)}, "
           f"claude={bool(custom_claude)}, gemini={bool(custom_gemini)}, "
           f"copilot={bool(custom_copilot)}")
+
+    # Verification Phase
+    verify_sync_results(project_dir, workflow_count)
 
 
 if __name__ == "__main__":
