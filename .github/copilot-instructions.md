@@ -17,9 +17,10 @@
 
 **Token Efficiency**: Your context window is limited (128k). To stay in one chat longer:
 1. FAVOR RLM memory over global searches (`@workspace`).
-2. DO NOT read entire files if you only need a specific part; use line ranges.
-3. MINIMIZE terminal output; show only errors or concise summaries.
-4. **Multi-Phase Workflow**: For complex tasks (e.g., full-stack, backend + mobile), execute incrementally. Complete one phase, save results to `current_session.md`, and SUGGEST starting a new chat for the next phase to reset the 128k limit.
+2. **Anchor Orchestra**: For complex tasks, use `/anchor_plan` to create a Spec file in `.agent/memory/07_context/specs/`.
+3. **Orchestration**: Act as the ORCHESTRATOR. Delegate coding to subagents via `runSubagent` or a new chat using the Spec file.
+4. DO NOT read entire files if you only need a specific part; use line ranges.
+5. MINIMIZE terminal output; show only errors or concise summaries.
 5. IGNORE other AI system files: .cursorrules, CLAUDE.md, GEMINI.md.
 
 ---
