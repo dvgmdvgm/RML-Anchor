@@ -163,6 +163,13 @@ def generate_cursorrules(
 # Auto-compression: IF "Topics Discussed" > 50 items -> summarize to 20 key points.
 # Context7 MCP: Always use Context7 MCP for library/API documentation, code generation, setup or configuration.
 
+# Token Efficiency: Your context window is limited (128k). To stay in one chat longer:
+# 1. FAVOR RLM memory over global searches (@workspace).
+# 2. DO NOT read entire files if you only need a specific part; use line ranges.
+# 3. MINIMIZE terminal output; show only errors or concise summaries.
+# 4. **Multi-Phase Workflow**: For complex tasks, execute incrementally.
+# 5. IGNORE other AI system files: CLAUDE.md, GEMINI.md, .github/copilot-instructions.md.
+
 # ═══════════════════════════════════════
 # 🟡 PROJECT RULES
 # ═══════════════════════════════════════
@@ -246,6 +253,14 @@ def generate_markdown_prompt(
         if line.strip()
     )
 
+    exclusions = {
+        "claude": ".cursorrules, GEMINI.md, .github/copilot-instructions.md",
+        "gemini": ".cursorrules, CLAUDE.md, .github/copilot-instructions.md",
+        "copilot": ".cursorrules, CLAUDE.md, GEMINI.md",
+    }
+    other_files = exclusions.get(target_ide, "")
+    exclusion_rule = f"5. IGNORE other AI system files: {other_files}." if other_files else ""
+
     return f"""# RLM-Anchor — System Rules for {ide_label}
 
 > **This file is auto-read by {ide_label} on EVERY request.**
@@ -268,6 +283,7 @@ def generate_markdown_prompt(
 2. DO NOT read entire files if you only need a specific part; use line ranges.
 3. MINIMIZE terminal output; show only errors or concise summaries.
 4. **Multi-Phase Workflow**: For complex tasks (e.g., full-stack, backend + mobile), execute incrementally. Complete one phase, save results to `current_session.md`, and SUGGEST starting a new chat for the next phase to reset the 128k limit.
+{exclusion_rule}
 
 ---
 

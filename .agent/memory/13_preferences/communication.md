@@ -163,16 +163,23 @@ Brief intro sentence (1-2 lines max).
 
 ---
 
-## 🌍 Language Handling
+## 🌍 Language Handling (Dual-Language Logic)
 
 ```
 CRITICAL: Check .agent/memory/13_preferences/language.md FIRST!
 
-Use ONLY the configured language for:
-- All response text
-- Code comments  
-- Explanations in code blocks
-- Table headers and content
+1. COMMUNICATION:
+   - Use the language from .agent/memory/13_preferences/language.md (e.g., Russian) for:
+     - All response text in the chat.
+     - General explanations and summaries.
+     - Tone and cultural nuances.
+
+2. STORAGE & MEMORY:
+   - Use ONLY English (en) for:
+     - ALL files in .agent/memory/.
+     - ADRs, Decisions, Logs, and Summaries written to disk.
+     - Technical documentation within the .agent/ folder.
+   - This ensures token efficiency and consistent cross-model understanding.
 ```
 
 ---

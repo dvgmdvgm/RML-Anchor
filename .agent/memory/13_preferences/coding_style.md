@@ -1,7 +1,6 @@
 # 💻 Coding Style Preferences — Full Reference
 
 > **Read this file to maintain consistent code style across all AI models.**
-> **Читай этот файл для сохранения единого стиля кода между всеми AI моделями.**
 >
 > Based on Claude Opus 4.5/4.6 (Extended Thinking) coding patterns.
 > Covers: Python, JavaScript/TypeScript, React, Java, Rust, Go, C++, C#, HTML/CSS, SQL, Django Templates.

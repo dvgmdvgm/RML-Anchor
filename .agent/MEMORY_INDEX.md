@@ -6,15 +6,15 @@
 
 ---
 
-# 🔴 STOP! CHECK LANGUAGE FIRST! 🔴
+# 🔴 STOP! CHECK LANGUAGE! 🔴
 
 **Before doing ANYTHING, read:** `memory/13_preferences/language.md`
 
+```yaml
+# 1. TALK: Use the language from language.md (e.g., Russian) to RESPOND to the user.
+# 2. WRITE: Use ONLY English (en) to WRITE/UPDATE ALL files in .agent/memory/.
 ```
-Current language file: .agent/memory/13_preferences/language.md
-→ Extract LANGUAGE= value
-→ Use ONLY that language for ALL responses
-```
+*This Dual-Language logic saves tokens while keeping the interface user-friendly.*
 
 ---
 

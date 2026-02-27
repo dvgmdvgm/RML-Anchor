@@ -93,53 +93,37 @@ Update .agent/memory/07_context/pending_tasks.md
 Overwrite .agent/memory/07_context/current_session.md with blank template
 ```
 
-Template:
+### 4.5. Generate Handoff Snapshot (v2.5.2 "Lean Wakeup" Optimization)
+
+Create a compact file at `.agent/memory/07_context/handoff_snapshot.md`. 
+This file acts as a single-read entry point for the next session to save tokens.
+
+**Snapshot content:**
+- Summary of last session (1-2 paragraphs)
+- Top 3 pending tasks
+- Key decisions from this session
+- Memory Health status
+- Current date/time
+
+**Format:**
 ```markdown
-# 📍 Current Session
+# ⚡ Handoff Snapshot: YYYY-MM-DD HH:MM
+> Standard: v2.5.2 (Lean)
 
-- **Start Date**: YYYY-MM-DD
-- **Last Updated**: YYYY-MM-DD
-
----
-
-## 🎯 Main Session Topics
-
-1. —
-2. —
-
----
+## 📝 Last Session Summary
+...
 
 ## 💡 Key Decisions
+1. ...
+2. ...
 
-| Decision | Description |
-|----------|-------------|
-| — | — |
+## ⏳ Top Priority Tasks
+1. ...
+2. ...
 
----
-
-## 📁 Modified Files
-
-| File | Change |
-|------|--------|
-| — | — |
-
----
-
-## 📌 Topics Discussed
-
-- —
-
----
-
-## ⏳ Current Status
-
-**Status**: Ready to start
-
----
-
-## 📝 Notes
-
-- —
+## 📊 Memory Stats
+- Entries: N
+- History: N sessions
 ```
 
 ### 5. Update Relevant Indexes
